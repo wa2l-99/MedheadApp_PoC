@@ -1,5 +1,6 @@
 package com.example.medhead.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -28,6 +29,7 @@ public class Role {
     private String nom;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<User> patients = new HashSet<>();
 
     @CreatedDate
