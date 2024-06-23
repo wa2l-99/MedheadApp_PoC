@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class PatientApplication {
+public class userAuthentificatonApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PatientApplication.class, args);
+		SpringApplication.run(userAuthentificatonApplication.class, args);
 	}
 
 }
+
+
+
