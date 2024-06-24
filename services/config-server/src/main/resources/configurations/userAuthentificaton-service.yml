@@ -18,3 +18,25 @@ spring:
     baseline-version: 0
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
+  mail:
+    host: localhost
+    port: 1025
+    username: wael
+    password: wael
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enabled: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+  application:
+    security:
+      jwt:
+        secret-key: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxOTE4OTk1MSwiaWF0IjoxNzE5MTg5OTUxfQ.vthENFbo3uz7bQJl28bF22XMvdFW0YYGyNMGR3Kmd4s
+        expiration: 86400000 # a day
+        refresh-token:
+          expiration: 604800000 # 7 days
