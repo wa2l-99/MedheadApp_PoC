@@ -1,7 +1,5 @@
 package com.example.medhead.config;
 
-
-import com.example.medhead.services.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class BeansConfig {
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
