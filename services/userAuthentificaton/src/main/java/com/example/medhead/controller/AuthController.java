@@ -3,6 +3,7 @@ package com.example.medhead.controller;
 import com.example.medhead.services.AuthService;
 import com.example.medhead.util.request.RegistrationRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) {
+    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
         service.register(request);
         return ResponseEntity.accepted().build();
     }

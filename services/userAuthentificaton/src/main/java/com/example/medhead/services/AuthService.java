@@ -1,12 +1,16 @@
 package com.example.medhead.services;
 
+import com.example.medhead.Email.EmailService;
+import com.example.medhead.Email.EmailTemplateName;
 import com.example.medhead.dao.RoleRepository;
 import com.example.medhead.dao.TokenRepository;
 import com.example.medhead.dao.UserRepository;
 import com.example.medhead.models.Token;
 import com.example.medhead.models.User;
 import com.example.medhead.util.request.RegistrationRequest;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +26,13 @@ public class AuthService {
     private final TokenRepository tokenRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
-    public void register (RegistrationRequest registrationRequest) {
+    @Value("${spring.application.mailing.frontend.activation-url}")
+    private String activationUrl;
+
+    public void register (RegistrationRequest registrationRequest) throws MessagingException {
 
         var userRole = roleRepository.findByName("Patient")
                 //
@@ -37,7 +44,7 @@ public class AuthService {
                 .email(registrationRequest.getEmail())
                 .sexe(registrationRequest.getSexe())
                 .adresse(registrationRequest.getAdresse())
-                .adresse(registrationRequest.getNumero())
+                .numero(registrationRequest.getNumero())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
                 .roles(Set.of(userRole))
                 .build();
@@ -45,9 +52,17 @@ public class AuthService {
         sendValidationEmail(user);
     }
 
-    private void sendValidationEmail(User user) {
+    private void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
-        //send email
+        emailService.sendEmail(
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.ACTIVATE_ACCOUNT,
+                activationUrl,
+                newToken,
+                "Account Activation"
+
+        );
     }
 
     private String generateAndSaveActivationToken(User user) {
