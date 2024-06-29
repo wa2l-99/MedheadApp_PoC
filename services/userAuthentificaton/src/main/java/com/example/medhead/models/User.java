@@ -57,4 +57,8 @@ public class User {
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
+    public String fullName(){
+        return getPrenom() +" "+ getNom();
+    }
+
 }
