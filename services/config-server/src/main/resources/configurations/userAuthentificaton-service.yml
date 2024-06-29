@@ -1,16 +1,18 @@
-server:
-  port: 8050
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/userAuthentificaton
+    url: jdbc:postgresql://localhost:5432/medhead_poc
     username: wael
     password: wael
   jpa:
     hibernate:
-      ddl-auto: validate
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: update
+      show-sql: false
+      properties:
+        hibernate:
+          format_sql: true
+      database: postgresql
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     baseline-on-migrate: true
     enabled: true
@@ -43,3 +45,6 @@ spring:
     mailing:
       frontend:
         activation-url: http://localhost:4200/activate-account
+
+server:
+  port: 8088
