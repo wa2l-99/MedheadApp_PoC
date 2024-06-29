@@ -1,7 +1,9 @@
 package com.example.medhead.controller;
 
 import com.example.medhead.services.AuthService;
+import com.example.medhead.util.request.AuthenticationRequest;
 import com.example.medhead.util.request.RegistrationRequest;
+import com.example.medhead.util.response.AuthenticationResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -23,5 +25,12 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
         service.register(request);
         return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/authenticate")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws MessagingException {
+        return ResponseEntity.ok(service.authenticate(authenticationRequest));
+
     }
 }
