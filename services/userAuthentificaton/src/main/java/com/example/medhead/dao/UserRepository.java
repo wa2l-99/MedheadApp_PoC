@@ -3,7 +3,8 @@ package com.example.medhead.dao;
 import com.example.medhead.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-    User findByEmail(String userName);
+import java.util.Optional;
 
+public interface UserRepository extends JpaRepository<User, Integer> {
+    Optional<User> findByEmail(String username);
 }
