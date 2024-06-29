@@ -6,8 +6,9 @@ services:
       POSTGRES_USER: wael
       POSTGRES_PASSWORD: wael
       PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: medhead_poc
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
