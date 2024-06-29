@@ -11,10 +11,12 @@ import com.example.medhead.util.request.AuthenticationRequest;
 import com.example.medhead.util.request.RegistrationRequest;
 import com.example.medhead.util.response.AuthenticationResponse;
 import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,8 @@ public class AuthService {
                 .adresse(registrationRequest.getAdresse())
                 .numero(registrationRequest.getNumero())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
+                .accountLocked(false)
+                .enabled(false)
                 .roles(Set.of(userRole))
                 .build();
         userRepository.save(user);
@@ -100,19 +104,43 @@ public class AuthService {
         return  codeBuilder.toString();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
 
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getEmail()
-                        , authenticationRequest.getPassword()
+                        request.getEmail(),
+                        request.getPassword()
                 )
         );
+
         var claims = new HashMap<String, Object>();
-        var user = (CustomUserDetails) auth.getPrincipal();
-        claims.put("fullName",user.fullName());
-        var jwtToken = jwtService.generateToken(claims, user);
+        var user = ((User) auth.getPrincipal());
+        claims.put("fullName", user.getFullName());
+
+        var jwtToken = jwtService.generateToken(claims, (User) auth.getPrincipal());
         return AuthenticationResponse.builder()
-                .token(jwtToken).build();
+                .token(jwtToken)
+                .build();
+    }
+
+    //@Transactional
+    public void activateAccount(String token) throws MessagingException {
+        // récuperer le token de la bdd
+        Token savedToken = tokenRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("invalid token"));
+        //si le token est déja expiré
+        if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
+            sendValidationEmail(savedToken.getUser());
+            throw new RuntimeException("Activation token has expired. A new token has been sent to the same email adress");
+        }
+        var user = userRepository.findById(savedToken.getUser().getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setEnabled(true);
+        userRepository.save(user);
+        // valider le token
+        savedToken.setValidatedAt(LocalDateTime.now());
+        // mettre à jour le token validé
+        tokenRepository.save(savedToken);
+
     }
 }
