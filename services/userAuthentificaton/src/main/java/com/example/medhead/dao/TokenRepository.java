@@ -1,6 +1,6 @@
 package com.example.medhead.dao;
 
-import com.example.medhead.models.Token;
+import com.example.medhead.model.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

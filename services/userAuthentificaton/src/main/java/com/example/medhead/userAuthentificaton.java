@@ -1,7 +1,7 @@
 package com.example.medhead;
 
 import com.example.medhead.dao.RoleRepository;
-import com.example.medhead.models.Role;
+import com.example.medhead.model.Role;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

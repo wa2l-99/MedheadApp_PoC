@@ -1,4 +1,4 @@
-package com.example.medhead.models;
+package com.example.medhead.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

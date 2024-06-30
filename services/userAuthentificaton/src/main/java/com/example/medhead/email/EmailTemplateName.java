@@ -1,4 +1,4 @@
-package com.example.medhead.Email;
+package com.example.medhead.email;
 
 public enum EmailTemplateName {
 

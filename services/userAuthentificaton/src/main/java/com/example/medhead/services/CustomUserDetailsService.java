@@ -1,7 +1,6 @@
 package com.example.medhead.services;
 
 import com.example.medhead.dao.UserRepository;
-import com.example.medhead.models.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

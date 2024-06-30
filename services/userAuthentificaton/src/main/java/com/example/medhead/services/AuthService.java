@@ -1,17 +1,16 @@
 package com.example.medhead.services;
 
-import com.example.medhead.Email.EmailService;
-import com.example.medhead.Email.EmailTemplateName;
+import com.example.medhead.email.EmailService;
+import com.example.medhead.email.EmailTemplateName;
 import com.example.medhead.dao.RoleRepository;
 import com.example.medhead.dao.TokenRepository;
 import com.example.medhead.dao.UserRepository;
-import com.example.medhead.models.Token;
-import com.example.medhead.models.User;
+import com.example.medhead.model.Token;
+import com.example.medhead.model.User;
 import com.example.medhead.util.request.AuthenticationRequest;
 import com.example.medhead.util.request.RegistrationRequest;
 import com.example.medhead.util.response.AuthenticationResponse;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;

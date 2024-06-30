@@ -1,4 +1,4 @@
-package com.example.medhead.Email;
+package com.example.medhead.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
