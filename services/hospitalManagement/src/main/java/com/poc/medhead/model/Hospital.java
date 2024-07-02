@@ -1,11 +1,7 @@
 package com.poc.medhead.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
-
 import java.util.Set;
 
 @Entity
@@ -21,16 +17,11 @@ public class Hospital {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
     private String nom_organisation;
 
-    @NotNull
     private String adresse;
 
-    @NotEmpty
-    @Column(unique = true, columnDefinition = "VARCHAR(5)")
-    @Pattern(regexp = "^[A-Z0-9]{5}$")
-    private int code_postal;
+    private String code_postal;
 
     @ManyToMany
     @JoinTable(
@@ -40,12 +31,10 @@ public class Hospital {
     )
     private Set<MedicalSpeciality> specialites_medicales;
 
-    private  int lits_disponible;
+    private  Integer lits_disponible;
 
     private float longitude;
 
     private float latitude;
-
-
 
 }
