@@ -3,10 +3,13 @@ package com.poc.medhead.controller;
 
 import com.google.maps.errors.ApiException;
 import com.poc.medhead.service.HospitalService;
+import com.poc.medhead.service.SpecialityService;
 import com.poc.medhead.util.request.AddSpecialityToHospitalRequest;
 import com.poc.medhead.util.request.HospitalRequest;
+import com.poc.medhead.util.request.SpecialityRequest;
 import com.poc.medhead.util.response.HospitalResponse;
 import com.poc.medhead.util.response.PageResponse;
+import com.poc.medhead.util.response.SpecialityResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import java.io.IOException;
 public class HospitalController {
 
     private final HospitalService hospitalService;
+    private final SpecialityService specialityService;
 
 
     @PostMapping("/addHospital")
@@ -89,5 +93,21 @@ public class HospitalController {
     ) {
 
         return ResponseEntity.ok(hospitalService.addSpecialityToHospital(request));
+    }
+    /*********** Specialty APIs *************/
+
+    @PostMapping("/speciality")
+    public ResponseEntity<Integer> createSpecialty(
+            @RequestBody @Valid SpecialityRequest specialityRequest
+    ){
+        return ResponseEntity.ok(specialityService.saveSpeciality(specialityRequest));
+    }
+
+    @GetMapping("/specialities")
+    public  ResponseEntity<PageResponse<SpecialityResponse>> findAllSpecialities(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size
+    ){
+        return ResponseEntity.ok(specialityService.getAllSpecialities(page,size));
     }
 }
