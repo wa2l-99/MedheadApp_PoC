@@ -23,7 +23,7 @@ public class HospitalController {
     private final HospitalService hospitalService;
 
 
-    @PostMapping(value = "/addHospital", consumes = "application/json", produces = "application/json")
+    @PostMapping("/addHospital")
     public ResponseEntity<Integer> createHospital(
             @RequestBody @Valid HospitalRequest hospitalRequest
     ){
@@ -55,9 +55,8 @@ public class HospitalController {
     @PutMapping("/{hospital-id}")
     public ResponseEntity<HospitalResponse> updateHospital(
             @PathVariable("hospital-id") Integer HospitalId,
-            @RequestBody HospitalResponse updatedHospital
-    ){
-        return ResponseEntity.ok(hospitalService.updateHospital(HospitalId, updatedHospital));
+            @RequestBody @Valid HospitalRequest hospitalRequest) {
+        return ResponseEntity.ok(hospitalService.updateHospital(HospitalId, hospitalRequest));
     }
 
     @DeleteMapping("/{hospital-id}")

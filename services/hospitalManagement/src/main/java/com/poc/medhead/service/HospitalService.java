@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -120,21 +121,29 @@ public class HospitalService {
         return R * c; // Distance in km
     }
 
-    public HospitalResponse updateHospital(Integer hospitalId, HospitalResponse updatedHospital) {
+    public HospitalResponse updateHospital(Integer hospitalId, HospitalRequest updatedHospital) {
         Hospital existingHospital = hospitalRepository.findById(hospitalId)
                 .orElseThrow(() -> new EntityNotFoundException("Hôpital non trouvé avec l'ID " + hospitalId));
 
-            existingHospital.setNomOrganisation(updatedHospital.getNomOrganisation());
-            existingHospital.setAdresse(updatedHospital.getAdresse());
-            existingHospital.setCodePostal(updatedHospital.getCodePostal());
-            existingHospital.setSpecialitesMedicales(updatedHospital.getSpecialitesMedicales());
-            existingHospital.setLitsDisponible(updatedHospital.getLitsDisponible());
-            existingHospital.setLongitude(updatedHospital.getLongitude());
-            existingHospital.setLatitude(updatedHospital.getLatitude());
+        // Convertir les IDs de spécialités en entités MedicalSpeciality
+        Set<MedicalSpeciality> specialities = updatedHospital.getSpecialiteIds().stream()
+                .map(specialityId -> specialityRepository.findById(specialityId)// Trouver chaque spécialité par son ID
+                        .orElseThrow(() -> new EntityNotFoundException("Spécialité non trouvée avec l'ID " + specialityId)))
+                .collect(Collectors.toSet()); // Collecter les résultats dans un Set
+
+        existingHospital.setNomOrganisation(updatedHospital.getNomOrganisation());
+        existingHospital.setAdresse(updatedHospital.getAdresse());
+        existingHospital.setCodePostal(updatedHospital.getCodePostal());
+        existingHospital.setSpecialitesMedicales(specialities);
+        existingHospital.setLitsDisponible(updatedHospital.getLitsDisponible());
+        existingHospital.setLongitude(updatedHospital.getLongitude());
+        existingHospital.setLatitude(updatedHospital.getLatitude());
 
         hospitalRepository.save(existingHospital);
 
-        return mapper.toHospitalResponse(existingHospital);        }
+        return mapper.toHospitalResponse(existingHospital);
+    }
+
 
     public void  deleteHospital(Integer hospitalId) {
         Hospital existingHospital = hospitalRepository.findById(hospitalId)
