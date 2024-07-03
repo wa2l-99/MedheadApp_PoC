@@ -1,18 +1,19 @@
 -- Table de  Medical Specialities
 CREATE TABLE medical_speciality (
-    id INTEGER NOT NULL PRIMARY KEY,
+    id SERIAL  NOT NULL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL UNIQUE
 );
 
 -- Table for Hospitals
 CREATE TABLE hospital (
-    id INTEGER NOT NULL PRIMARY KEY,
+    id SERIAL  NOT NULL PRIMARY KEY,
     nom_organisation VARCHAR(255) NOT NULL,
     adresse VARCHAR(255) NOT NULL,
     code_postal VARCHAR(5) NOT NULL UNIQUE,
     lits_disponible INT NOT NULL,
     longitude FLOAT NOT NULL,
-    latitude FLOAT NOT NULL
+    latitude FLOAT NOT NULL,
+    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Junction Table for Hospital and Medical Specialities
@@ -28,5 +29,5 @@ CREATE TABLE hospital_speciality (
      PRIMARY KEY (hospital_id, speciality_id)
 );
 
-CREATE SEQUENCE IF NOT EXISTS medical_speciality_seq INCREMENT BY 50;
-CREATE SEQUENCE IF NOT EXISTS hospital_seq INCREMENT BY 50
+CREATE SEQUENCE IF NOT EXISTS medical_speciality_seq INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE IF NOT EXISTS hospital_seq INCREMENT BY 1 START WITH 1;
