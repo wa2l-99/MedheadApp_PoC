@@ -1,7 +1,7 @@
 package com.poc.medhead.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.Set;
@@ -12,17 +12,16 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "medical_speciality" )
+@Table(name = "medical_speciality")
 public class MedicalSpeciality {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
-    @Column(unique = true)
     private String nom;
 
-    @ManyToMany(mappedBy = "specialites_medicales")
-    private Set<Hospital> hospital;
+    @ManyToMany(mappedBy = "specialitesMedicales")
+    @JsonBackReference
+    private Set<Hospital> hospitals;
 }
