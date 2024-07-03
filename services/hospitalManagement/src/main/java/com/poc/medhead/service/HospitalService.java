@@ -48,7 +48,7 @@ public class HospitalService {
     public HospitalResponse getHospitalById(Integer hospitalId) {
         return hospitalRepository.findById(hospitalId)
                 .map(mapper::toHospitalResponse)
-                .orElseThrow(() -> new EntityNotFoundException("Hopital n'a pas trouvé avec l'ID" + hospitalId));
+                .orElseThrow(() -> new EntityNotFoundException("Hopital n'a pas trouvé avec l'ID " + hospitalId));
     }
 
     public PageResponse<HospitalResponse> getAllHospitals(int page, int size) {
@@ -153,7 +153,7 @@ public class HospitalService {
     }
 
 
-    public void  addSpecialityToHospital(AddSpecialityToHospitalRequest request) {
+    public HospitalResponse  addSpecialityToHospital(AddSpecialityToHospitalRequest request) {
         Hospital hospital = hospitalRepository.findById(request.hospitalId())
                 .orElseThrow(() -> new EntityNotFoundException("Hôpital non trouvé avec ID " + request.hospitalId()));
 
@@ -162,5 +162,7 @@ public class HospitalService {
 
         hospital.getSpecialitesMedicales().add(speciality);
         hospitalRepository.save(hospital);
+
+        return mapper.toHospitalResponse(hospital);
     }
 }

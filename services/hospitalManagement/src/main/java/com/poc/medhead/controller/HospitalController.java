@@ -60,11 +60,11 @@ public class HospitalController {
     }
 
     @DeleteMapping("/{hospital-id}")
-    public ResponseEntity<Void> deleteHospital(
+    public ResponseEntity<String> deleteHospital(
             @PathVariable("hospital-id") Integer HospitalId
     ){
         hospitalService.deleteHospital(HospitalId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("L'hôpital a été supprimé avec succès.");
     }
 
     @GetMapping("/speciality/id={speciality-id}")
@@ -84,9 +84,10 @@ public class HospitalController {
     }
 
     @PostMapping("/addSpecialityToHospital")
-    public ResponseEntity<Void> addSpecialityToHospital (
+    public ResponseEntity<HospitalResponse> addSpecialityToHospital (
             @RequestBody @Valid AddSpecialityToHospitalRequest request
     ) {
-        hospitalService.addSpecialityToHospital(request);
-        return ResponseEntity.ok().build();}
+
+        return ResponseEntity.ok(hospitalService.addSpecialityToHospital(request));
+    }
 }
