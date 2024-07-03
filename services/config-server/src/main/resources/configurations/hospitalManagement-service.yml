@@ -21,3 +21,14 @@ spring:
     baseline-version: 0
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
+  application:
+    security:
+      jwt:
+        secret-key: DI3aKoVzJMbvAX7UQzdTRqqG7wxZg2wLZbaAyeJ8wF0=
+        expiration: 86400000 # a day
+        refresh-token:
+          expiration: 604800000 # 7 days
+  google:
+    maps:
+      api:
+        key: AIzaSyAAz3CYCtK1vbOlVXwAqOFBrK-fW8wv3R4

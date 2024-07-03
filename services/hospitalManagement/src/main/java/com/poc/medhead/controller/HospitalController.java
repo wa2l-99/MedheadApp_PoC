@@ -1,7 +1,9 @@
 package com.poc.medhead.controller;
 
 
+import com.google.maps.errors.ApiException;
 import com.poc.medhead.service.HospitalService;
+import com.poc.medhead.util.request.AddSpecialityToHospitalRequest;
 import com.poc.medhead.util.request.HospitalRequest;
 import com.poc.medhead.util.response.HospitalResponse;
 import com.poc.medhead.util.response.PageResponse;
@@ -10,21 +12,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 
 @RestController
 @RequestMapping("/api/hospital")
 @RequiredArgsConstructor
-public class hospitalController {
+public class HospitalController {
 
     private final HospitalService hospitalService;
 
 
-    @PostMapping
+    @PostMapping(value = "/addHospital", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Integer> createHospital(
-            @RequestBody @Valid HospitalRequest request
+            @RequestBody @Valid HospitalRequest hospitalRequest
     ){
-        // Retourner une réponse HTTP avec le statut 201 Created et l'id de l'hôpital créé
-        return  ResponseEntity.ok(hospitalService.createHospital(request));
+        return ResponseEntity.ok(hospitalService.saveHospital(hospitalRequest));
     }
 
     /**
@@ -74,13 +77,17 @@ public class hospitalController {
         return  ResponseEntity.ok(hospitalService.getHospitalsBySpeciality(page,size,SpecialityId));
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<PageResponse<HospitalResponse>> findNearestHospitalWithSpecialty(
-            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
-            @RequestParam Double latitude,
-            @RequestParam Double longitude,
-            @RequestParam String specialty) {
-        return ResponseEntity.ok(hospitalService.findNearestHospitalWithSpecialty(page, size, latitude, longitude, specialty));
+    @GetMapping("/nearest")
+    public ResponseEntity<HospitalResponse> findNearestHospital(
+            @RequestParam String address,
+            @RequestParam String specialty) throws InterruptedException, ApiException, IOException {
+        return ResponseEntity.ok(hospitalService.findNearestHospital(address, specialty));
     }
+
+    @PostMapping("/addSpecialityToHospital")
+    public ResponseEntity<Void> addSpecialityToHospital (
+            @RequestBody @Valid AddSpecialityToHospitalRequest request
+    ) {
+        hospitalService.addSpecialityToHospital(request);
+        return ResponseEntity.ok().build();}
 }

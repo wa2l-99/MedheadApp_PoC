@@ -1,13 +1,14 @@
 package com.poc.medhead.service;
 
-import com.google.maps.DistanceMatrixApi;
-import com.google.maps.GeoApiContext;
-import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.LatLng;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.GeocodingResult;
 import com.poc.medhead.dao.HospitalRepository;
+import com.poc.medhead.dao.SpecialityRepository;
+import com.poc.medhead.exceptions.AlreadyExistsException;
 import com.poc.medhead.mapper.HospitalMapper;
 import com.poc.medhead.model.Hospital;
 import com.poc.medhead.model.MedicalSpeciality;
+import com.poc.medhead.util.request.AddSpecialityToHospitalRequest;
 import com.poc.medhead.util.request.HospitalRequest;
 import com.poc.medhead.util.response.HospitalResponse;
 import com.poc.medhead.util.response.PageResponse;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,18 +31,19 @@ public class HospitalService {
 
 
     private final HospitalRepository hospitalRepository;
+    private final SpecialityRepository specialityRepository;
     private final HospitalMapper mapper;
-    private final GeoApiContext  geoApiContext;
+    private final GeocodingService geocodingService;
 
 
-    public Integer createHospital(HospitalRequest request) {
-        // Utilisation du mapper pour convertir HospitalRequest en Hospital
-        var hospital = mapper.toHospital(request);
-        // Sauvegarder l'entité hospital dans la base de données et retourner l'id de l'hôpital créé
+    public Integer saveHospital(HospitalRequest hospitalRequest) {
+        var hospital = mapper.toHospital(hospitalRequest);
+
+        if (hospitalRepository.existsByNomOrganisation(hospital.getNomOrganisation())){
+            throw new AlreadyExistsException("L'Hopital avec le nom " + hospital.getNomOrganisation()+ " existe déja");
+        }
         return hospitalRepository.save(hospital).getId();
     }
-
-
     public HospitalResponse getHospitalById(Integer hospitalId) {
         return hospitalRepository.findById(hospitalId)
                 .map(mapper::toHospitalResponse)
@@ -86,55 +89,46 @@ public class HospitalService {
         );
     }
 
-    public PageResponse<HospitalResponse> findNearestHospitalWithSpecialty(int page, int size, Double latitude, Double longitude, String specialty) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Hospital> hospitals = hospitalRepository.findHospitalsWithSpecialtyAndAvailableBeds(pageable,specialty);
 
-        List<HospitalResponse> hospitalResponses = hospitals.stream()
-                .map(mapper::toHospitalResponse)
-                .collect(Collectors.toList());
+    public HospitalResponse findNearestHospital(String address, String specialty) throws InterruptedException, ApiException, IOException {
+        GeocodingResult[] results = geocodingService.getGeocoding(address);
 
-        HospitalResponse nearestHospital = hospitalResponses.stream()
+        if (results.length == 0) {
+            throw new EntityNotFoundException("Addresse non trouvé: " + address);
+        }
+
+        double latitude = results[0].geometry.location.lat;
+        double longitude = results[0].geometry.location.lng;
+
+        List<Hospital> hospitals = hospitalRepository.findNearestAvailableHospitalsBySpecialty(specialty);
+
+        Hospital nearestHospital = hospitals.stream()
                 .min(Comparator.comparingDouble(h -> calculateDistance(latitude, longitude, h.getLatitude(), h.getLongitude())))
-                .orElseThrow(() -> new RuntimeException("Aucun hôpital disponible avec la spécialité donnée"));
+                .orElseThrow(() -> new EntityNotFoundException("Aucun hôpital avec cette spécialité : " + specialty));
 
-        return new PageResponse<>(
-                List.of(nearestHospital),
-                hospitals.getNumber(),
-                hospitals.getSize(),
-                hospitals.getTotalElements(),
-                hospitals.getTotalPages(),
-                hospitals.isFirst(),
-                hospitals.isLast()
-        );
+        return mapper.toHospitalResponse(nearestHospital);
     }
 
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-        LatLng origin = new LatLng(lat1, lon1);
-        LatLng destination = new LatLng(lat2, lon2);
-
-        try {
-            DistanceMatrix result = DistanceMatrixApi.newRequest(geoApiContext)
-                    .origins(origin)
-                    .destinations(destination)
-                    .await();
-
-            return result.rows[0].elements[0].distance.inMeters / 1000.0; // convert meters to kilometers
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erreur de calcul de la distance", e);
-        }
+        final int R = 6371; // Radius of the earth in km
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // Distance in km
     }
 
     public HospitalResponse updateHospital(Integer hospitalId, HospitalResponse updatedHospital) {
         Hospital existingHospital = hospitalRepository.findById(hospitalId)
-                .orElseThrow(() -> new EntityNotFoundException("Hopital non trouvé avec l'ID " + hospitalId));
+                .orElseThrow(() -> new EntityNotFoundException("Hôpital non trouvé avec l'ID " + hospitalId));
 
-            existingHospital.setNom_organisation(updatedHospital.getNom_organisation());
+            existingHospital.setNomOrganisation(updatedHospital.getNomOrganisation());
             existingHospital.setAdresse(updatedHospital.getAdresse());
-            existingHospital.setCode_postal(updatedHospital.getCode_postal());
-            existingHospital.setSpecialites_medicales(updatedHospital.getSpecialites_medicales());
-            existingHospital.setLits_disponible(updatedHospital.getLits_disponible());
+            existingHospital.setCodePostal(updatedHospital.getCodePostal());
+            existingHospital.setSpecialitesMedicales(updatedHospital.getSpecialitesMedicales());
+            existingHospital.setLitsDisponible(updatedHospital.getLitsDisponible());
             existingHospital.setLongitude(updatedHospital.getLongitude());
             existingHospital.setLatitude(updatedHospital.getLatitude());
 
@@ -144,8 +138,20 @@ public class HospitalService {
 
     public void  deleteHospital(Integer hospitalId) {
         Hospital existingHospital = hospitalRepository.findById(hospitalId)
-                .orElseThrow(() -> new EntityNotFoundException("Hopital non trouvé avec l'ID " + hospitalId));
+                .orElseThrow(() -> new EntityNotFoundException("Hôpital non trouvé avec l'ID " + hospitalId));
 
         hospitalRepository.delete(existingHospital);
+    }
+
+
+    public void  addSpecialityToHospital(AddSpecialityToHospitalRequest request) {
+        Hospital hospital = hospitalRepository.findById(request.hospitalId())
+                .orElseThrow(() -> new EntityNotFoundException("Hôpital non trouvé avec ID " + request.hospitalId()));
+
+        MedicalSpeciality speciality = specialityRepository.findById(request.specialityId())
+                .orElseThrow(() -> new EntityNotFoundException("Spécialité médicale non trouvée avec ID " + request.specialityId()));
+
+        hospital.getSpecialitesMedicales().add(speciality);
+        hospitalRepository.save(hospital);
     }
 }
