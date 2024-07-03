@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SpecialityRepository extends JpaRepository<MedicalSpeciality, Integer> {
 
+    boolean existsByNom(String nom);
 }
