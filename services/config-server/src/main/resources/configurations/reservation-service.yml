@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/reservation
+    username: wael
+    password: wael
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    baseline-description: "init"
+    baseline-version: 0
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+  application:
+    security:
+      jwt:
+        secret-key: DI3aKoVzJMbvAX7UQzdTRqqG7wxZg2wLZbaAyeJ8wF0=
+        expiration: 86400000 # a day
+        refresh-token:
+          expiration: 604800000 # 7 days
+server:
+  port: 8070
+
+application:
+  config:
+    user-url: http://localhost:8222/api/auth
+    hospital-url: http://localhost:8222/api/hospital
