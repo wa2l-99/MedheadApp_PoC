@@ -1,11 +1,7 @@
 package com.poc.medhead.util.response;
 
 import com.poc.medhead.model.MedicalSpeciality;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import lombok.*;
-
 import java.util.Set;
 
 @Getter
@@ -16,19 +12,12 @@ import java.util.Set;
 public class HospitalResponse {
 
     private Integer id;
-
-    private String nom_organisation;
-
+    private String nomOrganisation;
     private String adresse;
-
-    private String code_postal;
-
-    private Set<MedicalSpeciality> specialites_medicales;
-
-    private  Integer lits_disponible;
-
+    private String codePostal;
+    private Set<MedicalSpeciality> specialitesMedicales;
+    private Integer litsDisponible;
     private float longitude;
-
     private float latitude;
 
 }

@@ -1,39 +1,44 @@
 package com.poc.medhead.util.request;
 
 import com.poc.medhead.model.MedicalSpeciality;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
-public record HospitalRequest(
-        @NotNull(message = "L'identifiant ne doit pas être nul")
-        Integer id,
+@Getter
+@Setter
+public class HospitalRequest {
+
+        private Integer id;
 
         @NotEmpty(message = "Le nom de l'organisation ne doit pas être vide")
         @Size(max = 255, message = "Le nom de l'organisation ne doit pas dépasser 255 caractères")
-        String nom_organisation,
+        private String nomOrganisation;
 
         @NotNull(message = "L'adresse ne doit pas être nulle")
         @Size(max = 255, message = "L'adresse ne doit pas dépasser 255 caractères")
-        String adresse,
+        private String adresse;
 
         @NotEmpty(message = "Le code postal ne doit pas être vide")
         @Pattern(regexp = "^[A-Z0-9]{5}$", message = "Le code postal doit être composé de 5 caractères alphanumériques en majuscules")
-        String code_postal,
+        private String codePostal;
 
         @NotNull(message = "Le nombre de lits disponibles ne doit pas être nul")
-        Integer lits_disponible,
+        @Positive(message = "Le nombre de lits doit être positif")
+        private Integer litsDisponible;
 
         @NotNull(message = "La longitude ne doit pas être nulle")
-        Float longitude,
+        private Float longitude;
 
         @NotNull(message = "La latitude ne doit pas être nulle")
-        Float latitude,
+        private Float latitude;
 
         @NotNull(message = "La spécialité de l'hôpital ne doit pas être nulle")
-        Set<MedicalSpeciality> specialites_medicales
+        private Set<Integer> specialiteIds;
 
-) {}
+        private LocalDateTime createdDate;
+
+}

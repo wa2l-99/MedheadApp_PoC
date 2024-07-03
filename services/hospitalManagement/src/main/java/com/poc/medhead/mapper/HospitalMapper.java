@@ -1,38 +1,51 @@
 package com.poc.medhead.mapper;
 
+import com.poc.medhead.dao.SpecialityRepository;
 import com.poc.medhead.model.Hospital;
+import com.poc.medhead.model.MedicalSpeciality;
 import com.poc.medhead.util.request.HospitalRequest;
 import com.poc.medhead.util.response.HospitalResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class HospitalMapper {
 
+    @Autowired
+    private SpecialityRepository specialityRepository;
+
     public Hospital toHospital(HospitalRequest request) {
+        Set<MedicalSpeciality> specialities = request.getSpecialiteIds().stream()
+                .map(specialityRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
 
         return Hospital.builder()
-                .id(request.id())
-                .nom_organisation(request.nom_organisation())
-                .adresse(request.adresse())
-                .code_postal(request.code_postal())
-                .lits_disponible(request.lits_disponible())
-                .longitude(request.longitude())
-                .latitude(request.latitude())
-                .specialites_medicales(request.specialites_medicales())
+                .nomOrganisation(request.getNomOrganisation())
+                .adresse(request.getAdresse())
+                .codePostal(request.getCodePostal())
+                .litsDisponible(request.getLitsDisponible())
+                .longitude(request.getLongitude())
+                .latitude(request.getLatitude())
+                .specialitesMedicales(specialities)
                 .build();
     }
 
     public HospitalResponse toHospitalResponse(Hospital hospital) {
-
         return HospitalResponse.builder()
                 .id(hospital.getId())
-                .nom_organisation(hospital.getNom_organisation())
+                .nomOrganisation(hospital.getNomOrganisation())
                 .adresse(hospital.getAdresse())
-                .code_postal(hospital.getCode_postal())
-                .lits_disponible(hospital.getLits_disponible())
+                .codePostal(hospital.getCodePostal())
+                .litsDisponible(hospital.getLitsDisponible())
                 .longitude(hospital.getLongitude())
                 .latitude(hospital.getLatitude())
-                .specialites_medicales(hospital.getSpecialites_medicales())
+                .specialitesMedicales(hospital.getSpecialitesMedicales())
                 .build();
     }
 }
