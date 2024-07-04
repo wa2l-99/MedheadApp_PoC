@@ -31,5 +31,5 @@ server:
 
 application:
   config:
-    user-url: http://localhost:8222/api/auth
+    patient-url: http://localhost:8222/api/auth
     hospital-url: http://localhost:8222/api/hospital
