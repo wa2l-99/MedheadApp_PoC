@@ -17,6 +17,8 @@ import java.time.LocalDate;
 @Builder
 public class RegistrationRequest {
 
+    private Integer id;
+
     @NotBlank(message = "Le nom est obligatoire")
     @NotEmpty(message = "Le nom est obligatoire")
     private String nom;
