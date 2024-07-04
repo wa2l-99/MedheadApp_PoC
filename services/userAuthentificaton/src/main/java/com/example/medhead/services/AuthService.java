@@ -5,11 +5,14 @@ import com.example.medhead.email.EmailTemplateName;
 import com.example.medhead.dao.RoleRepository;
 import com.example.medhead.dao.TokenRepository;
 import com.example.medhead.dao.UserRepository;
+import com.example.medhead.exception.UserNotFoundException;
+import com.example.medhead.mapper.UserMapper;
 import com.example.medhead.model.Token;
 import com.example.medhead.model.User;
 import com.example.medhead.util.request.AuthenticationRequest;
 import com.example.medhead.util.request.RegistrationRequest;
 import com.example.medhead.util.response.AuthenticationResponse;
+import com.example.medhead.util.response.UserResponse;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +25,9 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -36,14 +41,15 @@ public class AuthService {
     private final EmailService emailService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserMapper mapper;
 
     @Value("${spring.application.mailing.frontend.activation-url}")
     private String activationUrl;
 
     public void register (RegistrationRequest registrationRequest) throws MessagingException {
 
-        var userRole = roleRepository.findByNom("Patient")
-                .orElseThrow( () -> new IllegalStateException("Patient Role was not initialized"));
+        var userRole = roleRepository.findByNom("User")
+                .orElseThrow( () -> new IllegalStateException("Le rôle de l'utilisateur n'a pas été initialisé"));
         var user = User.builder()
                 .nom(registrationRequest.getNom())
                 .prenom(registrationRequest.getPrenom())
@@ -126,14 +132,14 @@ public class AuthService {
     public void activateAccount(String token) throws MessagingException {
         // récuperer le token de la bdd
         Token savedToken = tokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("invalid token"));
+                .orElseThrow(() -> new RuntimeException("jeton non valide"));
         //si le token est déja expiré
         if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             sendValidationEmail(savedToken.getUser());
-            throw new RuntimeException("Activation token has expired. A new token has been sent to the same email adress");
+            throw new RuntimeException("Le jeton d'activation a expiré. Un nouveau jeton a été envoyé à la même adresse e-mail.");
         }
         var user = userRepository.findById(savedToken.getUser().getId())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
         user.setEnabled(true);
         userRepository.save(user);
         // valider le token
@@ -141,5 +147,22 @@ public class AuthService {
         // mettre à jour le token validé
         tokenRepository.save(savedToken);
 
+    }
+
+    public List<UserResponse> findAllUsers() {
+        return  this.userRepository.findAll()
+                .stream()
+                .map(mapper::fromUser)
+                .collect(Collectors.toList());
+    }
+
+    public UserResponse findById(Integer id) {
+        return this.userRepository.findById(id)
+                .map(mapper::fromUser)
+                .orElseThrow(() -> new UserNotFoundException(String.format("No user found with the provided ID: %s", id)));
+    }
+
+    public void deleteUser(Integer id) {
+       userRepository.deleteById(id);
     }
 }

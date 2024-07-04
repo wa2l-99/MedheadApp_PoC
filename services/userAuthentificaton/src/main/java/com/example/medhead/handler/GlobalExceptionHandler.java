@@ -1,7 +1,9 @@
 package com.example.medhead.handler;
 
+import com.example.medhead.exception.BusinessException;
 import com.example.medhead.util.response.ExceptionResponse;
 import jakarta.mail.MessagingException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -106,5 +108,10 @@ public class GlobalExceptionHandler {
                                 .error(exp.getMessage())
                                 .build()
                 );
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<String> handleBusinessException(BusinessException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
