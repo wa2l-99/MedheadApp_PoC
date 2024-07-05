@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(
                                         "/public/**",
+                                        "/auth/**",
                                         "/v2/api-docs",
                                         "/v3/api-docs",
                                         "/v3/api-docs/**",
@@ -40,8 +41,7 @@ public class SecurityConfig {
                                         "/configuration/security",
                                         "/swagger-ui/**",
                                         "/webjars/**",
-                                        "/swagger-ui.html",
-                                        "/api/hospital/**"
+                                        "/swagger-ui.html"
                                 )
                                 .permitAll()
                                 .anyRequest()

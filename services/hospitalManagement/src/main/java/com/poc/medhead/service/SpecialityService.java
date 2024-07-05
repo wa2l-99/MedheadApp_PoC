@@ -38,7 +38,7 @@ public class SpecialityService {
     }
 
     public PageResponse<SpecialityResponse> getAllSpecialities(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id  ").ascending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
 
         Page<MedicalSpeciality> specialities = specialityRepository.findAll(pageable);
 
