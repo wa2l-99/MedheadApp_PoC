@@ -27,7 +27,7 @@ spring:
         refresh-token:
           expiration: 604800000 # 7 days
 server:
-  port: 8070
+  port: 8076
 
 application:
   config:
