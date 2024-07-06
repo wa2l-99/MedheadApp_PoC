@@ -6,7 +6,6 @@ services:
       POSTGRES_USER: wael
       POSTGRES_PASSWORD: wael
       PGDATA: /var/lib/postgresql/data
-      POSTGRES_DB: medhead_poc
     volumes:
       - postgres:/data/postgres
     ports:
@@ -30,36 +29,32 @@ services:
       - microservices-net
     restart: unless-stopped
 
-  mongodb:
-    container_name: mongodb
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo:/data/db
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=wael
-      - MONGO_INITDB_ROOT_PASSWORD=wael
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "22181:2181"
     networks:
       - microservices-net
 
-  mongo-express:
-    container_name: ms_mongo_express
-    image: mongo-express
-    restart: always
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: ms_kafka
     ports:
-      - "8081:8081"
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=wael
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=wael
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-      - ME_CONFIG_MONGODB_PORT=27017
-      - ME_CONFIG_MONGODB_URL=mongodb://wael:wael@mongodb:27017/
-      - ME_CONFIG_BASICAUTH=true
-      - ME_CONFIG_BASICAUTH_USERNAME=wael
-      - ME_CONFIG_BASICAUTH_PASSWORD=wael
+      - "9092:9092"
     depends_on:
-      - mongodb
+      - zookeeper
+    environment:
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
     networks:
       - microservices-net
 
@@ -78,4 +73,3 @@ networks:
 volumes:
   postgres:
   pgadmin:
-  mongo:
