@@ -5,6 +5,8 @@ import com.poc.reservation.client.HospitalClient;
 import com.poc.reservation.client.PatientClient;
 import com.poc.reservation.dao.ReservationRepository;
 import com.poc.reservation.exception.BusinessException;
+import com.poc.reservation.kafka.ReservationConfirmation;
+import com.poc.reservation.kafka.ReservationProducer;
 import com.poc.reservation.mapper.ReservationMapper;
 import com.poc.reservation.model.Reservation;
 import com.poc.reservation.util.request.ReservationRequest;
@@ -28,6 +30,7 @@ public class ReservationService {
     private  final HospitalClient hospitalClient;
     private final ReservationRepository reservationRepository;
     private final ReservationMapper mapper;
+    private final ReservationProducer reservationProducer;
 
     public Integer createReservation(ReservationRequest reservationRequest) {
         //check the patient --> OpenFiegn
@@ -49,6 +52,14 @@ public class ReservationService {
 
         // Update the number of available beds
         hospitalClient.updateBeds(reservationRequest.hospitalId(), hospital.getLitsDisponible() - 1);
+
+        reservationProducer.sendReservationConfirmation(
+                new ReservationConfirmation(
+                        reservationRequest.reference(),
+                        patient,
+                        hospital
+                )
+        );
 
         return reservation.getId();
     }
