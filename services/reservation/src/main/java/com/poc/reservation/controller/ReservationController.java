@@ -32,7 +32,7 @@ public class ReservationController {
     }
 
     @GetMapping("/{reservation-id}")
-    public ResponseEntity<ReservationResponse> findGetReservation(
+    public ResponseEntity<ReservationResponse> findReservationById(
             @PathVariable("reservation-id") Integer reservationId
     ){
         return  ResponseEntity.ok(reservationService.getReservationById(reservationId));
