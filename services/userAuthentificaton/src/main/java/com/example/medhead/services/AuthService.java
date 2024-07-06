@@ -48,7 +48,7 @@ public class AuthService {
 
     public void register (RegistrationRequest registrationRequest) throws MessagingException {
 
-        var userRole = roleRepository.findByNom("User")
+        var userRole = roleRepository.findByNom("Patient")
                 .orElseThrow( () -> new IllegalStateException("Le rôle de l'utilisateur n'a pas été initialisé"));
         var user = User.builder()
                 .nom(registrationRequest.getNom())
