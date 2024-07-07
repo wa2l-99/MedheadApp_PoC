@@ -32,7 +32,7 @@ public class ReservationService {
     private final ReservationMapper mapper;
     private final ReservationProducer reservationProducer;
 
-    public Integer createReservation(ReservationRequest reservationRequest) {
+    public ReservationResponse createReservation(ReservationRequest reservationRequest) {
         //check the patient --> OpenFiegn
         var patient = this.patientClient.findPatientById(reservationRequest.patientId())
                 .orElseThrow(() -> new BusinessException("Impossible de créer une réservation: : Aucune réservation n'existe avec l'identifiant fourni"));
@@ -61,7 +61,7 @@ public class ReservationService {
                 )
         );
 
-        return reservation.getId();
+        return mapper.toReservationResponse(reservation);
     }
 
     public PageResponse<ReservationResponse> getAllReservations(int page, int size) {
