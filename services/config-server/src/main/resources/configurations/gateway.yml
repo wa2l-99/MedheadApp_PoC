@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: userAuthentificaton-service
+          uri: lb:http://USERAUTHENTIFICATON-SERVICE
+          predicates:
+            - Path=/api/auth/**
+        - id: hospitalManagement-service
+          uri: lb:http://HOSPITALMANAGEMENT-SERVICE
+          predicates:
+            - Path=/api/hospital/**
+        - id: reservation-service
+          uri: lb:http://RESERVATION-SERVICE
+          predicates:
+            - Path=/api/reservations/**
+server:
+  port: 8222
+
