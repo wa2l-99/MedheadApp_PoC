@@ -165,4 +165,14 @@ public class HospitalService {
 
         return mapper.toHospitalResponse(hospital);
     }
+
+    public HospitalResponse updateBeds(Integer hospitalId, Integer beds) {
+        Hospital hospital = hospitalRepository.findById(hospitalId)
+                .orElseThrow(() -> new EntityNotFoundException("Hôpital non trouvé avec ID " + hospitalId));
+
+        hospital.setLitsDisponible(beds);
+        hospitalRepository.save(hospital);
+
+        return mapper.toHospitalResponse(hospital);
+    }
 }

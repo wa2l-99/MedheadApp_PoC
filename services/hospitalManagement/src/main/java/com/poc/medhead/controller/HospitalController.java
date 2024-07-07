@@ -94,6 +94,16 @@ public class HospitalController {
 
         return ResponseEntity.ok(hospitalService.addSpecialityToHospital(request));
     }
+
+    @PutMapping("/updateBeds/{hospital-id}")
+    public ResponseEntity<HospitalResponse> updateNbBeds(
+            @PathVariable("hospital-id") Integer hospitalId,
+            @RequestParam("beds") Integer beds)
+    {
+        return ResponseEntity.ok(hospitalService.updateBeds(hospitalId, beds));
+    }
+
+
     /*********** Specialty APIs *************/
 
     @PostMapping("/speciality")

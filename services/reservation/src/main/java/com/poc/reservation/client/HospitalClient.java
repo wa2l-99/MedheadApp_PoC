@@ -12,6 +12,7 @@ import java.util.Optional;
 @FeignClient(
         name = "hospitalManagement-service",
         url = "${application.config.hospital-url}"
+
 )
 public interface HospitalClient {
 

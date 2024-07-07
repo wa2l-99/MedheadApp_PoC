@@ -1,10 +1,16 @@
 package com.poc.reservation.util.response;
 
-import lombok.Data;
+import com.poc.reservation.model.MedicalSpeciality;
+import lombok.*;
 
 import java.util.Set;
 
-@Data
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class HospitalResponse {
     private Integer id;
     private String nomOrganisation;
@@ -13,5 +19,5 @@ public class HospitalResponse {
     private Integer litsDisponible;
     private float longitude;
     private float latitude;
-    private Set<String> specialitesMedicales;
+    private Set<MedicalSpeciality> specialitesMedicales;
 }
