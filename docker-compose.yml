@@ -1,13 +1,14 @@
 services:
   postgres:
-    container_name: ms_pg_sql
+    container_name: postgres
     image: postgres
     environment:
       POSTGRES_USER: wael
       POSTGRES_PASSWORD: wael
       PGDATA: /var/lib/postgresql/data
     volumes:
-      - postgres:/data/postgres
+      - postgres:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     networks:
@@ -15,7 +16,7 @@ services:
     restart: unless-stopped
 
   pgadmin:
-    container_name: ms_pgadmin
+    container_name: pgadmin
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin@pgadmin.org}
@@ -43,7 +44,7 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:latest
-    container_name: ms_kafka
+    container_name: kafka
     ports:
       - "9092:9092"
     depends_on:
@@ -72,7 +73,7 @@ services:
       - microservices-net
 
   mongo-express:
-    container_name: ms_mongo_express
+    container_name: mongo-express
     image: mongo-express
     restart: always
     ports:
@@ -92,12 +93,11 @@ services:
       - microservices-net
 
   mail-dev:
-    container_name: ms-mail-dev
+    container_name: mail-dev
     image: maildev/maildev
     ports:
       - 1080:1080
       - 1025:1025
-
 
 networks:
   microservices-net:
