@@ -22,7 +22,8 @@ import java.util.Set;
 public class Role {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
+    @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize = 1) // Set allocationSize to 1
     private Integer id;
 
     @Column(unique = true)
