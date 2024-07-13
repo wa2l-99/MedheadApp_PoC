@@ -3,8 +3,3 @@ spring:
     import: optional:configserver:http://localhost:8888
   application:
     name: userAuthentificaton-service
-server:
-  servlet:
-    context-path: /api/
-
-

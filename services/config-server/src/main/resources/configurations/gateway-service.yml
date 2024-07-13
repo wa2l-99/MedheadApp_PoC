@@ -1,3 +1,6 @@
+server:
+  port: 8222
+
 spring:
   cloud:
     gateway:
@@ -6,17 +9,35 @@ spring:
           enabled: true
       routes:
         - id: userAuthentificaton-service
-          uri: lb:http://USERAUTHENTIFICATON-SERVICE
+          uri: lb://USERAUTHENTIFICATON-SERVICE
           predicates:
             - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<remaining>.*), /$\{remaining}
         - id: hospitalManagement-service
-          uri: lb:http://HOSPITALMANAGEMENT-SERVICE
+          uri: lb://HOSPITALMANAGEMENT-SERVICE
           predicates:
             - Path=/api/hospital/**
+          filters:
+            - RewritePath=/api/hospital/(?<remaining>.*), /$\{remaining}
         - id: reservation-service
-          uri: lb:http://RESERVATION-SERVICE
+          uri: lb://RESERVATION-SERVICE
           predicates:
             - Path=/api/reservations/**
-server:
-  port: 8222
+          filters:
+            - RewritePath=/api/reservations/(?<remaining>.*), /$\{remaining}
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    urls:
+      - name: User Authentication Service
+        url: /api/auth/v3/api-docs
+      - name: Hospital Management Service
+        url: /api/hospital/v3/api-docs
+      - name: Reservation Service
+        url: /api/reservations/v3/api-docs
