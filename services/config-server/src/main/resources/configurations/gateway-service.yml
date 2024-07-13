@@ -8,24 +8,43 @@ spring:
         locator:
           enabled: true
       routes:
+        # Routes pour la documentation Swagger
+        - id: userAuthentificaton-service-docs
+          uri: lb://USERAUTHENTIFICATON-SERVICE
+          predicates:
+            - Path=/api/auth/v3/api-docs
+          filters:
+            - RewritePath=/api/auth/v3/api-docs, /v3/api-docs
+
+        - id: hospitalManagement-service-docs
+          uri: lb://HOSPITALMANAGEMENT-SERVICE
+          predicates:
+            - Path=/api/hospital/v3/api-docs
+          filters:
+            - RewritePath=/api/hospital/v3/api-docs, /v3/api-docs
+
+        - id: reservation-service-docs
+          uri: lb://RESERVATION-SERVICE
+          predicates:
+            - Path=/api/reservations/v3/api-docs
+          filters:
+            - RewritePath=/api/reservations/v3/api-docs, /v3/api-docs
+
+        # Routes pour les autres endpoints
         - id: userAuthentificaton-service
           uri: lb://USERAUTHENTIFICATON-SERVICE
           predicates:
             - Path=/api/auth/**
-          filters:
-            - RewritePath=/api/auth/(?<remaining>.*), /$\{remaining}
+
         - id: hospitalManagement-service
           uri: lb://HOSPITALMANAGEMENT-SERVICE
           predicates:
             - Path=/api/hospital/**
-          filters:
-            - RewritePath=/api/hospital/(?<remaining>.*), /$\{remaining}
+
         - id: reservation-service
           uri: lb://RESERVATION-SERVICE
           predicates:
             - Path=/api/reservations/**
-          filters:
-            - RewritePath=/api/reservations/(?<remaining>.*), /$\{remaining}
 
 springdoc:
   api-docs:
