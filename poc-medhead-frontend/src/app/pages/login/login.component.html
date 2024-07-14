@@ -1,0 +1,59 @@
+<div id="sec1">
+  <div class="container-fluid login-conatiner">
+  <div class="login-block">
+    <img class="img" src="/image.png" alt="medhead" />
+    <h1 class="mb-3 mt-3">Connectez-vous à votre compte</h1>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
+      <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+    </div>
+
+    <form action="#" class="login-from">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon"
+            ><i class="fa fa-envelope ti-email"></i
+          ></span>
+          <input
+            [(ngModel)]="authrequest.email"
+            type="email"
+            class="form-control"
+            id="login"
+            placeholder="Votre adresse email"
+            required
+            name="email"
+          />
+        </div>
+      </div>
+
+      <hr class="hr-xs" />
+
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon"
+            ><i class="fa fa-lock ti-unlock"></i
+          ></span>
+          <input
+            [(ngModel)]="authrequest.password"
+            type="password"
+            class="form-control"
+            placeholder="Votre mot de passe"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+      </div>
+
+      <button (click)="login()" class="btn btn-primary btn-block" type="submit">Connexion</button>
+
+      <div class="login-footer">
+        <h6>
+          Vous n'avez pas de compte ?
+          <button (click)="register()" type="button" class="btn btn-link" href="#">Inscrivez-vous</button>
+        </h6>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
