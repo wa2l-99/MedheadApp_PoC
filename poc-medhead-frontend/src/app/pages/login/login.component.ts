@@ -24,19 +24,15 @@ export class LoginComponent {
     this.errorMsg = [];
     this.authService.authenticate({body: this.authrequest}).subscribe({
       next: (res) => {
-        console.log('Réponse:', res);  // Inspectez la réponse ici
-        this.tokenService.token = res.token as string;
-        console.log('Token stocké:', this.tokenService.token);  // Vérifiez le token stocké
-        this.router.navigate(['hospital']);
+        this.tokenService.token = res.token as string;        this.router.navigate(['hospital']);
       },
       error: (err) => {
-        console.log('Erreur:', err);
         if (err.error.validationErrors) {
           this.errorMsg = err.error.validationErrors;
         } else if (err.error) {
           this.errorMsg.push(err.error);
         } else {
-          this.errorMsg.push('An unexpected error occurred.');
+          this.errorMsg.push("Une erreur inattendue s'est produite");
         }
       }
     });
