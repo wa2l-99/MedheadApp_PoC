@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         servers = {
                 @Server(
                         description = "Local ENV",
-                        url = "http://localhost:8076/api/reservations"
+                        url = "http://localhost:8222"
                 ),
         },
         security = {
