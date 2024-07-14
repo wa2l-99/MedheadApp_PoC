@@ -1,0 +1,208 @@
+<div id="sec1">
+  <div class="container-fluid register-conatiner">
+    <div class="register-block">
+      <img class="img" src="/image.png" alt="medhead" />
+      <h1 class="mb-3 mt-3">Créez votre compte en toute sécurité</h1>
+      <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
+        <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+      </div>
+
+      <form action="#" class="register-from">
+        <div class="row gx-5">
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"
+                  ><i class="fa fa-user"></i
+                ></span>
+                <input
+                  [(ngModel)]="registerRequest.prenom"
+                  type="text"
+                  class="form-control"
+                  id="prenom"
+                  placeholder="Votre prénom"
+                  required
+                  name="prenom"
+                />
+              </div>
+            </div>
+            <hr class="hr-xs" />
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"
+                  ><i class="fa fa-user"></i
+                ></span>
+                <input
+                  [(ngModel)]="registerRequest.nom"
+                  type="text"
+                  class="form-control"
+                  placeholder="Votre nom"
+                  id="nom"
+                  name="nom"
+                  required
+                />
+              </div>
+            </div>
+            <hr class="hr-xs" />
+          </div>
+          <hr class="hr-xs" id="hr" />
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"
+                  ><i class="fa fa-calendar-days"></i
+                ></span>
+                <input
+                  [(ngModel)]="registerRequest.dateNaissance"
+                  type="date"
+                  class="form-control"
+                  id="dateNaissance"
+                  placeholder="Votre date de naissance"
+                  required
+                  name="dateNaissance"
+                  style="margin-top: -6px;"
+                />
+              </div>
+            </div>
+            <hr class="hr-xs" />
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"
+                  ><i class="fa fa-restroom"></i
+                ></span>
+                <label for="homme" class="radio-inline">
+                  <input
+                    [(ngModel)]="registerRequest.sexe"
+                    type="radio"
+                    value="Homme"
+                    id="homme"
+                    required
+                    name="sexe"
+                  />
+                  Homme
+                </label>
+                <label for="femme" class="radio-inline">
+                  <input
+                    [(ngModel)]="registerRequest.sexe"
+                    type="radio"
+                    value="Femme"
+                    id="femme"
+                    required
+                    name="sexe"
+                  />
+                  Femme
+                </label>
+              </div>
+            </div>
+            <hr class="hr-xs" />
+          </div>
+          <hr class="hr-xs" id="hr" />
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"
+                  ><i class="fa fa-envelope ti-email"></i
+                ></span>
+                <input
+                  [(ngModel)]="registerRequest.email"
+                  type="email"
+                  class="form-control"
+                  id="login"
+                  placeholder="Votre adresse email"
+                  required
+                  name="email"
+                />
+              </div>
+            </div>
+            <hr class="hr-xs" />
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"
+                  ><i class="fa fa-lock ti-unlock"></i
+                ></span>
+                <input
+                  [(ngModel)]="registerRequest.password"
+                  type="password"
+                  class="form-control"
+                  placeholder="Votre mot de passe"
+                  id="password"
+                  name="password"
+                  required
+                />
+              </div>
+            </div>
+            <hr class="hr-xs" />
+          </div>
+          <hr class="hr-xs" id="hr" />
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"
+                  ><i class="fa fa-location-dot"></i
+                ></span>
+                <textarea
+                  [(ngModel)]="registerRequest.adresse"
+                  class="form-control"
+                  id="adresse"
+                  placeholder="Votre adresse"
+                  required
+                  name="adresse"
+                  maxlength="50"
+                  rows="1"
+                  style="margin-top: -2px;"
+                ></textarea>
+              </div>
+            </div>
+            <hr class="hr-xs" />
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"
+                  ><i class="fa fa-phone"></i
+                ></span>
+                <input
+                  [(ngModel)]="registerRequest.numero"
+                  type="number"
+                  class="form-control"
+                  placeholder="Votre téléphone"
+                  id="numero"
+                  name="numero"
+                  required
+                />
+              </div>
+            </div>
+            <hr class="hr-xs" />
+          </div>
+        </div>
+        <button
+          (click)="register()"
+          class="btn btn-primary btn-block"
+          type="submit"
+        >
+          S'inscrire
+        </button>
+
+        <div class="register-footer">
+          <h6>
+            Avez-vous déja un compte ?
+            <button
+              (click)="login()"
+              type="button"
+              class="btn btn-link"
+              href="#"
+            >
+              Connectez-vous
+            </button>
+          </h6>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
