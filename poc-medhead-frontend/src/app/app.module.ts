@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { BlobToJsonInterceptor } from './interceptors/blob-to-json.interceptor';
 import { RegisterComponent } from './pages/register/register.component';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
+import { CodeInputModule } from 'angular-code-input';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ActivateAccountComponent } from './pages/activate-account/activate-acco
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    CodeInputModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BlobToJsonInterceptor, multi: true },

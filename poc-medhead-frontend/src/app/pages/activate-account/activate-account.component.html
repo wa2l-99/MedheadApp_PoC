@@ -1,0 +1,32 @@
+<div class="bg">
+<div class="container" *ngIf="submitted else codeForm">
+    <div class="activation-message" *ngIf="isOkay; else activationError">
+      <h1>Activation réussie !</h1>
+      <h4>Votre compte a été activé avec succès.</h4>
+      <button class="btn btn-primary btn-block" (click)="redirectToLogin()"> Accéder à la connexion</button>
+    </div>
+    <ng-template #activationError>
+      <div class="activation-error">
+        <img class="img" src="/img.png" alt="img" />
+        <h1>Échec de l'activation</h1>
+        <h4>{{ message }}</h4>
+        <button class="btn btn-primary btn-block" (click)="submitted = false">Réessayer</button>
+      </div>
+    </ng-template>
+</div>    
+</div>
+
+  <ng-template #codeForm>
+    <div class="container">
+      <div class="text-center" style="width: 500px; color: #fff;">
+        <img class="img" src="/lock.png" alt="lock" />
+
+        <h2>Saisissez votre code d'activation</h2>
+        <code-input [isCodeHidden]="false"
+                    [codeLength]="6"
+                    [code]="'number'"
+                    (codeCompleted)="onCodeCompleted($event)">
+        </code-input>
+      </div>
+    </div>
+  </ng-template>

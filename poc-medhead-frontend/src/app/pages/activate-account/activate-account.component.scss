@@ -1,0 +1,50 @@
+/* account-activation.component.css */
+.bg {
+  background-color: #407ce2;
+}
+.img {
+  width: 150px;
+  height: 150px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.activation-message,
+.activation-error {
+  text-align: center;
+}
+
+.activation-error {
+  color: #fff;
+}
+
+.btn-block {
+  width: 300px;
+  height: 51px;
+  color: #fff;
+  background: rgb(229 239 255 / 41%);
+  border-radius: 20rem;
+  border-color: rgb(229 239 255 / 41%);
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+code-input {
+  --item-background: #fff;
+  --item-font-weight: 700 !important;
+  --color: #263238;
+  --item-height: 65px;
+  font-size: 25px !important;
+}
+
+h4 {
+  color: #263238;
+}
+
+h1 {
+  color: #fff;
+}
