@@ -1,0 +1,56 @@
+<app-menu></app-menu>
+<div class="container py-3">
+  <div class="card shadow rounded-3 my-auto">
+    <div class="card-header p-3 h4" style="color: rgba(64, 124, 226, 0.66)">
+      <i class="fa fa-search me-3"></i> Recherche du Proche Hôpital par
+      Spécialité
+    </div>
+    <div class="card-body p-4">
+      <form role="form">
+        <div class="form-group">
+          <label class="form-control-label" for="form-group-input"
+            >Veuillez Saisir votre adresse actuelle</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="form-group-input"
+            name="adresse"
+          />
+        </div>
+        <div class="form-group mt-2">
+          <label class="form-control-label" for="form-group-input"
+            >Veuillez Choisir la Spécialité</label
+          >
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            style="color: #676666f2"
+          >
+            <option selected disabled>Spécialités</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <div class="p-2">
+            <button class="btn btn-primary btn-block" type="submit">
+              Valider
+            </button>
+          </div>
+          <div class="p-2">
+            <button
+              id="btn-block-reset"
+              class="btn btn-outline-primary btn-block"
+              type="Reset"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

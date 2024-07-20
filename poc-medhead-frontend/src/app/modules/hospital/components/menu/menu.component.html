@@ -1,0 +1,57 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg static-top">
+  <div class="container-fluid container-nav">
+    <a class="navbar-brand" href="javascript:void(0)">
+      <div class="row">
+        <div class="col"><img src="/logo.png" alt="..." height="36" /></div>
+        <div class="col">
+          <span class="logo-title">MedHead</span>
+        </div>
+      </div>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            aria-current="page"
+            routerLink="/"
+            style="color: #407ce2; font-weight: 500"
+          >
+            <i class="fa fa-home-alt"></i>
+            &nbsp;Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            aria-current="page"
+            routerLink="/my-reservation"
+            style="color: #407ce2; font-weight: 500"
+          >
+            <i class="fa fa-hospital-user"></i>
+            &nbsp;My reservation</a
+          >
+        </li>
+      </ul>
+      <div class="d-flex gap-2 align-items-center">
+        <button class="btn btn-link" type="button" (click)="logout()">
+          <i class="fa fa-door-open" style="color: #407ce2"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+

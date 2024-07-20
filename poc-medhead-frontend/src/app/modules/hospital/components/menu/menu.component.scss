@@ -1,0 +1,35 @@
+.navbar {
+  background-color: rgba(64, 124, 226, 0.08);
+}
+
+
+@media (min-width: 1400px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl,
+    .container-xxl {
+      max-width: 1450px;
+    }
+  }
+.logo-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 38px;
+  color: #223a6a;
+}
+
+.col {
+  padding: 5px;
+}
+
+.fa-home-alt {
+  color: #407ce2;
+}
+
+.container-fluid {
+    padding-left: 50px;
+    padding-right: 50px;
+}

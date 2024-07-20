@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.card {
+  width: 50%;
+}
+
+#btn-block-reset {
+  background: #fff;
+  color: #407ce2;
+  border-color: #407ce2;
+}
+.card-body .btn-block {
+  margin-top: 30px;
+  padding: 10px;
+  background: #407ce2;
+  border-color: #407ce2;
+}
+
+.card-body .btn-block:hover {
+  margin-top: 30px;
+  padding: 10px;
+  background: #2e68ce;
+  border-color: #407ce2;
+}
+
+#btn-block-reset:hover {
+  background: rgba(64, 124, 226, 0.08);
+  color: #407ce2;
+  border-color: #407ce2;
+}
+
+.login-block .form-control,
+.login-block .form-control:focus {
+  background-color: transparent;
+  border: none;
+}
+
+.card-header {
+  margin-bottom: 0;
+  border-bottom: none;
+  background-color: #fff;
+}
+
+.form-control-label{
+  font-weight: 500;
+  color: #4a4b4cbd;
+  padding-bottom: 10px;
+
+}
