@@ -11,5 +11,5 @@ export class HomeComponent {
 
 
 searchHospital(): void {
-this.router.navigate(['search'])  }
+this.router.navigate(['searchHospital'])  }
 }

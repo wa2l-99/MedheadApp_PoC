@@ -14,7 +14,7 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'search',
+        path: 'searchHospital',
         component: SearchComponent,
       },
     ],
