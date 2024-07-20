@@ -2,17 +2,16 @@
   background-color: rgba(64, 124, 226, 0.08);
 }
 
-
 @media (min-width: 1400px) {
-    .container,
-    .container-lg,
-    .container-md,
-    .container-sm,
-    .container-xl,
-    .container-xxl {
-      max-width: 1450px;
-    }
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    max-width: 1450px;
   }
+}
 .logo-title {
   font-style: normal;
   font-weight: 600;
@@ -25,11 +24,35 @@
   padding: 5px;
 }
 
-.fa-home-alt {
+.fa-door-open {
   color: #407ce2;
 }
 
-.container-fluid {
-    padding-left: 50px;
-    padding-right: 50px;
+.fa-door-open:hover {
+  color: #223a6a;
 }
+
+.container-fluid {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+a.nav-link {
+  color: #407ce2;
+  font-weight: 500;
+}
+
+a.nav-link:hover {
+  color: #223a6a;
+  font-weight: 500;
+}
+
+a.nav-link.active {
+    color: #223a6a;
+    font-weight: 500;
+  
+ 
+}
+
+
+

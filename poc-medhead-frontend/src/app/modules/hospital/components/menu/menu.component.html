@@ -24,21 +24,27 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a
-            class="nav-link active"
+            class="nav-link"
             aria-current="page"
-            routerLink="/"
-            style="color: #407ce2; font-weight: 500"
-          >
+            routerLink="/">
             <i class="fa fa-home-alt"></i>
             &nbsp;Home</a
           >
         </li>
         <li class="nav-item">
           <a
-            class="nav-link active"
+            class="nav-link"
+            aria-current="page"
+            routerLink="/search">
+            <i class="fa fa-search"></i>
+            &nbsp;Hospital</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link "
             aria-current="page"
             routerLink="/my-reservation"
-            style="color: #407ce2; font-weight: 500"
           >
             <i class="fa fa-hospital-user"></i>
             &nbsp;My reservation</a
@@ -47,7 +53,7 @@
       </ul>
       <div class="d-flex gap-2 align-items-center">
         <button class="btn btn-link" type="button" (click)="logout()">
-          <i class="fa fa-door-open" style="color: #407ce2"></i>
+          <i class="fa fa-door-open"></i>
         </button>
       </div>
     </div>
