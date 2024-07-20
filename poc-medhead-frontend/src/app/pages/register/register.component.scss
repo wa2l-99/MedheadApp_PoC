@@ -3,14 +3,15 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  height: auto;
+  width: 100vw;
+  height: 100vh;
 }
 
 .register-conatiner {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  height: 100%;
 }
 .register-block {
   background-color: #fff;
@@ -67,8 +68,8 @@
   border: none;
 }
 
-#hr{
-    color: transparent;
+#hr {
+  color: transparent;
 }
 .radio-inline {
   padding: 5px 35px 0px 18px;
