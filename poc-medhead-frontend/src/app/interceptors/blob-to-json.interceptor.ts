@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+  HttpResponse,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
@@ -10,7 +17,7 @@ export class BlobToJsonInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       switchMap(event => {
-        if (event instanceof HttpResponse && event.body instanceof Blob && event.body.type === 'application/json') {
+        if (event instanceof HttpResponse && event.body instanceof Blob) {
           return this.handleBlobResponse(event).pipe(
             map(body => new HttpResponse({
               body,
@@ -24,7 +31,7 @@ export class BlobToJsonInterceptor implements HttpInterceptor {
         return [event];
       }),
       catchError(err => {
-        if (err instanceof HttpErrorResponse && err.error instanceof Blob && err.error.type === 'application/json') {
+        if (err instanceof HttpErrorResponse && err.error instanceof Blob) {
           return this.handleBlobError(err).pipe(
             switchMap(body => throwError(new HttpErrorResponse({
               error: body,
@@ -46,7 +53,12 @@ export class BlobToJsonInterceptor implements HttpInterceptor {
       reader.onloadend = () => {
         try {
           const text = reader.result as string;
-          const jsonResponse = JSON.parse(text);
+          let jsonResponse;
+          if (event.body && event.body.type === 'application/json') {
+            jsonResponse = JSON.parse(text);
+          } else {
+            jsonResponse = { message: text };
+          }
           observer.next(jsonResponse);
           observer.complete();
         } catch (error) {
@@ -70,7 +82,12 @@ export class BlobToJsonInterceptor implements HttpInterceptor {
       reader.onloadend = () => {
         try {
           const text = reader.result as string;
-          const jsonError = JSON.parse(text);
+          let jsonError;
+          if (error.error && error.error.type === 'application/json') {
+            jsonError = JSON.parse(text);
+          } else {
+            jsonError = { message: text };
+          }
           observer.next(jsonError);
           observer.complete();
         } catch (err) {
