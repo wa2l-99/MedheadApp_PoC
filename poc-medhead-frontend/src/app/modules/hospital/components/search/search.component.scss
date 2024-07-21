@@ -1,27 +1,30 @@
-.container {
+.search-block .container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  max-width: 1400;
 }
 
-.card {
-  width: 50%;
+.search-block .card {
+  width: 100%;
 }
 
 #btn-block-reset {
   background: #fff;
   color: #407ce2;
   border-color: #407ce2;
+  width: 100%;
 }
-.card-body .btn-block {
+.search-block .card-body .btn-block {
   margin-top: 30px;
   padding: 10px;
   background: #407ce2;
   border-color: #407ce2;
+  width: 140px;
 }
 
-.card-body .btn-block:hover {
+.search-block .card-body .btn-block:hover {
   margin-top: 30px;
   padding: 10px;
   background: #2e68ce;
@@ -34,21 +37,163 @@
   border-color: #407ce2;
 }
 
-.login-block .form-control,
-.login-block .form-control:focus {
-  background-color: transparent;
-  border: none;
-}
-
-.card-header {
+.search-block .card-header {
   margin-bottom: 0;
   border-bottom: none;
   background-color: #fff;
 }
 
-.form-control-label{
+.form-control-label {
   font-weight: 500;
   color: #4a4b4cbd;
   padding-bottom: 10px;
+  width: 45vh;
+}
 
+::ng-deep.ng-select .ng-select-container {
+  width: 100% !important;
+  padding: 1.15rem 0.75rem !important;
+  font-size: 1rem !important;
+  color: var(--bs-body-color) !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  border: var(--bs-border-width) solid var(--bs-border-color) !important;
+  border-radius: var(--bs-border-radius) !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+::ng-deep.ng-select.ng-select-focused:not(.ng-select-opened)
+  > .ng-select-container {
+  color: var(--bs-body-color) !important;
+  background-color: var(--bs-body-bg) !important;
+  border-color: #86b7fe !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.25rem rgba(0, 102, 255, 0.25) !important;
+}
+
+hr {
+  opacity: 0.15 !important;
+}
+
+.noSearch {
+  font-weight: 500;
+  font-size: 22px;
+  color: #606c7c;
+}
+
+.result-block .card-block {
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+
+.noResult .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.nbLit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.reserver-btn {
+  color: #fff;
+  background: #407ce2;
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 1px;
+  border-color: #407ce2;
+  display: inline-block;
+  padding: 10px 28px 12px 28px;
+  border-radius: 50px;
+  transition: 0.5s;
+  text-decoration: none;
+}
+
+.reserver-btn:hover {
+  color: #407ce2;
+  background: color-mix(in srgb, var(--accent-color), transparent 15%);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+}
+
+.nbLitCard .card::before {
+  content: "";
+  position: absolute;
+  background: rgb(85 108 214 / 5%);
+  width: 170px;
+  height: 400px;
+  z-index: -1;
+  transform: rotate(42deg);
+  right: 28px;
+  top: -31px;
+  border-radius: 35px;
+}
+
+#icone {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(64, 124, 226, 0.13);
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #407ce2;
+  font-size: 20px
+}
+
+.nbLitCard .card {
+  flex: 0 50%;
+  background: #fff;
+  border-radius: 15px;
+  margin: 8px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: 0.7s;
+  background-color: #FBF0DC;
+  border-width: 0;
+}
+
+.hospital-card {
+  flex: 0 50%;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+    0 5px 15px 0 rgba(37, 44, 97, 0.15);
+  border-radius: 15px;
+  margin: 8px;
+  padding: 10px 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  min-height: 265px;
+  transition: 0.7s;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#infos-hosp {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #221f1f;
+}
+
+#result-hosp {
+  padding-left: 60px;
+  color:rgba(34, 31, 31, 0.4);
+  font-weight: 500;
+
+}
+
+#ligne{
+  margin: 0.5rem 0;
 }

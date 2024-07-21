@@ -1,55 +1,183 @@
-<div class="container py-3">
-  <div class="card shadow rounded-3 my-auto">
-    <div class="card-header p-3 h4" style="color: rgba(64, 124, 226, 0.66)">
-      <i class="fa fa-search me-3"></i> Recherche du Proche Hôpital par
-      Spécialité
-    </div>
-    <div class="card-body p-4">
-      <form role="form">
-        <div class="form-group">
-          <label class="form-control-label" for="form-group-input"
-            >Veuillez Saisir votre adresse actuelle</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="form-group-input"
-            name="adresse"
-          />
+<div class="search-block">
+  <div class="container py-3">
+    <div class="card shadow rounded-3 my-auto">
+      <div
+        class="card-header p-3 h4 text-center"
+        style="color: rgba(64, 124, 226, 0.66)"
+      >
+        <i class="fa fa-search me-3"></i> Recherche du Proche Hôpital par
+        Spécialité
+      </div>
+      <div class="card-body">
+        <div class="container px-4">
+          <form role="form" (ngSubmit)="searchNearest()" #searchForm="ngForm">
+            <div class="row gx-5">
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-control-label" for="form-group-input"
+                    >Veuillez Saisir votre adresse actuelle</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="form-group-input"
+                    name="address"
+                    [(ngModel)]="address"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-control-label" for="form-group-input"
+                    >Veuillez Choisir la Spécialité</label
+                  >
+                  <ng-select
+                    [items]="filteredSpecialities"
+                    bindLabel="nom"
+                    [(ngModel)]="selectedSpeciality"
+                    [searchable]="true"
+                    (search)="onSearch($event)"
+                    placeholder="Rechercher une spécialité"
+                    [clearable]="true"
+                    class="custom"
+                    name="speciality"
+                    required
+                  >
+                  </ng-select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="d-flex justify-content-end d-grid gap-2">
+                  <div class="pe-3">
+                    <button
+                      class="btn btn-primary btn-block"
+                      type="submit"
+                      [disabled]="searchForm.invalid"
+                    >
+                      Valider
+                    </button>
+                  </div>
+                  <div class="">
+                    <button
+                      id="btn-block-reset"
+                      class="btn btn-outline-primary btn-block"
+                      type="Reset"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="form-group mt-2">
-          <label class="form-control-label" for="form-group-input"
-            >Veuillez Choisir la Spécialité</label
-          >
-          <select
-            class="form-select"
-            aria-label="Default select example"
-            style="color: #676666f2"
-          >
-            <option selected disabled>Spécialités</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-
-        <div class="d-flex justify-content-end">
-          <div class="p-2">
-            <button class="btn btn-primary btn-block" type="submit">
-              Valider
-            </button>
-          </div>
-          <div class="p-2">
-            <button
-              id="btn-block-reset"
-              class="btn btn-outline-primary btn-block"
-              type="Reset"
-            >
-              Annuler
-            </button>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
+
+<hr class="container pb-3" />
+
+<div *ngIf="searchPerformed && hospitalResponse; else noSearch">
+  <div class="result-block">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 pb-4" *ngFor="let result of searchResult">
+          <div class="hospital-card">
+            <div class="card-block">
+              <h4 class="card-title">
+                <i class="fa-regular fa-hospital" style="color: #407ce2"></i>
+                &nbsp;<span style="color: #223a6a">{{ result.nomOrganisation}}</span>
+              </h4>
+              <hr />
+              <h6 class="card-subtitle text-muted">
+                <i id="icone" class="fa-solid fa-location-dot"></i>&nbsp;<span
+                  id="infos-hosp"
+                  >Adresse de l'hôpital</span
+                >
+              </h6>
+              <span id="result-hosp">{{ result.adresse }}</span>
+
+              <hr id="ligne"/>
+              <h6 class="card-subtitle text-muted">
+                <i id="icone" class="fa-solid fa-envelope"></i>&nbsp;<span
+                  id="infos-hosp"
+                  >Code postale</span
+                >
+              </h6>
+              <span id="result-hosp">{{ result.codePostal }}</span>
+              <hr id="ligne"/>
+              <h6 class="card-subtitle text-muted">
+                <i id="icone" class="fa-solid fa-hand-holding-medical"></i>
+                &nbsp;<span id="infos-hosp">Spécialitéd médicales</span>
+              </h6>
+              <ul
+                *ngFor="
+                  let group of chunkArray(
+                    result.specialitesMedicales!.slice(),
+                    3
+                  )
+                "
+                id="result-hosp"
+              >
+                <li>
+                  <span *ngFor="let speciality of group; let i = index">
+                    {{ speciality.nom
+                    }}<span
+                      *ngIf="i < group.length - 1"
+                      style="color: #4a4b4cbd"
+                    >
+                      |
+                    </span>
+                  </span>
+                </li>
+              </ul>
+              <hr id="ligne"/>
+              <div class="nbLitCard pt-1">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <i
+                          style="color: #d2b47d"
+                          class="fa-solid fa-bed mb-2"
+                        ></i>
+                        <h6 class="card-subtitle">
+                          Nombre de lits disponibles
+                        </h6>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="nbLit">
+                          {{ result.litsDisponible }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="d-flex"
+                data-aos="fade-up"
+                data-aos-delay="200"
+                style="justify-content: center; padding-top: 14px"
+              >
+                <button class="reserver-btn btn">Réserver immédiatement</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noSearch>
+  <div class="noResult">
+    <div class="container">
+      <p class="noSearch">
+        Aucun résultat pour le moment. Lancez une recherche pour commencer.
+      </p>
+    </div>
+  </div>
+</ng-template>

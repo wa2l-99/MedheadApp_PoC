@@ -6,16 +6,21 @@ import { MainComponent } from './pages/main/main.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
-
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { BlobToJsonInterceptor } from '../../interceptors/blob-to-json.interceptor';
 
 @NgModule({
-  declarations: [
-    MainComponent, 
-    MenuComponent, HomeComponent, SearchComponent
+  declarations: [MainComponent, MenuComponent, HomeComponent, SearchComponent],
+  imports: [CommonModule, FormsModule, HospitalRoutingModule, NgSelectModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BlobToJsonInterceptor,
+      multi: true,
+    },
+    HttpClient,
   ],
-  imports: [
-    CommonModule,
-    HospitalRoutingModule
-  ]
 })
-export class HospitalModule { }
+export class HospitalModule {}
