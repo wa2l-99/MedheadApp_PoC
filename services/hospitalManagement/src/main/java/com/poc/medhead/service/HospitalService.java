@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,6 @@ public class HospitalService {
     private final SpecialityRepository specialityRepository;
     private final HospitalMapper mapper;
     private final GeocodingService geocodingService;
-
 
     public Integer saveHospital(HospitalRequest hospitalRequest) {
         var hospital = mapper.toHospital(hospitalRequest);
@@ -91,7 +91,7 @@ public class HospitalService {
     }
 
 
-    public HospitalResponse findNearestHospital(String address, String specialty) throws InterruptedException, ApiException, IOException {
+    public List<HospitalResponse> findNearestHospitals(String address, String specialty) throws InterruptedException, ApiException, IOException {
         GeocodingResult[] results = geocodingService.getGeocoding(address);
 
         if (results.length == 0) {
@@ -103,22 +103,37 @@ public class HospitalService {
 
         List<Hospital> hospitals = hospitalRepository.findNearestAvailableHospitalsBySpecialty(specialty);
 
-        Hospital nearestHospital = hospitals.stream()
-                .min(Comparator.comparingDouble(h -> calculateDistance(latitude, longitude, h.getLatitude(), h.getLongitude())))
-                .orElseThrow(() -> new EntityNotFoundException("Aucun hôpital avec cette spécialité : " + specialty));
+        List<HospitalResponse> hospitalResponses = hospitals.stream()
+                .map(hospital -> {
+                    double distance = calculateDistance(latitude, longitude, hospital.getLatitude(), hospital.getLongitude());
+                    if (distance <= 500) {
+                        HospitalResponse response = mapper.toHospitalResponse(hospital);
+                        response.setDistance(distance);
+                        return response;
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull) // Supprimer les hôpitaux hors du périmètre de 500 km
+                .sorted(Comparator.comparingDouble(HospitalResponse::getDistance)) // Trier par distance
+                .collect(Collectors.toList());
 
-        return mapper.toHospitalResponse(nearestHospital);
+        if (hospitalResponses.isEmpty()) {
+            throw new EntityNotFoundException("Aucun hôpital avec cette spécialité trouvé dans un rayon de 500 km.");
+        }
+
+        return hospitalResponses;
     }
 
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-        final int R = 6371; // Radius of the earth in km
+        final int r = 6371; // Radius of the earth in km
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
                 + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c; // Distance in km
+        return r * c; // Distance in km
     }
 
     public HospitalResponse updateHospital(Integer hospitalId, HospitalRequest updatedHospital) {

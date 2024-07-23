@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -33,14 +34,6 @@ public class HospitalController {
     ){
         return ResponseEntity.ok(hospitalService.saveHospital(hospitalRequest));
     }
-
-    /**
-    @PostMapping("/reserve")
-    public ResponseEntity<List<HospitalReserveResponse>> reserveHospitals(
-            @RequestBody @Valid HospitalReserveRequest request
-    ){
-        return ResponseEntity.ok(hospitalService.reserveHospitals(request));
-    }**/
 
     @GetMapping("/{hospital-id}")
     public ResponseEntity<HospitalResponse> findHospitalById(
@@ -81,10 +74,10 @@ public class HospitalController {
     }
 
     @GetMapping("/nearest")
-    public ResponseEntity<HospitalResponse> findNearestHospital(
+    public ResponseEntity<List<HospitalResponse>> findNearestHospitals(
             @RequestParam String address,
             @RequestParam String specialty) throws InterruptedException, ApiException, IOException {
-        return ResponseEntity.ok(hospitalService.findNearestHospital(address, specialty));
+        return ResponseEntity.ok(hospitalService.findNearestHospitals(address,specialty));
     }
 
     @PostMapping("/addSpecialityToHospital")

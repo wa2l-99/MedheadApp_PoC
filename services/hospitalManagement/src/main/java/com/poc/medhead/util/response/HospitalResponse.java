@@ -19,5 +19,5 @@ public class HospitalResponse {
     private Integer litsDisponible;
     private float longitude;
     private float latitude;
-
+    private double distance;
 }
