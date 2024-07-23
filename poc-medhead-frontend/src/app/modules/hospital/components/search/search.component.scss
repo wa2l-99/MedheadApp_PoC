@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  max-width: 1400;
+  max-width: 1400px;
 }
 
 .search-block .card {
@@ -47,7 +47,7 @@
   font-weight: 500;
   color: #4a4b4cbd;
   padding-bottom: 10px;
-  width: 45vh;
+  width: 400px;
 }
 
 ::ng-deep.ng-select .ng-select-container {
@@ -83,7 +83,11 @@ hr {
 
 .result-block .card-block {
   flex: 1 1 auto;
-  padding: 1.25rem;
+  padding: 1rem 0.5rem 1rem 0.5rem;
+}
+
+.container {
+ max-width: 1400px;
 }
 
 .noResult .container {
@@ -95,9 +99,9 @@ hr {
 
 .nbLit {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 30px;
 }
 
@@ -134,6 +138,19 @@ hr {
   border-radius: 35px;
 }
 
+.kmCard .card::before {
+  content: "";
+  position: absolute;
+  background: rgb(85 108 214 / 5%);
+  width: 170px;
+  height: 400px;
+  z-index: -1;
+  transform: rotate(42deg);
+  right: 28px;
+  top: -31px;
+  border-radius: 35px;
+}
+
 #icone {
   width: 50px;
   height: 50px;
@@ -157,6 +174,19 @@ hr {
   overflow: hidden;
   transition: 0.7s;
   background-color: #FBF0DC;
+  border-width: 0;
+}
+
+.kmCard .card {
+  flex: 0 50%;
+  background: #fff;
+  border-radius: 15px;
+  margin: 8px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: 0.7s;
+  background-color: rgba(178, 116, 140, 0.42);
   border-width: 0;
 }
 

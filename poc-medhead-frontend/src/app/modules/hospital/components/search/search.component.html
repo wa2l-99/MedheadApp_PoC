@@ -79,17 +79,19 @@
 
 <hr class="container pb-3" />
 
-<div *ngIf="searchPerformed && hospitalResponse; else noSearch">
+<div *ngIf="searchPerformed && hospitalResponses; else noSearch">
   <div class="result-block">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 pb-4" *ngFor="let result of searchResult">
+        <div class="col-md-4 pb-4" *ngFor="let result of hospitalResponses">
           <div class="hospital-card">
             <div class="card-block">
-              <h4 class="card-title">
+              <h5 class="card-title">
                 <i class="fa-regular fa-hospital" style="color: #407ce2"></i>
-                &nbsp;<span style="color: #223a6a">{{ result.nomOrganisation}}</span>
-              </h4>
+                &nbsp;<span style="color: #223a6a">{{
+                  result.nomOrganisation
+                }}</span>
+              </h5>
               <hr />
               <h6 class="card-subtitle text-muted">
                 <i id="icone" class="fa-solid fa-location-dot"></i>&nbsp;<span
@@ -99,7 +101,7 @@
               </h6>
               <span id="result-hosp">{{ result.adresse }}</span>
 
-              <hr id="ligne"/>
+              <hr id="ligne" />
               <h6 class="card-subtitle text-muted">
                 <i id="icone" class="fa-solid fa-envelope"></i>&nbsp;<span
                   id="infos-hosp"
@@ -107,7 +109,7 @@
                 >
               </h6>
               <span id="result-hosp">{{ result.codePostal }}</span>
-              <hr id="ligne"/>
+              <hr id="ligne" />
               <h6 class="card-subtitle text-muted">
                 <i id="icone" class="fa-solid fa-hand-holding-medical"></i>
                 &nbsp;<span id="infos-hosp">Spécialitéd médicales</span>
@@ -133,21 +135,18 @@
                   </span>
                 </li>
               </ul>
-              <hr id="ligne"/>
-              <div class="nbLitCard pt-1">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-8">
+              <hr id="ligne" />
+
+              <div class="row g-1">
+                <div class="col-6">
+                  <div class="nbLitCard pt-1">
+                    <div class="card">
+                      <div class="card-body">
                         <i
                           style="color: #d2b47d"
                           class="fa-solid fa-bed mb-2"
                         ></i>
-                        <h6 class="card-subtitle">
-                          Nombre de lits disponibles
-                        </h6>
-                      </div>
-                      <div class="col-md-4">
+                        <h6 class="card-subtitle">Lits disponibles</h6>
                         <div class="nbLit">
                           {{ result.litsDisponible }}
                         </div>
@@ -155,15 +154,32 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-6">
+                  <div class="kmCard pt-1">
+                    <div class="card">
+                      <div class="card-body">
+                        <i
+                          style="color: #9c4a6b"
+                          class="fa-solid fa-road mb-2"
+                        ></i>
+                        <h6 class="card-subtitle">Distance en Km</h6>
+                        <div class="nbLit">
+                          {{ result.distance | number:'1.3-3' }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-
               <div
                 class="d-flex"
                 data-aos="fade-up"
                 data-aos-delay="200"
                 style="justify-content: center; padding-top: 14px"
               >
-                <button class="reserver-btn btn">Réserver immédiatement</button>
+                <button class="reserver-btn btn" (click)="reserver()">
+                  Réserver immédiatement
+                </button>
               </div>
             </div>
           </div>

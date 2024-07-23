@@ -7,6 +7,7 @@ import {
   SpecialityResponse,
 } from '../../../../services/hospital_service/models';
 import { ToastrService } from 'ngx-toastr';
+import { ReservationControllerService } from '../../../../services/reservation_service/services';
 
 @Component({
   selector: 'app-search',
@@ -14,20 +15,21 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {
-
   specialityResponse: PageResponseSpecialityResponse = {};
   filteredSpecialities: SpecialityResponse[] = [];
   selectedSpeciality!: SpecialityResponse;
   hospitalResponse!: HospitalResponse;
   address = '';
-  searchResult: HospitalResponse []= [];
+  hospitalResponses: HospitalResponse[] = [];
   searchPerformed = false;
+
+  errorMsg: [] = [];
 
   constructor(
     private router: Router,
     private hospitalService: HospitalControllerService,
-    private toastr: ToastrService
-
+    private toastr: ToastrService,
+    private reservationService: ReservationControllerService
   ) {}
 
   ngOnInit(): void {
@@ -41,8 +43,8 @@ export class SearchComponent implements OnInit {
         this.filteredSpecialities = this.specialityResponse.content || [];
       },
       error: (err) => {
-        console.error('Error fetching specialities:', err);
-      }
+        this.toastr.error(err, 'Error fetching specialities');
+      },
     });
   }
 
@@ -53,21 +55,21 @@ export class SearchComponent implements OnInit {
       this.selectedSpeciality.nom &&
       this.address
     ) {
-      this.searchResult = [];
+      this.hospitalResponses = [];
+      console.clear();
       this.hospitalService
-        .findNearestHospital({
+        .findNearestHospitals({
           address: this.address,
           specialty: this.selectedSpeciality.nom,
         })
         .subscribe({
           next: (nearestHospitals) => {
-            this.hospitalResponse = nearestHospitals;
-            this.searchResult.push(this.hospitalResponse)
+            this.hospitalResponses = nearestHospitals;
           },
           error: (err) => {
             if (err.error) {
-              console.log(err.error.message)
-              this.toastr.error(err.error.message, 'Erreur')           }
+              this.toastr.error(err.error.message, 'Erreur');
+            }
           },
         });
     }
@@ -94,5 +96,9 @@ export class SearchComponent implements OnInit {
       results.push(myArray.splice(0, chunk_size));
     }
     return results;
+  }
+
+  reserver() {
+    throw new Error('Method not implemented.');
   }
 }
