@@ -10,9 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { BlobToJsonInterceptor } from '../../interceptors/blob-to-json.interceptor';
+import { ReservationComponent } from './components/reservation/reservation.component';
 
 @NgModule({
-  declarations: [MainComponent, MenuComponent, HomeComponent, SearchComponent],
+  declarations: [MainComponent, MenuComponent, HomeComponent, SearchComponent, ReservationComponent],
   imports: [CommonModule, FormsModule, HospitalRoutingModule, NgSelectModule],
   providers: [
     {
