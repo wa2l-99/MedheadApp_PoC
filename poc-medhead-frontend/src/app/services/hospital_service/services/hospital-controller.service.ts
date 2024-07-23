@@ -24,8 +24,8 @@ import { findAllSpecialities } from '../fn/hospital-controller/find-all-speciali
 import { FindAllSpecialities$Params } from '../fn/hospital-controller/find-all-specialities';
 import { findHospitalById } from '../fn/hospital-controller/find-hospital-by-id';
 import { FindHospitalById$Params } from '../fn/hospital-controller/find-hospital-by-id';
-import { findNearestHospital } from '../fn/hospital-controller/find-nearest-hospital';
-import { FindNearestHospital$Params } from '../fn/hospital-controller/find-nearest-hospital';
+import { findNearestHospitals } from '../fn/hospital-controller/find-nearest-hospitals';
+import { FindNearestHospitals$Params } from '../fn/hospital-controller/find-nearest-hospitals';
 import { HospitalResponse } from '../models/hospital-response';
 import { PageResponseHospitalResponse } from '../models/page-response-hospital-response';
 import { PageResponseSpecialityResponse } from '../models/page-response-speciality-response';
@@ -290,28 +290,28 @@ export class HospitalControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `findNearestHospital()` */
-  static readonly FindNearestHospitalPath = '/api/hospital/nearest';
+  /** Path part for operation `findNearestHospitals()` */
+  static readonly FindNearestHospitalsPath = '/api/hospital/nearest';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findNearestHospital()` instead.
+   * To access only the response body, use `findNearestHospitals()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findNearestHospital$Response(params: FindNearestHospital$Params, context?: HttpContext): Observable<StrictHttpResponse<HospitalResponse>> {
-    return findNearestHospital(this.http, this.rootUrl, params, context);
+  findNearestHospitals$Response(params: FindNearestHospitals$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<HospitalResponse>>> {
+    return findNearestHospitals(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findNearestHospital$Response()` instead.
+   * To access the full response (for headers, for example), `findNearestHospitals$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findNearestHospital(params: FindNearestHospital$Params, context?: HttpContext): Observable<HospitalResponse> {
-    return this.findNearestHospital$Response(params, context).pipe(
-      map((r: StrictHttpResponse<HospitalResponse>): HospitalResponse => r.body)
+  findNearestHospitals(params: FindNearestHospitals$Params, context?: HttpContext): Observable<Array<HospitalResponse>> {
+    return this.findNearestHospitals$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<HospitalResponse>>): Array<HospitalResponse> => r.body)
     );
   }
 
