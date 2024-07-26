@@ -18,6 +18,7 @@ import { HospitalModule } from './modules/hospital/hospital.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { HttpTokenInterceptor } from './interceptors/http-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BlobToJsonInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpTokenInterceptor,
       multi: true,
     },
     HttpClient,
