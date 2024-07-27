@@ -1,0 +1,120 @@
+::ng-deep.ng-select .ng-select-container {
+  width: 100% !important;
+  padding: 1.15rem 0.75rem !important;
+  font-size: 1rem !important;
+  color: var(--bs-body-color) !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  border: var(--bs-border-width) solid var(--bs-border-color) !important;
+  border-radius: var(--bs-border-radius) !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+::ng-deep.ng-select.ng-select-focused:not(.ng-select-opened)
+  > .ng-select-container {
+  color: var(--bs-body-color) !important;
+  background-color: var(--bs-body-bg) !important;
+  border-color: #86b7fe !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.25rem rgba(0, 102, 255, 0.25) !important;
+}
+
+hr {
+  opacity: 0.15 !important;
+}
+
+.nbLit {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-weight: 500;
+  font-size: 30px;
+}
+
+.nbLitCard .card::before {
+  content: "";
+  position: absolute;
+  background: rgb(85 108 214 / 5%);
+  width: 170px;
+  height: 400px;
+  z-index: -1;
+  transform: rotate(42deg);
+  right: 28px;
+  top: -31px;
+  border-radius: 35px;
+}
+
+#icone {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(64, 124, 226, 0.13);
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #407ce2;
+  font-size: 20px;
+}
+
+.nbLitCard .card {
+  flex: 0 50%;
+  background: #fff;
+  border-radius: 15px;
+  margin: 8px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: 0.7s;
+  background-color: #fbf0dc;
+  border-width: 0;
+}
+
+.hospital-card {
+  flex: 0 50%;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+    0 5px 15px 0 rgba(37, 44, 97, 0.15);
+  border-radius: 15px;
+  margin: 8px;
+  padding: 10px 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: 0.7s;
+  width: 24rem;
+  max-height: 480px ;
+  max-width: 480px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#infos-hosp {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #221f1f;
+}
+
+#result-hosp {
+  padding-left: 60px;
+  color: rgba(34, 31, 31, 0.4);
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#ligne {
+  margin: 0.5rem 0;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.info-body{
+    overflow: auto;
+}

@@ -1,0 +1,77 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="hospital-card card">
+  <div
+    class="card-title d-flex gap-2 justify-content-between align-items-center"
+  >
+    <div class="d-flex gap-2 flex-wrap">
+      <h5>
+        <i class="fa-regular fa-hospital" style="color: #407ce2"></i>
+        &nbsp;<span style="color: #223a6a">{{ hospital.nomOrganisation }}</span>
+      </h5>
+    </div>
+    <div class="d-flex gap-2">
+      <i class="clickable fa fa-pen-to-square text-primary" (click)="onModifyHospital()"></i>
+      <i class="clickable fa-regular fa-trash-can text-danger" (click)="onDeleteHospital()"></i>
+    </div>
+  </div>
+
+  <hr id="ligne" />
+  <div class="info-body card-body">
+    <h6 class="card-subtitle text-muted">
+      <i id="icone" class="fa-solid fa-location-dot"></i>&nbsp;<span
+        id="infos-hosp"
+        >Adresse de l'hôpital</span
+      >
+    </h6>
+    <span id="result-hosp">{{ hospital.adresse }}</span>
+
+    <hr id="ligne" />
+    <h6 class="card-subtitle text-muted">
+      <i id="icone" class="fa-solid fa-envelope"></i>&nbsp;<span id="infos-hosp"
+        >Code postale</span
+      >
+    </h6>
+    <span id="result-hosp">{{ hospital.codePostal }}</span>
+    <hr id="ligne" />
+    <h6 class="card-subtitle text-muted">
+      <i id="icone" class="fa-solid fa-hand-holding-medical"></i>
+      &nbsp;<span id="infos-hosp"
+        >Spécialitéd médicales
+        <i class="clickable fa fa-circle-plus" style="color: #7dcea0" (click)="onAddSpeciality()"></i
+      ></span>
+    </h6>
+    <ul id="result-hosp">
+      <li *ngFor="let group of hospital.specialitesMedicales; let i = index">
+        <span>
+          {{ group.nom }}&nbsp;<span
+            style="color: #4a4b4cbd"
+            *ngIf="i < hospital.specialitesMedicales!.length - 1"
+            >|&nbsp;
+          </span>
+        </span>
+      </li>
+    </ul>
+  </div>
+  <div class="nbLitCard pt-3">
+    <div class="card">
+      <div class="card-body">
+        <i
+          class="clickable fa fa-pencil"
+          style="position: absolute; right: 10px; top: 6px; color: #7dcea0" (click)="onModifyNbLits()"
+        ></i>
+        <div class="row g-1 pt-1">
+          <div class="col-6">
+            <i style="color: #d2b47d" class="fa-solid fa-bed mb-2"></i>
+            <h6 class="card-subtitle">Lits disponibles</h6>
+          </div>
+          <div class="col-6">
+            <div class="nbLit">
+              {{ hospital.litsDisponible }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
