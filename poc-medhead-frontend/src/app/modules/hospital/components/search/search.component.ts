@@ -56,7 +56,6 @@ export class SearchComponent implements OnInit {
       this.address
     ) {
       this.hospitalResponses = [];
-      console.clear();
       this.hospitalService
         .findNearestHospitals({
           address: this.address,
@@ -67,8 +66,8 @@ export class SearchComponent implements OnInit {
             this.hospitalResponses = nearestHospitals;
           },
           error: (err) => {
-            if (err.error) {
-              this.toastr.error(err.error.message, 'Erreur');
+            if (err) {
+              this.toastr.error(err.error, 'Erreur');
             }
           },
         });
@@ -88,16 +87,6 @@ export class SearchComponent implements OnInit {
       }
     }
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  chunkArray(myArray: any[], chunk_size: number): any[][] {
-    const results = [];
-    while (myArray.length) {
-      results.push(myArray.splice(0, chunk_size));
-    }
-    return results;
-  }
-
   reserver() {
     throw new Error('Method not implemented.');
   }

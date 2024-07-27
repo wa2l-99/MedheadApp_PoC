@@ -81,13 +81,13 @@ hr {
   color: #606c7c;
 }
 
-.result-block .card-block {
-  flex: 1 1 auto;
-  padding: 1rem 0.5rem 1rem 0.5rem;
+.info-body {
+  overflow: auto;
+  padding-bottom: 5px;
 }
 
 .container {
- max-width: 1400px;
+  max-width: 1530px;
 }
 
 .noResult .container {
@@ -161,7 +161,7 @@ hr {
   align-items: center;
   justify-content: center;
   color: #407ce2;
-  font-size: 20px
+  font-size: 20px;
 }
 
 .nbLitCard .card {
@@ -173,7 +173,7 @@ hr {
   z-index: 1;
   overflow: hidden;
   transition: 0.7s;
-  background-color: #FBF0DC;
+  background-color: #fbf0dc;
   border-width: 0;
 }
 
@@ -197,12 +197,15 @@ hr {
     0 5px 15px 0 rgba(37, 44, 97, 0.15);
   border-radius: 15px;
   margin: 8px;
-  padding: 10px 15px;
+  padding: 20px 15px;
   position: relative;
   z-index: 1;
   overflow: hidden;
   min-height: 265px;
   transition: 0.7s;
+  width: 28rem;
+  max-height: 610px;
+  max-width: 480px;
 }
 
 ul {
@@ -219,11 +222,12 @@ ul {
 
 #result-hosp {
   padding-left: 60px;
-  color:rgba(34, 31, 31, 0.4);
+  color: rgba(34, 31, 31, 0.4);
   font-weight: 500;
-
+  display: flex;
+  flex-wrap: wrap;
 }
 
-#ligne{
+#ligne {
   margin: 0.5rem 0;
 }

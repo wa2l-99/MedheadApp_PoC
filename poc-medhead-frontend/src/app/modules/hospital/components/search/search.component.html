@@ -80,109 +80,93 @@
 <hr class="container pb-3" />
 
 <div *ngIf="searchPerformed && hospitalResponses; else noSearch">
-  <div class="result-block">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 pb-4" *ngFor="let result of hospitalResponses">
-          <div class="hospital-card">
-            <div class="card-block">
-              <h5 class="card-title">
-                <i class="fa-regular fa-hospital" style="color: #407ce2"></i>
-                &nbsp;<span style="color: #223a6a">{{
-                  result.nomOrganisation
-                }}</span>
-              </h5>
-              <hr />
-              <h6 class="card-subtitle text-muted">
-                <i id="icone" class="fa-solid fa-location-dot"></i>&nbsp;<span
-                  id="infos-hosp"
-                  >Adresse de l'hôpital</span
-                >
-              </h6>
-              <span id="result-hosp">{{ result.adresse }}</span>
+  <div class="container">
+    <div class="d-flex justify-content-start gap-2 flex-wrap">
+      <div class="hospital-card card" *ngFor="let result of hospitalResponses">
+        <div class="d-flex gap-2 flex-wrap">
+          <h5>
+            <i class="fa-regular fa-hospital" style="color: #407ce2"></i>
+            &nbsp;<span style="color: #223a6a">{{
+              result.nomOrganisation
+            }}</span>
+          </h5>
+        </div>
+        <hr id="ligne" />
+        <div class="info-body card-body">
+          <h6 class="card-subtitle text-muted">
+            <i id="icone" class="fa-solid fa-location-dot"></i>&nbsp;<span
+              id="infos-hosp"
+              >Adresse de l'hôpital</span
+            >
+          </h6>
+          <span id="result-hosp">{{ result.adresse }}</span>
 
-              <hr id="ligne" />
-              <h6 class="card-subtitle text-muted">
-                <i id="icone" class="fa-solid fa-envelope"></i>&nbsp;<span
-                  id="infos-hosp"
-                  >Code postale</span
-                >
-              </h6>
-              <span id="result-hosp">{{ result.codePostal }}</span>
-              <hr id="ligne" />
-              <h6 class="card-subtitle text-muted">
-                <i id="icone" class="fa-solid fa-hand-holding-medical"></i>
-                &nbsp;<span id="infos-hosp">Spécialitéd médicales</span>
-              </h6>
-              <ul
-                *ngFor="
-                  let group of chunkArray(
-                    result.specialitesMedicales!.slice(),
-                    3
-                  )
-                "
-                id="result-hosp"
-              >
-                <li>
-                  <span *ngFor="let speciality of group; let i = index">
-                    {{ speciality.nom
-                    }}<span
-                      *ngIf="i < group.length - 1"
-                      style="color: #4a4b4cbd"
-                    >
-                      |
-                    </span>
-                  </span>
-                </li>
-              </ul>
-              <hr id="ligne" />
+          <hr id="ligne" />
+          <h6 class="card-subtitle text-muted pt-1">
+            <i id="icone" class="fa-solid fa-envelope"></i>&nbsp;<span
+              id="infos-hosp"
+              >Code postale</span
+            >
+          </h6>
+          <span id="result-hosp">{{ result.codePostal }}</span>
+          <hr id="ligne" />
+          <h6 class="card-subtitle text-muted pt-1">
+            <i id="icone" class="fa-solid fa-hand-holding-medical"></i>
+            &nbsp;<span id="infos-hosp">Spécialitéd médicales</span>
+          </h6>
+          <ul id="result-hosp">
+            <li
+              *ngFor="let group of result.specialitesMedicales; let i = index"
+            >
+              <span>
+                {{ group.nom }}&nbsp;<span
+                  style="color: #4a4b4cbd"
+                  *ngIf="i < result.specialitesMedicales!.length - 1"
+                  >|&nbsp;
+                </span>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <hr id="ligne" />
 
-              <div class="row g-1">
-                <div class="col-6">
-                  <div class="nbLitCard pt-1">
-                    <div class="card">
-                      <div class="card-body">
-                        <i
-                          style="color: #d2b47d"
-                          class="fa-solid fa-bed mb-2"
-                        ></i>
-                        <h6 class="card-subtitle">Lits disponibles</h6>
-                        <div class="nbLit">
-                          {{ result.litsDisponible }}
-                        </div>
-                      </div>
-                    </div>
+        <div class="row g-1">
+          <div class="col-6">
+            <div class="nbLitCard pt-1">
+              <div class="card">
+                <div class="card-body">
+                  <i style="color: #d2b47d" class="fa-solid fa-bed mb-2"></i>
+                  <h6 class="card-subtitle">Lits disponibles</h6>
+                  <div class="nbLit">
+                    {{ result.litsDisponible }}
                   </div>
                 </div>
-                <div class="col-6">
-                  <div class="kmCard pt-1">
-                    <div class="card">
-                      <div class="card-body">
-                        <i
-                          style="color: #9c4a6b"
-                          class="fa-solid fa-road mb-2"
-                        ></i>
-                        <h6 class="card-subtitle">Distance en Km</h6>
-                        <div class="nbLit">
-                          {{ result.distance | number:'1.3-3' }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="d-flex"
-                data-aos="fade-up"
-                data-aos-delay="200"
-                style="justify-content: center; padding-top: 14px"
-              >
-                <button class="reserver-btn btn" (click)="reserver()">
-                  Réserver immédiatement
-                </button>
               </div>
             </div>
           </div>
+          <div class="col-6">
+            <div class="kmCard pt-1">
+              <div class="card">
+                <div class="card-body">
+                  <i style="color: #9c4a6b" class="fa-solid fa-road mb-2"></i>
+                  <h6 class="card-subtitle">Distance en Km</h6>
+                  <div class="nbLit">
+                    {{ result.distance | number : "1.3-3" }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-flex"
+          data-aos="fade-up"
+          data-aos-delay="200"
+          style="justify-content: center; padding-top: 14px"
+        >
+          <button class="reserver-btn btn" (click)="reserver()">
+            Réserver immédiatement
+          </button>
         </div>
       </div>
     </div>
