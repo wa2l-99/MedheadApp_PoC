@@ -109,7 +109,7 @@ public class HospitalController {
     @GetMapping("/specialities")
     public  ResponseEntity<PageResponse<SpecialityResponse>> findAllSpecialities(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "10", required = false) int size
+            @RequestParam(name = "size", defaultValue = "1000", required = false) int size
     ){
         return ResponseEntity.ok(specialityService.getAllSpecialities(page,size));
     }
