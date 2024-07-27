@@ -1,0 +1,21 @@
+<div style="padding: 1rem 1.5rem 0 1.5rem">
+  <div class="row">
+    <div class="col-auto me-auto">
+      <h3>Liste des hôpitaux</h3>
+      <b class="text-muted">{{ hospitalResponse.content?.length }} hôpitaux </b>
+    </div>
+    <div class="col-auto align-content-center">
+      <button class="addHospital-btn btn" (click)="addHospital()">
+        Ajouter un nouveau hôpital
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="d-flex justify-content-start gap-2 flex-wrap">
+    <app-hospital-card
+      [hospital]="hospital"
+      *ngFor="let hospital of hospitalResponse.content"
+    >
+    </app-hospital-card>
+  </div>
+</div>
