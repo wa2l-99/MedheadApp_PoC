@@ -1,5 +1,6 @@
 package com.poc.reservation.client;
 
+import com.poc.reservation.config.FeignConfig;
 import com.poc.reservation.util.response.HospitalResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,8 @@ import java.util.Optional;
 
 @FeignClient(
         name = "hospitalManagement-service",
-        url = "${application.config.hospital-url}"
+        url = "${application.config.hospital-url}",
+        configuration = FeignConfig.class
 
 )
 public interface HospitalClient {

@@ -53,7 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 if (jwtService.isTokenValid(jwt)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userEmail,
-                            null,
+                            jwt, // Store the token as credentials
                             jwtService.extractClaim(jwt, claims ->
                                     ((List<String>) claims.get("authorities")).stream()
                                             .map(SimpleGrantedAuthority::new)
