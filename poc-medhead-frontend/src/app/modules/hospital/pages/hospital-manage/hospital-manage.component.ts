@@ -10,12 +10,12 @@ import { HospitalControllerService } from '../../../../services/hospital_service
   styleUrl: './hospital-manage.component.scss',
 })
 export class HospitalManageComponent implements OnInit {
-addHospital() {
-throw new Error('Method not implemented.');
-}
+  addHospital() {
+    throw new Error('Method not implemented.');
+  }
   hospitalResponse: PageResponseHospitalResponse = {};
   page = 0;
-  size = 10;
+  size = 5;
 
   constructor(
     private router: Router,
@@ -43,5 +43,31 @@ throw new Error('Method not implemented.');
       });
   }
 
+  goToFirstPage() {
+    this.page = 0;
+    this.findAllHospitals();
+  }
 
+  goToPreviousPage() {
+    this.page--;
+    this.findAllHospitals();
+  }
+
+  goToPage(page: number) {
+    this.page = page;
+    this.findAllHospitals();
+  }
+
+  goToNextPage() {
+    this.page++;
+    this.findAllHospitals();
+  }
+  goToLastPage() {
+    this.page = (this.hospitalResponse.totalPages as number) - 1;
+    this.findAllHospitals();
+  }
+
+  get isLastPage(): boolean {
+    return this.page == (this.hospitalResponse.totalPages as number) - 1;
+  }
 }
