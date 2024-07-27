@@ -12,11 +12,11 @@ export class HomeComponent {
   constructor(private router: Router) {}
 
   ManageHospitals() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(['hospitals'])
   }
 
   searchHospital(): void {
-    this.router.navigate(['searchHospital']);
+    this.router.navigate(['searchHospital'], { queryParams: { active: 'searchHospital' } });
   }
 
   get manage(): boolean {
