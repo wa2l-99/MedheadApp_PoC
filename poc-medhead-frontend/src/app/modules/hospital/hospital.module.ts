@@ -7,10 +7,10 @@ import { MenuComponent } from './components/menu/menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { BlobToJsonInterceptor } from '../../interceptors/blob-to-json.interceptor';
 import { ReservationComponent } from './components/reservation/reservation.component';
 import { HomeComponent } from './pages/home/home.component';
+import { HospitalManageComponent } from './pages/hospital-manage/hospital-manage.component';
+import { HospitalCardComponent } from './components/hospital-card/hospital-card.component';
 
 @NgModule({
   declarations: [
@@ -19,15 +19,9 @@ import { HomeComponent } from './pages/home/home.component';
     HomeComponent,
     SearchComponent,
     ReservationComponent,
+    HospitalManageComponent,
+    HospitalCardComponent
   ],
-  imports: [CommonModule, FormsModule, HospitalRoutingModule, NgSelectModule],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: BlobToJsonInterceptor,
-      multi: true,
-    },
-    HttpClient,
-  ],
+  imports: [CommonModule, FormsModule, HospitalRoutingModule, NgSelectModule]
 })
 export class HospitalModule {}
