@@ -4,6 +4,7 @@ import { MainComponent } from './pages/main/main.component';
 import { SearchComponent } from './components/search/search.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HospitalManageComponent } from './pages/hospital-manage/hospital-manage.component';
+import { ReservationComponent } from './components/reservation/reservation.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'hospitals',
         component: HospitalManageComponent,
+      },
+      {
+        path: 'reservations',
+        component: ReservationComponent,
       },
     ],
   },

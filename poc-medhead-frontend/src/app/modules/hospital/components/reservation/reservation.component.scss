@@ -1,0 +1,12 @@
+.dropdown-item.active,
+.dropdown-item:active {
+  color: #000000 !important;
+  text-decoration: none;
+  background-color: #fff !important;
+}
+
+.clickable {
+  cursor: pointer;
+  padding-top: 5px;
+  font-size: 18px;
+}

@@ -1,1 +1,133 @@
-<p>reservation works!</p>
+<div style="padding: 1rem 1.5rem 0 1.5rem">
+  <h3>Liste des réservations</h3>
+  <b class="text-muted"
+    >{{ reservationResponse.totalElements }} réservations
+  </b>
+  <hr />
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Reference réservation</th>
+        <th scope="col">Nom patient</th>
+        <th scope="col">Prénom patient</th>
+        <th scope="col">Numéro patient</th>
+        <th scope="col">Nom Organisation</th>
+        <th scope="col">Adresse hôpital</th>
+        <th scope="col">Code Postal hôpital</th>
+
+        <th scope="col">Lits disponibles</th>
+        <th scope="col">Spécialités</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let res of reservationResponse.content; let i = index">
+      <tr>
+        <th scope="row">{{ i + 1 }}</th>
+        <td>
+          {{ res.reference }}
+        </td>
+        <td>{{ res.patient?.nom }}</td>
+        <td>{{ res.patient?.prenom }}</td>
+        <td>{{ res.patient?.numero }}</td>
+        <td>{{ res.hospital?.nomOrganisation }}</td>
+        <td>{{ res.hospital?.adresse }}</td>
+        <td>{{ res.hospital?.codePostal }}</td>
+        <td>{{ res.hospital?.litsDisponible }}</td>
+        
+        <td>
+          <div ngbDropdown>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              ngbDropdownToggle
+            >
+              Spécialités 
+            </button>
+            <div ngbDropdownMenu>
+              <span style="text-decoration: none;"
+                *ngFor="let speciality of res.hospital?.specialitesMedicales"
+                ngbDropdownItem
+              >
+                {{ speciality?.nom }}
+              </span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="d-flex gap-4">
+            <i class="clickable fa fa-circle-info text-primary"></i>
+            <i class="clickable fa-regular fa-trash-can text-danger"></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center mt-3">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li page="page-item">
+          <a
+            (click)="goToFirstPage()"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Previous"
+            [class.disabled]="page === 0"
+          >
+            <i class="fa-solid fa-angles-left"></i>
+          </a>
+        </li>
+        <li page="page-item">
+          <a
+            (click)="goToPreviousPage()"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Previous"
+            [class.disabled]="page === 0"
+          >
+            <i class="fa-solid fa-angle-left"></i>
+          </a>
+        </li>
+        <li
+          class="page-item"
+          *ngFor="
+            let _ of [].constructor(this.reservationResponse.totalPages);
+            let pageIndex = index
+          "
+        >
+          <a
+            (click)="goToPage(pageIndex)"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Previous"
+            [class.active]="page === pageIndex"
+          >
+            {{ pageIndex + 1 }}
+          </a>
+        </li>
+        <li page="page-item">
+          <a
+            (click)="goToNextPage()"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Next"
+            [class.disabled]="isLastPage"
+          >
+            <i class="fa-solid fa-angle-right"></i>
+          </a>
+        </li>
+        <li page="page-item">
+          <a
+            (click)="goToLastPage()"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Next"
+            [class.disabled]="isLastPage"
+          >
+            <i class="fa-solid fa-angles-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
