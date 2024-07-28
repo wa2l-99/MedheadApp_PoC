@@ -18,7 +18,7 @@ const routes: Routes = [
     component : ActivateAccountComponent
   },
   {
-    path: '', 
+    path: 'hospital', 
     loadChildren: () => import('./modules/hospital/hospital.module').then( m => m.HospitalModule),
   }
 ];

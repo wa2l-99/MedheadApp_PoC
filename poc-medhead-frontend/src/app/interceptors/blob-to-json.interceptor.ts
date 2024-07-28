@@ -95,7 +95,12 @@ export class BlobToJsonInterceptor implements HttpInterceptor {
           let jsonError;
 
           if (contentType.includes('application/json')) {
-            jsonError = JSON.parse(JSON.stringify(text));
+            try {
+              jsonError = JSON.parse(text);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (Jerror) {
+              jsonError = JSON.parse(JSON.stringify(text));
+            }
           } else {
             jsonError = { message: text };
           }

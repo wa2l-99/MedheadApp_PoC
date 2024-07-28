@@ -11,6 +11,7 @@ import { ReservationComponent } from './components/reservation/reservation.compo
 import { HomeComponent } from './pages/home/home.component';
 import { HospitalManageComponent } from './pages/hospital-manage/hospital-manage.component';
 import { HospitalCardComponent } from './components/hospital-card/hospital-card.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,6 @@ import { HospitalCardComponent } from './components/hospital-card/hospital-card.
     HospitalManageComponent,
     HospitalCardComponent
   ],
-  imports: [CommonModule, FormsModule, HospitalRoutingModule, NgSelectModule]
+  imports: [CommonModule, FormsModule, HospitalRoutingModule, NgSelectModule, NgbDropdownModule]
 })
 export class HospitalModule {}

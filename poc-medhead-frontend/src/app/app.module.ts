@@ -19,6 +19,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HttpTokenInterceptor } from './interceptors/http-token.interceptor';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { HttpTokenInterceptor } from './interceptors/http-token.interceptor';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    NgbModule,
   ],
   providers: [
     {
