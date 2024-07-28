@@ -163,6 +163,86 @@
           }
         }
       },
+      "HospitalResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomOrganisation": {
+            "type": "string"
+          },
+          "adresse": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "litsDisponible": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "specialitesMedicales": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MedicalSpeciality"
+            }
+          }
+        }
+      },
+      "MedicalSpeciality": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nom": {
+            "type": "string"
+          }
+        }
+      },
+      "PatientResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "dateNaissance": {
+            "type": "string",
+            "format": "date"
+          },
+          "email": {
+            "type": "string"
+          },
+          "sexe": {
+            "type": "string"
+          },
+          "adresse": {
+            "type": "string"
+          },
+          "numero": {
+            "type": "string"
+          }
+        }
+      },
       "ReservationResponse": {
         "type": "object",
         "properties": {
@@ -173,13 +253,11 @@
           "reference": {
             "type": "string"
           },
-          "patientId": {
-            "type": "integer",
-            "format": "int32"
+          "patient": {
+            "$ref": "#/components/schemas/PatientResponse"
           },
-          "hospitalId": {
-            "type": "integer",
-            "format": "int32"
+          "hospital": {
+            "$ref": "#/components/schemas/HospitalResponse"
           }
         }
       },

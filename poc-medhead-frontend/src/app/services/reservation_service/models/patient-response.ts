@@ -1,14 +1,12 @@
+/* tslint:disable */
 /* eslint-disable */
-export interface UserResponse {
-  accountLocked?: boolean;
+export interface PatientResponse {
   adresse?: string;
   dateNaissance?: string;
   email?: string;
-  enabled?: boolean;
   id?: number;
   nom?: string;
   numero?: string;
   prenom?: string;
-  roles?: Array<string>;
   sexe?: string;
 }

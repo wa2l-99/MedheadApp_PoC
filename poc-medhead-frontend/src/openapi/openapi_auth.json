@@ -238,6 +238,9 @@
         "properties": {
           "token": {
             "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
           }
         }
       },
@@ -269,6 +272,12 @@
           },
           "numero": {
             "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "accountLocked": {
             "type": "boolean"
