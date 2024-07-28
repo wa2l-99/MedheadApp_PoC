@@ -9,6 +9,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 export class MenuComponent implements OnInit {
   currentRoute = '';
   activeLink = '';
+  private _manage = false;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
@@ -48,5 +49,13 @@ export class MenuComponent implements OnInit {
         link.classList.add('active');
       });
     });
+  }
+
+  get manage(): boolean {
+    return this._manage;
+  }
+
+  set manage(value: boolean) {
+    this.manage = value;
   }
 }
