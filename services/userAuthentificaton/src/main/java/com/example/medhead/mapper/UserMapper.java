@@ -1,9 +1,12 @@
 package com.example.medhead.mapper;
 
+import com.example.medhead.model.Role;
 import com.example.medhead.model.User;
 import com.example.medhead.util.request.RegistrationRequest;
 import com.example.medhead.util.response.UserResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
@@ -39,6 +42,9 @@ public class UserMapper {
                 .numero(user.getNumero())
                 .enabled(user.isEnabled())
                 .accountLocked(user.isAccountLocked())
+                .roles(user.getRoles().stream()
+                        .map(Role::getNom)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

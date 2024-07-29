@@ -46,10 +46,10 @@ public class AuthService {
     @Value("${spring.application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    public void register (RegistrationRequest registrationRequest) throws MessagingException {
+    public void register(RegistrationRequest registrationRequest) throws MessagingException {
 
         var userRole = roleRepository.findByNom("Patient")
-                .orElseThrow( () -> new IllegalStateException("Le rôle de l'utilisateur n'a pas été initialisé"));
+                .orElseThrow(() -> new IllegalStateException("Le rôle de l'utilisateur n'a pas été initialisé"));
         var user = User.builder()
                 .nom(registrationRequest.getNom())
                 .prenom(registrationRequest.getPrenom())
@@ -95,7 +95,7 @@ public class AuthService {
 
     private String generateActionCode(int length) {
 
-        String characters="0123456789";
+        String characters = "0123456789";
 
         StringBuilder codeBuilder = new StringBuilder(length);
         SecureRandom random = new SecureRandom();
@@ -106,7 +106,7 @@ public class AuthService {
 
             codeBuilder.append(characters.charAt(randomIndex));
         }
-        return  codeBuilder.toString();
+        return codeBuilder.toString();
     }
 
 
@@ -122,9 +122,14 @@ public class AuthService {
         var user = ((User) auth.getPrincipal());
         claims.put("fullName", user.getFullName());
 
+
         var jwtToken = jwtService.generateToken(claims, (User) auth.getPrincipal());
+        UserResponse userResponse = mapper.fromUser(user);
+
+
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .user(userResponse)
                 .build();
     }
 
@@ -134,7 +139,7 @@ public class AuthService {
         Token savedToken = tokenRepository.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("jeton non valide"));
         //si le token est déja expiré
-        if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
+        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             sendValidationEmail(savedToken.getUser());
             throw new RuntimeException("Le jeton d'activation a expiré. Un nouveau jeton a été envoyé à la même adresse e-mail.");
         }
@@ -150,7 +155,7 @@ public class AuthService {
     }
 
     public List<UserResponse> findAllUsers() {
-        return  this.userRepository.findAll()
+        return this.userRepository.findAll()
                 .stream()
                 .map(mapper::fromUser)
                 .collect(Collectors.toList());
@@ -163,6 +168,6 @@ public class AuthService {
     }
 
     public void deleteUser(Integer id) {
-       userRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 }
