@@ -1,0 +1,108 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div>
+      <h4 class="modal-title">Détails de la réservation</h4>
+      <small
+        ><span class="text-primary">Info <i class="fa fa-circle-info"></i></span
+        >&nbsp;<span class="text-secondary"
+          >Une confirmation de réservation a été envoyée à votre adresse
+          email.</span
+        ></small
+      >
+    </div>
+
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row pb-3">
+      <div class="col" style="padding-right: 0px">
+        <strong>Référence de la réservation:</strong>
+      </div>
+      <div class="col-7 result-res">
+        {{ reservation.reference }}
+      </div>
+    </div>
+    <div class="row pb-3">
+      <div class="col" style="padding-right: 0px">
+        <strong>Nom de l'organisation:</strong>
+      </div>
+      <div class="col-7 result-res">
+        {{ reservation.hospital?.nomOrganisation }}
+      </div>
+    </div>
+    <div class="row pb-3">
+      <div class="col" style="padding-right: 0px">
+        <strong>Adresse de l'organisation:</strong>
+      </div>
+      <div class="col-7 result-res">
+        {{ reservation.hospital?.adresse }}&nbsp;{{
+          reservation.hospital?.codePostal
+        }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col" style="padding-right: 0px">
+        <strong>Spécialitéd médicales:</strong>
+      </div>
+      <div class="col-7 result-res">
+        <ul id="result-hosp">
+          <li
+            *ngFor="
+              let group of reservation.hospital?.specialitesMedicales;
+              let i = index
+            "
+          >
+            <span>
+              {{ group.nom }}&nbsp;<span
+                style="color: #4a4b4cbd"
+                *ngIf="
+                  i < (reservation.hospital?.specialitesMedicales)!.length - 1
+                "
+                >|&nbsp;
+              </span>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row pb-3">
+      <div class="col" style="padding-right: 0px">
+        <strong>Nom et Prénom patient:</strong>
+      </div>
+      <div class="col-7 result-res">
+        {{ reservation.patient?.nom }}&nbsp;{{ reservation.patient?.prenom }}
+      </div>
+    </div>
+    <div class="row pb-3">
+      <div class="col" style="padding-right: 0px">
+        <strong>Numéro téléphone patient:</strong>
+      </div>
+      <div class="col-7 result-res">+{{ reservation.patient?.numero }}</div>
+    </div>
+
+    <div class="row pb-3">
+      <div class="col" style="padding-right: 0px">
+        <strong>Email patient:</strong>
+      </div>
+
+      <div class="col-7 result-res">
+        {{ reservation.patient?.email }}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="activeModal.close('Close click')"
+      >
+        Fermer
+      </button>
+    </div>
+  </div>
+</div>

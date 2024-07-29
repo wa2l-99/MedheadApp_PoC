@@ -8,6 +8,13 @@ import {
 } from '../../../../services/hospital_service/models';
 import { ToastrService } from 'ngx-toastr';
 import { ReservationControllerService } from '../../../../services/reservation_service/services';
+import {
+  ReservationRequest,
+  ReservationResponse,
+} from '../../../../services/reservation_service/models';
+import { StorageUserServiceService } from '../../../../services/authentication_service/storageUser/storage-user.service';
+import { ReservationModalComponent } from '../reservation-modal/reservation-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search',
@@ -22,14 +29,19 @@ export class SearchComponent implements OnInit {
   address = '';
   hospitalResponses: HospitalResponse[] = [];
   searchPerformed = false;
-
+  reservationRequest: ReservationRequest = {
+    patientId: 0,
+    hospitalId: 0,
+  };
   errorMsg: [] = [];
 
   constructor(
     private router: Router,
     private hospitalService: HospitalControllerService,
     private toastr: ToastrService,
-    private reservationService: ReservationControllerService
+    private reservationService: ReservationControllerService,
+    private storageUserService: StorageUserServiceService,
+    private modalService: NgbModal // Injection de NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +99,34 @@ export class SearchComponent implements OnInit {
       }
     }
   }
-  reserver() {
-    throw new Error('Method not implemented.');
+  reserver(hospitalId?: number) {
+    const patientId = this.storageUserService.getSavedUser()?.id;
+    if (patientId !== undefined && hospitalId !== undefined) {
+      this.reservationService
+        .createReservation({
+          body: {
+            patientId,
+            hospitalId,
+          },
+        })
+        .subscribe({
+          next: (response: ReservationResponse) => {
+            this.toastr.success('Réservation effectuée avec succès');
+            this.openReservationModal(response); // Ouvrir le modal avec la réponse de réservation
+          },
+          error: (err) => {
+            if (err) {
+              this.toastr.error(err.error, 'Erreur');
+            }
+          },
+        });
+    } else {
+      this.toastr.error('Patient ID manquant', 'Erreur');
+    }
+  }
+  openReservationModal(reservation: ReservationResponse) {
+    const modalRef = this.modalService.open(ReservationModalComponent);
+    modalRef.componentInstance.reservation = reservation; // Passez la réponse de réservation au composant modal
+    console.log(reservation);
   }
 }

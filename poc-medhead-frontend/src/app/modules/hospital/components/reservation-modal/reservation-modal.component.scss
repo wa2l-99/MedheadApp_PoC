@@ -1,0 +1,30 @@
+#result-hosp {
+  padding-left: 0px;
+  color: rgba(34, 31, 31, 0.4);
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+.modal-content {
+  width: 620px !important;
+}
+
+.result-res {
+  padding-left: 0px;
+  color: rgba(34, 31, 31, 0.4);
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+
+.btn-close{
+    position: absolute !important;
+    right: 15px !important;
+    top: 15px !important;
+}
+
+.modal-title{
+    margin-bottom: 12px !important;
+}
