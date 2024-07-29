@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HospitalResponse } from '../../../../services/hospital_service/models';
 
 @Component({
@@ -18,16 +18,25 @@ export class HospitalCardComponent {
     this._hospital = value;
   }
 
+  @Output() private updateHospital: EventEmitter<HospitalResponse> =
+    new EventEmitter<HospitalResponse>();
+  @Output() private updateBeds: EventEmitter<HospitalResponse> =
+    new EventEmitter<HospitalResponse>();
+  @Output() private addSpecialityToHospital: EventEmitter<HospitalResponse> =
+    new EventEmitter<HospitalResponse>();
+  @Output() private deleteHospital: EventEmitter<HospitalResponse> =
+    new EventEmitter<HospitalResponse>();
+
   onModifyHospital() {
-    throw new Error('Method not implemented.');
+    this.updateHospital.emit(this._hospital);
   }
   onModifyNbLits() {
-    throw new Error('Method not implemented.');
+    this.updateBeds.emit(this._hospital);
   }
   onAddSpeciality() {
-    throw new Error('Method not implemented.');
+    this.addSpecialityToHospital.emit(this._hospital);
   }
   onDeleteHospital() {
-    throw new Error('Method not implemented.');
+    this.deleteHospital.emit(this._hospital);
   }
 }
