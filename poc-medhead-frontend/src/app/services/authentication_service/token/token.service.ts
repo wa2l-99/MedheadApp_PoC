@@ -13,11 +13,7 @@ export class TokenService {
     return localStorage.getItem('token') as string;
   }
 
-  isTokenNotValid() {
-    return !this.isTokenValid();
-  }
-
-  private isTokenValid() {
+  isTokenValid() {
     const token = this.token;
     if (!token) {
       return false;
@@ -31,5 +27,9 @@ export class TokenService {
       return false;
     }
     return true;
+  }
+
+  isTokenNotValid() {
+    return !this.isTokenValid();
   }
 }
