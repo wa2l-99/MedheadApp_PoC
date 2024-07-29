@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
 import { authGuard } from './services/guard/auth.guard';
+import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
         (m) => m.HospitalModule
       ),
     canActivate: [authGuard],
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenComponent,
   },
 ];
 

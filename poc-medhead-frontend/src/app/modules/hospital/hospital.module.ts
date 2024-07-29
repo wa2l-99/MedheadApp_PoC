@@ -12,6 +12,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { HospitalManageComponent } from './pages/hospital-manage/hospital-manage.component';
 import { HospitalCardComponent } from './components/hospital-card/hospital-card.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReservationModalComponent } from './components/reservation-modal/reservation-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     SearchComponent,
     ReservationComponent,
     HospitalManageComponent,
-    HospitalCardComponent
+    HospitalCardComponent,
+    ReservationModalComponent
   ],
   imports: [CommonModule, FormsModule, HospitalRoutingModule, NgSelectModule, NgbDropdownModule]
 })

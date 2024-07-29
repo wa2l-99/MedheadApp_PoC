@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication_service/services';
 import { TokenService } from '../../services/authentication_service/token/token.service';
 import { ToastrService } from 'ngx-toastr';
+import { StorageUserServiceService } from '../../services/authentication_service/storageUser/storage-user.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent {
     private router: Router,
     private authService: AuthenticationService,
     private tokenService: TokenService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private storageUserService: StorageUserServiceService
   ) {}
 
   login() {
@@ -28,6 +30,10 @@ export class LoginComponent {
         this.tokenService.token = res.token as string;
         this.router.navigate(['hospital']);
         this.toastr.success('Connexion réussie !', 'Succès');
+
+        if (res.user) {
+          this.storageUserService.saveUser(res.user);
+        }
       },
       error: (err) => {
         if (err.error) {
@@ -44,7 +50,7 @@ export class LoginComponent {
         } else {
           this.toastr.error("Une erreur inattendue s'est produite", 'Erreur');
         }
-      }
+      },
     });
   }
 
