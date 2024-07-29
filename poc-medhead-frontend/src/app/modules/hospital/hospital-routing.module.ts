@@ -22,16 +22,21 @@ const routes: Routes = [
         path: 'searchHospital',
         component: SearchComponent,
         canActivate: [authGuard],
+        data: {roles: ['Patient']}
+
       },
       {
         path: 'hospitals',
         component: HospitalManageComponent,
         canActivate: [authGuard],
+        data: {roles: ['Admin']}
+
       },
       {
         path: 'reservations',
         component: ReservationComponent,
         canActivate: [authGuard],
+        data: {roles: ['Admin']}
       },
     ],
   },
