@@ -1,11 +1,17 @@
 package com.poc.reservation.util.response;
 
 
-public record ReservationResponse(
+import lombok.*;
 
-        Integer id,
-        String reference,
-        Integer patientId,
-        Integer hospitalId
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ReservationResponse {
+    private Integer id;
+    private String reference;
+    private PatientResponse patient;
+    private HospitalResponse hospital;
 
-) { }
+}

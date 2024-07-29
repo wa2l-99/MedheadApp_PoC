@@ -2,6 +2,8 @@ package com.poc.reservation.mapper;
 
 import com.poc.reservation.model.Reservation;
 import com.poc.reservation.util.request.ReservationRequest;
+import com.poc.reservation.util.response.HospitalResponse;
+import com.poc.reservation.util.response.PatientResponse;
 import com.poc.reservation.util.response.ReservationResponse;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +25,19 @@ public class ReservationMapper {
                 .build();
     }
 
-    public ReservationResponse toReservationResponse(Reservation reservation) {
+    public ReservationResponse toReservationResponse(Reservation reservation, PatientResponse patientResponse, HospitalResponse hospitalResponse) {
+        ReservationResponse response = new ReservationResponse();
+        response.setId(reservation.getId());
+        response.setReference(reservation.getReference());
+        response.setPatient(patientResponse);
+        response.setHospital(hospitalResponse);
+        return response;
+    }
 
-        return new ReservationResponse(
-                reservation.getId(),
-                reservation.getReference(),
-                reservation.getPatientId(),
-                reservation.getHospitalId()
-        );
+    public ReservationResponse toSimpleReservationResponse(Reservation reservation) {
+        ReservationResponse response = new ReservationResponse();
+        response.setId(reservation.getId());
+        response.setReference(reservation.getReference());
+        return response;
     }
 }
