@@ -23,23 +23,23 @@
 
           <div class="container px-4">
             <div class="row g-2">
-              <div class="col-5"  >
+              <div class="col-5" *ngIf="isPatient()">
                 <div class="d-flex">
                   <button
                     (click)="searchHospital()"
                     class="btn-search-hospital btn"
                   >
-                    Rechercher un hopital
+                    Rechercher un hôpital
                   </button>
                 </div>
               </div>
-              <div class="col-5" *ngIf="!manage" >
+              <div class="col-5" *ngIf="isAdmin()">
                 <div class="d-flex">
                   <button
-                    (click)="ManageHospitals() "
+                    (click)="ManageHospitals()"
                     class="btn-manage-hospitals"
                   >
-                    Manage hopitals
+                    gérer les hôpiteaux
                   </button>
                 </div>
               </div>
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="col-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-          <img src="/image.png" class="img-fluid" alt="" />
+          <img src="/imageHome.png" class="img-fluid" alt="" />
         </div>
       </div>
     </div>

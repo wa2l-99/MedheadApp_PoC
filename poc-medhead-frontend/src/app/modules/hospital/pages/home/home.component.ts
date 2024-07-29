@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { StorageUserServiceService } from '../../../../services/authentication_service/storageUser/storage-user.service';
 
 @Component({
   selector: 'app-home',
@@ -7,23 +8,26 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  private _manage = false;
-
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private storageUserService: StorageUserServiceService
+  ) {}
 
   ManageHospitals() {
-    this.router.navigate(['hospitals'])
+    this.router.navigate(['hospitals']);
   }
 
   searchHospital(): void {
-    this.router.navigate(['searchHospital'], { queryParams: { active: 'searchHospital' } });
+    this.router.navigate(['searchHospital'], {
+      queryParams: { active: 'searchHospital' },
+    });
   }
 
-  get manage(): boolean {
-    return this._manage;
+  isAdmin(): boolean {
+    return this.storageUserService.hasRole('Admin');
   }
 
-  set manage(value: boolean) {
-    this.manage = value;
+  isPatient(): boolean {
+    return this.storageUserService.hasRole('Patient');
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { StorageUserServiceService } from '../../../../services/authentication_service/storageUser/storage-user.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,9 +10,12 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 export class MenuComponent implements OnInit {
   currentRoute = '';
   activeLink = '';
-  private _manage = false;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private storageUserService: StorageUserServiceService
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -28,7 +32,8 @@ export class MenuComponent implements OnInit {
   }
 
   logout() {
-    throw new Error('Method not implemented.');
+    localStorage.removeItem('token');
+    window.location.reload();
   }
 
   updateActiveLink() {
@@ -51,11 +56,11 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  get manage(): boolean {
-    return this._manage;
+  isAdmin(): boolean {
+    return this.storageUserService.hasRole('Admin');
   }
 
-  set manage(value: boolean) {
-    this.manage = value;
+  isPatient(): boolean {
+    return this.storageUserService.hasRole('Patient');
   }
 }

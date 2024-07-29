@@ -28,13 +28,12 @@
             aria-current="page"
             routerLink="/"
             [class.active]="activeLink === '/'"
-
           >
             <i class="fa fa-home-alt"></i>
             &nbsp;Home</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isPatient()">
           <a
             class="nav-link"
             aria-current="page"
@@ -42,10 +41,21 @@
             [class.active]="activeLink === 'searchHospital'"
           >
             <i class="fa fa-search"></i>
-            &nbsp;Hospital</a
+            &nbsp;Hôpital</a
           >
         </li>
-        <li class="nav-item" *ngIf="!manage">
+        <li class="nav-item" *ngIf="isAdmin()">
+          <a
+            class="nav-link"
+            aria-current="page"
+            routerLink="/hospitals"
+            [class.active]="activeLink === 'hospitals'"
+          >
+            <i class="fa fa-hospital"></i>
+            &nbsp;Hôpitaux</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
           <a
             class="nav-link"
             aria-current="page"
