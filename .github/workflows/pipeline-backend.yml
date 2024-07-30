@@ -31,50 +31,58 @@ jobs:
       # Compilation de tous les microservices
 
       # Config-server ms
-      - name : Compile config-server ms
+      - name: Compile config-server ms
         run: |
           cd services/config-server
-          ./mvn clean compile
+          chmod +x mvnw
+          ./mvnw clean compile
 
       # Discovery ms
-      - name : Compile Discovery ms
+      - name: Compile Discovery ms
         run: |
           cd services/discovery
-          ./mvn clean compile
+          chmod +x mvnw
+          ./mvnw clean compile
 
       # userAuthentificaton ms
-      - name : Compile UserAuthentificaton ms
+      - name: Compile UserAuthentificaton ms
         run: |
           cd services/userAuthentificaton
-          ./mvn clean compile
+          chmod +x mvnw
+          ./mvnw clean compile
 
       # hospitalManagement ms
-      - name : Compile HospitalManagement ms
+      - name: Compile HospitalManagement ms
         run: |
           cd services/hospitalManagement
-          ./mvn clean compile
+          chmod +x mvnw
+          ./mvnw clean compile
 
       # reservation ms
-      - name : Compile Reservation ms
+      - name: Compile Reservation ms
         run: |
           cd services/reservation
-          ./mvn clean compile
+          chmod +x mvnw
+          ./mvnw clean compile
 
       # notification ms
-      - name : Compile Notification ms
+      - name: Compile Notification ms
         run: |
           cd services/notification
-          ./mvn clean compile
+          chmod +x mvnw
+          ./mvnw clean compile
 
-        # Gateway Api
-      - name : Compile Gateway Api
+      # Gateway Api
+      - name: Compile Gateway Api
         run: |
           cd services/gateway
-          ./mvn clean compile
+          chmod +x mvnw
+          ./mvnw clean compile
 
   unit-tests:
     runs-on: ubuntu-latest
     name: Unit tests
+    needs: compile # Exécuter après le job 'compile'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -91,50 +99,58 @@ jobs:
       # Exécution des tests unitaires pour tous les microservices
 
       # Config-server ms
-      - name :  Running Unit tests for the config-server ms
+      - name: Running Unit tests for the config-server ms
         run: |
           cd services/config-server
-          ./mvn clean test
+          chmod +x mvnw
+          ./mvnw clean test
 
       # Discovery ms
-      - name : Running Unit tests for Discovery ms
+      - name: Running Unit tests for Discovery ms
         run: |
           cd services/discovery
-          ./mvn clean test
+          chmod +x mvnw
+          ./mvnw clean test
 
       # userAuthentificaton ms
-      - name : Running Unit tests for UserAuthentificaton ms
+      - name: Running Unit tests for UserAuthentificaton ms
         run: |
           cd services/userAuthentificaton
-          ./mvn clean test
+          chmod +x mvnw
+          ./mvnw clean test
 
       # hospitalManagement ms
-      - name : Running Unit tests for HospitalManagement ms
+      - name: Running Unit tests for HospitalManagement ms
         run: |
           cd services/hospitalManagement
-          ./mvn clean test
+          chmod +x mvnw
+          ./mvnw clean test
 
       # reservation ms
-      - name : Running Unit tests for Reservation ms
+      - name: Running Unit tests for Reservation ms
         run: |
           cd services/reservation
-          ./mvn clean test
+          chmod +x mvnw
+          ./mvnw clean test
 
       # notification ms
-      - name : Running Unit tests for Notification ms
+      - name: Running Unit tests for Notification ms
         run: |
           cd services/notification
-          ./mvn clean test
+          chmod +x mvnw
+          ./mvnw clean test
 
-        # Gateway Api
-      - name : Running Unit tests for Gateway Api
+      # Gateway Api
+      - name: Running Unit tests for Gateway Api
         run: |
           cd services/gateway
-          ./mvn clean test
+          chmod +x mvnw
+          ./mvnw clean test
 
   build:
     runs-on: ubuntu-latest
     name: Build backend micro-services
+    needs: unit-tests # Exécuter après le job 'unit-tests'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -150,65 +166,44 @@ jobs:
 
       # Construction de tous les microservices
 
-      # Configure JDK 17 pour la construction
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'corretto'
-
       # Config-server ms
-      - name :  Build the config-server ms
+      - name: Build the config-server ms
         run: |
           cd services/config-server
-          ./mvn clean package
+          chmod +x mvnw
+          ./mvnw clean package
 
       # Discovery ms
-      - name : Build the Discovery ms
+      - name: Build the Discovery ms
         run: |
           cd services/discovery
-          ./mvn clean package
+          chmod +x mvnw
+          ./mvnw clean package
 
       # userAuthentificaton ms
-      - name : Build the UserAuthentificaton ms
+      - name: Build the UserAuthentificaton ms
         run: |
           cd services/userAuthentificaton
-          ./mvn clean package
+          chmod +x mvnw
+          ./mvnw clean package
 
       # hospitalManagement ms
-      - name : Build the HospitalManagement ms
+      - name: Build the HospitalManagement ms
         run: |
           cd services/hospitalManagement
-          ./mvn clean package
+          chmod +x mvnw
+          ./mvnw clean package
 
       # reservation ms
-      - name : Build the Reservation ms
+      - name: Build the Reservation ms
         run: |
           cd services/reservation
-          ./mvn clean package
+          chmod +x mvnw
+          ./mvnw clean package
 
       # notification ms
-      - name : Build the Notification ms
+      - name: Build the Notification ms
         run: |
           cd services/notification
-          ./mvn clean package
-
-        # Gateway Api
-      - name : Build the Gateway Api
-        run: |
-          cd services/gateway
-          ./mvn clean package
-
-      # Téléchargement des artéfacts de build pour utilisation ultérieure
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: |
-            services/config-server/target/*.jar
-            services/discovery/target/*.jar
-            services/userAuthentificaton/target/*.jar
-            services/hospitalManagement/target/*.jar
-            services/reservation/target/*.jar
-            services/notification/target/*.jar
-            services/gateway/target/*.jar
+          chmod +x mvnw
+          ./mvnw clean 
