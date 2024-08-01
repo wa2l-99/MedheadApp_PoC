@@ -57,6 +57,7 @@ class AuthControllerTest {
         request.setNumero("0123456789");
         request.setPassword("password123");
 
+
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -67,11 +68,25 @@ class AuthControllerTest {
 
     @Test
     void testAuthenticate() throws Exception {
+        LocalDate dateNaissance = LocalDate.of(1990, 1, 1);
+        UserResponse userResponse = new UserResponse(
+                2,
+                "Wael",
+                "Zantour",
+                dateNaissance,
+                "wael1@gmail.com",
+                "Homme",
+                "33000 Bordeaux",
+                "33602559932",
+                List.of("Patient"),
+                true,
+                true
+        );
         AuthenticationRequest request = new AuthenticationRequest();
         request.setEmail("jean.dupont@example.com");
         request.setPassword("password123");
 
-        AuthenticationResponse response = new AuthenticationResponse("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...");
+        AuthenticationResponse response = new AuthenticationResponse("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", userResponse);
 
         when(authService.authenticate(any(AuthenticationRequest.class))).thenReturn(response);
 
@@ -106,6 +121,7 @@ class AuthControllerTest {
         user1.setSexe("M");
         user1.setAdresse("123 Rue de la Paix, Paris");
         user1.setNumero("0123456789");
+        user1.setRoles(List.of("Patient"));
         user1.setEnabled(true);
         user1.setAccountLocked(false);
 
@@ -118,6 +134,7 @@ class AuthControllerTest {
         user2.setSexe("F");
         user2.setAdresse("456 Avenue des Champs-Élysées, Paris");
         user2.setNumero("0987654321");
+        user2.setRoles(List.of("Patient"));
         user2.setEnabled(true);
         user2.setAccountLocked(false);
 
@@ -147,6 +164,7 @@ class AuthControllerTest {
         user.setSexe("M");
         user.setAdresse("123 Rue de la Paix, Paris");
         user.setNumero("0123456789");
+        user.setRoles(List.of("Patient"));
         user.setEnabled(true);
         user.setAccountLocked(false);
 
@@ -158,6 +176,7 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.nom").value("Dupont"))
                 .andExpect(jsonPath("$.prenom").value("Jean"))
                 .andExpect(jsonPath("$.email").value("jean.dupont@example.com"));
+
 
         verify(authService).findById(userId);
     }
