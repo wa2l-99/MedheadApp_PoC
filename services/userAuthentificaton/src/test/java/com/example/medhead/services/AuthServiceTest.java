@@ -30,6 +30,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ class AuthServiceTest {
 
     // quel est le service à tester
     @InjectMocks
-    private  AuthService authService;
+    private AuthService authService;
 
     //Déclarer les dépendances
 
@@ -73,7 +74,7 @@ class AuthServiceTest {
 
 
     @BeforeEach
-     void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
@@ -191,8 +192,9 @@ class AuthServiceTest {
         user2.setEmail("jane.doe@example.com");
 
         when(userRepository.findAll()).thenReturn(List.of(user1, user2));
-        when(userMapper.fromUser(user1)).thenReturn(new UserResponse(1, "John", "Doe", LocalDate.of(1990, 1, 1), "john.doe@gmail.com", "Homme", "123 Street", "1234567890", true, false));
-        when(userMapper.fromUser(user2)).thenReturn(new UserResponse(2, "Jane", "Doe", LocalDate.of(1992, 2, 2), "jane.doe@example.com", "Femme", "456 Avenue", "0987654321", true, false));
+        when(userMapper.fromUser(user1)).thenReturn(new UserResponse(1, "John", "Doe", LocalDate.of(1990, 1, 1), "john.doe@gmail.com", "Homme", "123 Street", "1234567890", List.of("Admin"), true, false));
+        when(userMapper.fromUser(user2)).thenReturn(new UserResponse(2, "Jane", "Doe", LocalDate.of(1992, 2, 2), "jane.doe@example.com", "Femme", "456 Avenue", "0987654321", List.of("Patient"),
+                true, false));
 
         List<UserResponse> users = authService.findAllUsers();
 
@@ -206,7 +208,8 @@ class AuthServiceTest {
         user.setEmail("john.doe@gmail.com");
 
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
-        when(userMapper.fromUser(user)).thenReturn(new UserResponse(1, "John", "Doe", LocalDate.of(1990, 1, 1), "john.doe@gmail.com", "Homme", "123 Street", "1234567890", true, false));
+        when(userMapper.fromUser(user)).thenReturn(new UserResponse(1, "John", "Doe", LocalDate.of(1990, 1, 1), "john.doe@gmail.com", "Homme", "123 Street", "1234567890", List.of("Patient")
+                , true, false));
 
         UserResponse userResponse = authService.findById(1);
 
@@ -219,7 +222,7 @@ class AuthServiceTest {
 
         assertThrows(UserNotFoundException.class, () -> authService.findById(1));
     }
- 
+
     @Test
     void shouldDeleteUser() {
         User user = new User();

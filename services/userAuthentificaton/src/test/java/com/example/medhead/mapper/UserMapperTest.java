@@ -1,13 +1,18 @@
 package com.example.medhead.mapper;
 
 
+import com.example.medhead.model.Role;
 import com.example.medhead.model.User;
 import com.example.medhead.util.request.RegistrationRequest;
 import com.example.medhead.util.response.UserResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +36,7 @@ class UserMapperTest {
         //creation d'un objet de type RegestrationRequest
         LocalDate dateNaissance = LocalDate.of(1999, 1, 1);
 
-        RegistrationRequest  request = new RegistrationRequest(1,
+        RegistrationRequest request = new RegistrationRequest(1,
                 "John",
                 "Doe",
                 dateNaissance,
@@ -40,6 +45,7 @@ class UserMapperTest {
                 "69 Rue de la liberté",
                 "+3360904544",
                 "123456789"
+
         );
 
         User user = mapper.toUser(request);
@@ -55,7 +61,7 @@ class UserMapperTest {
     }
 
     @Test
-    public void shouldMapRegestrationRequestToUserWhenRegestrationRequestIsNull(){
+    public void shouldMapRegestrationRequestToUserWhenRegestrationRequestIsNull() {
         RegistrationRequest request = null;
         User user = mapper.toUser(request);
 
@@ -64,7 +70,7 @@ class UserMapperTest {
     }
 
     @Test
-    public void shouldMapUserToUserResponse(){
+    public void shouldMapUserToUserResponse() {
         LocalDate dateNaissance = LocalDate.of(1999, 1, 1);
 
         //Given
@@ -78,6 +84,7 @@ class UserMapperTest {
                 .adresse("33000 Bordeaux")
                 .numero("33602559932")
                 .password("123456789")
+                .roles(Set.of(new Role(1, "Patient", null, null, null)))
                 .accountLocked(true)
                 .enabled(true)
                 .build();
@@ -94,6 +101,7 @@ class UserMapperTest {
         assertEquals(user.getSexe(), userResponse.getSexe());
         assertEquals(user.getAdresse(), userResponse.getAdresse());
         assertEquals(user.getNumero(), userResponse.getNumero());
+        assertEquals(user.getRoles().stream().map(Role::getNom).collect(Collectors.toList()), userResponse.getRoles());
         assertEquals(user.isEnabled(), userResponse.isEnabled());
         assertEquals(user.isAccountLocked(), userResponse.isAccountLocked());
 
@@ -101,7 +109,7 @@ class UserMapperTest {
 
     //vérifier que la méthode retourne null quand le user est null
     @Test
-    public void shouldMapUserToUserResponseWhenIsNull(){
+    public void shouldMapUserToUserResponseWhenIsNull() {
         User user = null;
         UserResponse userResponse = mapper.fromUser(user);
 
