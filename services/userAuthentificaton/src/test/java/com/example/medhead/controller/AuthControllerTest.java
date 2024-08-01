@@ -58,7 +58,7 @@ class AuthControllerTest {
         request.setPassword("password123");
 
 
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isAccepted());
@@ -90,7 +90,7 @@ class AuthControllerTest {
 
         when(authService.authenticate(any(AuthenticationRequest.class))).thenReturn(response);
 
-        mockMvc.perform(post("/auth/authenticate")
+        mockMvc.perform(post("/api/auth/authenticate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -103,7 +103,7 @@ class AuthControllerTest {
     void testActivateAccount() throws Exception {
         String token = "activationToken123";
 
-        mockMvc.perform(get("/auth/activate_account")
+        mockMvc.perform(get("/api/auth/activate_account")
                         .param("token", token))
                 .andExpect(status().isOk());
 
@@ -141,7 +141,7 @@ class AuthControllerTest {
         List<UserResponse> users = Arrays.asList(user1, user2);
         when(authService.findAllUsers()).thenReturn(users);
 
-        mockMvc.perform(get("/auth"))
+        mockMvc.perform(get("/api/auth"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id").value(1))
@@ -170,7 +170,7 @@ class AuthControllerTest {
 
         when(authService.findById(userId)).thenReturn(user);
 
-        mockMvc.perform(get("/auth/{user-id}", userId))
+        mockMvc.perform(get("/api/auth/{user-id}", userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(userId))
                 .andExpect(jsonPath("$.nom").value("Dupont"))
@@ -185,7 +185,7 @@ class AuthControllerTest {
     void testDelete() throws Exception {
         Integer userId = 1;
 
-        mockMvc.perform(delete("/auth/{user-id}", userId))
+        mockMvc.perform(delete("/api/auth/{user-id}", userId))
                 .andExpect(status().isAccepted());
 
         verify(authService).deleteUser(userId);
