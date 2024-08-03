@@ -16,3 +16,7 @@ spring:
   cloud:
     config:
       enabled: false
+  google:
+    maps:
+      api:
+        key: AIzaSyAAz3CYCtK1vbOlVXwAqOFBrK-fW8wv3R4
