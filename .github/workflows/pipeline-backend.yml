@@ -4,14 +4,13 @@ name: Medhead Backend Services Pipeline
 on:
   push:
     branches:
-      - '*' # Sur toutes les branches
+      - '*'
     paths:
       - services/** # Lorsque des fichiers dans le répertoire 'services' changent
       - 'docker-compose.yml' # Lorsque 'docker-compose.yml' change
-      - .github/workflows/*-backend.yml # Lorsque les fichiers YAML de workflow backend changent
+      - .github/workflows/*-backend.yml  # Lorsque les fichiers YAML de workflow backend changent
 
 jobs:
-  # Job pour compiler le projet
   compile:
     runs-on: ubuntu-latest
     name: Compile project
@@ -20,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Récupère tout l'historique Git pour le dépôt
+          fetch-depth: 0
 
       # Configuration de JDK 17 pour la compilation
       - name: Set up JDK
@@ -35,7 +34,7 @@ jobs:
       - name: Compile config-server ms
         run: |
           cd services/config-server
-          chmod +x mvnw # Rendre le script mvnw exécutable
+          chmod +x mvnw
           ./mvnw clean compile
 
       # Discovery ms
@@ -45,28 +44,28 @@ jobs:
           chmod +x mvnw
           ./mvnw clean compile
 
-      # UserAuthentificaton ms
+      # userAuthentificaton ms
       - name: Compile UserAuthentificaton ms
         run: |
           cd services/userAuthentificaton
           chmod +x mvnw
           ./mvnw clean compile
 
-      # HospitalManagement ms
+      # hospitalManagement ms
       - name: Compile HospitalManagement ms
         run: |
           cd services/hospitalManagement
           chmod +x mvnw
           ./mvnw clean compile
 
-      # Reservation ms
+      # reservation ms
       - name: Compile Reservation ms
         run: |
           cd services/reservation
           chmod +x mvnw
           ./mvnw clean compile
 
-      # Notification ms
+      # notification ms
       - name: Compile Notification ms
         run: |
           cd services/notification
@@ -80,33 +79,15 @@ jobs:
           chmod +x mvnw
           ./mvnw clean compile
 
-  # Job pour exécuter les tests unitaires
   unit-tests:
     runs-on: ubuntu-latest
     name: Unit tests
     needs: compile # Exécuter après le job 'compile'
-    services:
-      # Configuration du service PostgreSQL pour les tests
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_DB: user # Nom de la base de données
-          POSTGRES_USER: wael # Nom d'utilisateur de la base de données
-          POSTGRES_PASSWORD: wael # Mot de passe de la base de données
-        ports:
-          - 5432:5432 # Mappe le port 5432 du conteneur au port 5432 de l'hôte
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
-      # Extraction du code du dépôt
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Récupère tout l'historique Git
 
       # Configuration de JDK 17 pour les tests
       - name: Set up JDK
@@ -117,78 +98,60 @@ jobs:
 
       # Exécution des tests unitaires pour tous les microservices
 
-      # Tests pour le microservice config-server
+      # Config-server ms
       - name: Running Unit tests for the config-server ms
         run: |
           cd services/config-server
           chmod +x mvnw
           ./mvnw clean test
 
-      # Tests pour le microservice Discovery
+      # Discovery ms
       - name: Running Unit tests for Discovery ms
         run: |
           cd services/discovery
           chmod +x mvnw
           ./mvnw clean test
 
-      # Tests pour le microservice UserAuthentificaton
+      # userAuthentificaton ms
       - name: Running Unit tests for UserAuthentificaton ms
         run: |
           cd services/userAuthentificaton
           chmod +x mvnw
           ./mvnw clean test
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/user
-          SPRING_DATASOURCE_USERNAME: wael
-          SPRING_DATASOURCE_PASSWORD: wael
 
-      # Tests pour le microservice HospitalManagement
+      # hospitalManagement ms
       - name: Running Unit tests for HospitalManagement ms
         run: |
           cd services/hospitalManagement
           chmod +x mvnw
           ./mvnw clean test
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/user
-          SPRING_DATASOURCE_USERNAME: wael
-          SPRING_DATASOURCE_PASSWORD: wael
 
-      # Tests pour le microservice Reservation
+      # reservation ms
       - name: Running Unit tests for Reservation ms
         run: |
           cd services/reservation
           chmod +x mvnw
           ./mvnw clean test
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/user
-          SPRING_DATASOURCE_USERNAME: wael
-          SPRING_DATASOURCE_PASSWORD: wael
 
-      # Tests pour le microservice Notification
+      # notification ms
       - name: Running Unit tests for Notification ms
         run: |
           cd services/notification
           chmod +x mvnw
           ./mvnw clean test
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/user
-          SPRING_DATASOURCE_USERNAME: wael
-          SPRING_DATASOURCE_PASSWORD: wael
 
-      # Tests pour le microservice Gateway Api
+      # Gateway Api
       - name: Running Unit tests for Gateway Api
         run: |
           cd services/gateway
           chmod +x mvnw
           ./mvnw clean test
 
-  # Job pour construire les microservices après les tests unitaires
   build:
     runs-on: ubuntu-latest
     name: Build backend micro-services
     needs: unit-tests # Exécuter après le job 'unit-tests'
     steps:
-      # Extraction du code du dépôt
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -203,42 +166,42 @@ jobs:
 
       # Construction de tous les microservices
 
-      # Build pour le microservice config-server
+      # Config-server ms
       - name: Build the config-server ms
         run: |
           cd services/config-server
           chmod +x mvnw
           ./mvnw clean package
 
-      # Build pour le microservice Discovery
+      # Discovery ms
       - name: Build the Discovery ms
         run: |
           cd services/discovery
           chmod +x mvnw
           ./mvnw clean package
 
-      # Build pour le microservice UserAuthentificaton
+      # userAuthentificaton ms
       - name: Build the UserAuthentificaton ms
         run: |
           cd services/userAuthentificaton
           chmod +x mvnw
           ./mvnw clean package
 
-      # Build pour le microservice HospitalManagement
+      # hospitalManagement ms
       - name: Build the HospitalManagement ms
         run: |
           cd services/hospitalManagement
           chmod +x mvnw
           ./mvnw clean package
 
-      # Build pour le microservice Reservation
+      # reservation ms
       - name: Build the Reservation ms
         run: |
           cd services/reservation
           chmod +x mvnw
           ./mvnw clean package
 
-      # Build pour le microservice Notification
+      # notification ms
       - name: Build the Notification ms
         run: |
           cd services/notification
