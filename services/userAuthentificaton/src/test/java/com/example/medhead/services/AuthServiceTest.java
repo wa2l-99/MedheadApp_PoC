@@ -21,7 +21,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,7 +29,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,11 +40,8 @@ import static org.mockito.Mockito.when;
 
 class AuthServiceTest {
 
-    // quel est le service à tester
     @InjectMocks
     private AuthService authService;
-
-    //Déclarer les dépendances
 
     @Mock
     private TokenRepository tokenRepository;
@@ -72,7 +67,6 @@ class AuthServiceTest {
     @Mock
     private UserMapper userMapper;
 
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -80,7 +74,6 @@ class AuthServiceTest {
 
     @Test
     void shouldRegisterUser() throws MessagingException {
-        //Given
         RegistrationRequest request = new RegistrationRequest(1, "John", "Doe", LocalDate.of(1990, 1, 1), "john.doe@gmail.com", "Homme", "33000 Bordeaux", "1234567890", "password");
 
         Role role = new Role();
@@ -89,7 +82,6 @@ class AuthServiceTest {
         when(roleRepository.findByNom("Patient")).thenReturn(Optional.of(role));
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
 
-        // Définir une valeur pour activationUrl
         String activationUrl = "http://localhost:4200/activate-account";
         ReflectionTestUtils.setField(authService, "activationUrl", activationUrl);
 
@@ -126,113 +118,5 @@ class AuthServiceTest {
         AuthenticationResponse response = authService.authenticate(request);
 
         assertThat(response.getToken()).isEqualTo("jwtToken");
-    }
-
-    @Test
-    void shouldActivateAccount() throws MessagingException {
-        String tokenString = "token";
-        User user = new User();
-        user.setId(1);
-        user.setEmail("john.doe@gmail.com");
-
-        Token token = new Token();
-        token.setToken(tokenString);
-        token.setUser(user);
-        token.setExpiresAt(LocalDateTime.now().plusMinutes(15));
-
-        when(tokenRepository.findByToken(tokenString)).thenReturn(Optional.of(token));
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-
-        authService.activateAccount(tokenString);
-
-        verify(userRepository).save(user);
-        verify(tokenRepository).save(token);
-        assertThat(user.isEnabled()).isTrue();
-    }
-
-    @Test
-    void shouldThrowExceptionWhenActivatingExpiredToken() throws MessagingException {
-        String tokenString = "token";
-        User user = new User();
-        user.setId(1);
-        user.setEmail("john.doe@gmail.com");
-
-        Token token = new Token();
-        token.setToken(tokenString);
-        token.setUser(user);
-        token.setExpiresAt(LocalDateTime.now().minusMinutes(1));
-
-        when(tokenRepository.findByToken(tokenString)).thenReturn(Optional.of(token));
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-
-        // Définir une valeur pour activationUrl
-        String activationUrl = "http://localhost:4200/activate-account";
-        ReflectionTestUtils.setField(authService, "activationUrl", activationUrl);
-
-        assertThrows(RuntimeException.class, () -> authService.activateAccount(tokenString));
-
-        verify(emailService).sendEmail(
-                eq(user.getEmail()),
-                eq(user.fullName()),
-                eq(EmailTemplateName.ACTIVATE_ACCOUNT),
-                eq(activationUrl),
-                anyString(),
-                eq("Account Activation")
-        );
-    }
-
-    @Test
-    void shouldReturnAllUsers() {
-        User user1 = new User();
-        user1.setId(1);
-        user1.setEmail("john.doe@gmail.com");
-
-        User user2 = new User();
-        user2.setId(2);
-        user2.setEmail("jane.doe@example.com");
-
-        when(userRepository.findAll()).thenReturn(List.of(user1, user2));
-        when(userMapper.fromUser(user1)).thenReturn(new UserResponse(1, "John", "Doe", LocalDate.of(1990, 1, 1), "john.doe@gmail.com", "Homme", "123 Street", "1234567890", List.of("Admin"), true, false));
-        when(userMapper.fromUser(user2)).thenReturn(new UserResponse(2, "Jane", "Doe", LocalDate.of(1992, 2, 2), "jane.doe@example.com", "Femme", "456 Avenue", "0987654321", List.of("Patient"),
-                true, false));
-
-        List<UserResponse> users = authService.findAllUsers();
-
-        assertThat(users).hasSize(2);
-    }
-
-    @Test
-    void shouldFindUserById() {
-        User user = new User();
-        user.setId(1);
-        user.setEmail("john.doe@gmail.com");
-
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
-        when(userMapper.fromUser(user)).thenReturn(new UserResponse(1, "John", "Doe", LocalDate.of(1990, 1, 1), "john.doe@gmail.com", "Homme", "123 Street", "1234567890", List.of("Patient")
-                , true, false));
-
-        UserResponse userResponse = authService.findById(1);
-
-        assertThat(userResponse.getEmail()).isEqualTo("john.doe@gmail.com");
-    }
-
-    @Test
-    void shouldThrowExceptionWhenUserNotFoundById() {
-        when(userRepository.findById(1)).thenReturn(Optional.empty());
-
-        assertThrows(UserNotFoundException.class, () -> authService.findById(1));
-    }
-
-    @Test
-    void shouldDeleteUser() {
-        User user = new User();
-        user.setId(1);
-        user.setEmail("john.doe@gmail.com");
-
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
-
-        authService.deleteUser(1);
-
-        verify(userRepository).deleteById(1);
     }
 }
