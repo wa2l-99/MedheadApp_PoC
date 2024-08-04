@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
-  HttpClientModule,
+  provideHttpClient,
 } from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HttpTokenInterceptor } from './interceptors/http-token.interceptor';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     FormsModule,
     AppRoutingModule,
     CodeInputModule,
@@ -58,6 +57,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       multi: true,
     },
     HttpClient,
+    provideHttpClient(),
+    NgbActiveModal,
   ],
   bootstrap: [AppComponent],
 })

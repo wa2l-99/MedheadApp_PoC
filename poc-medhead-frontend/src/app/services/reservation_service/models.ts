@@ -1,4 +1,3 @@
-/* tslint:disable */
 /* eslint-disable */
 export { HospitalResponse } from './models/hospital-response';
 export { MedicalSpeciality } from './models/medical-speciality';

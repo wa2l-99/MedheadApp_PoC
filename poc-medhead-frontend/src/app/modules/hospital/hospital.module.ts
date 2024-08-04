@@ -23,8 +23,14 @@ import { ReservationModalComponent } from './components/reservation-modal/reserv
     ReservationComponent,
     HospitalManageComponent,
     HospitalCardComponent,
-    ReservationModalComponent
+    ReservationModalComponent,
   ],
-  imports: [CommonModule, FormsModule, HospitalRoutingModule, NgSelectModule, NgbDropdownModule]
+  imports: [
+    CommonModule,
+    FormsModule,
+    HospitalRoutingModule,
+    NgSelectModule,
+    NgbDropdownModule,
+  ],
 })
 export class HospitalModule {}
