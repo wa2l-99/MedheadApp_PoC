@@ -207,3 +207,10 @@ jobs:
           cd services/notification
           chmod +x mvnw
           ./mvnw clean package
+
+      # Gateway Api
+      - name: Build the Gateway Api
+        run: |
+          cd services/gateway
+          chmod +x mvnw
+          ./mvnw clean package
