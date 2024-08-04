@@ -4,48 +4,47 @@ name: Medhead Frontend Pipeline
 on:
   push:
     branches:
-      - '*'
+      - '*' # Toutes les branches
     paths:
-      - poc-medhead-frontend/**
+      - 'poc-medhead-frontend/**'
       - 'docker-compose.yml' # Lorsque 'docker-compose.yml' change
-      - .github/workflows/*-frontend.yml
+      - '.github/workflows/*-frontend.yml'
+
 jobs:
   angular:
     name: Angular Build and Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [ 20.15.0 ]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [20.15.0] # Version de Node.js à utiliser
+
     steps:
-      # {2}
+      # 1. Checkout the source code
       - name: Checkout the source code
         uses: actions/checkout@v3
 
-      # {3}
+      # 2. Use Node.js ${{ matrix.node-version }}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: $
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: 'poc-medhead-frontend/package-lock.json'
 
-      # {4}
+      # 3. Install dependencies
       - name: Install dependencies
         run: |
           cd poc-medhead-frontend
           npm ci
 
-      # {5}
+      # 4. Run tests frontend
       - name: Run tests frontend
         run: |
           cd poc-medhead-frontend
           npm run test:ci
 
-      # {6}
+      # 5. Build frontend
       - name: Build frontend
         run: |
           cd poc-medhead-frontend
           npm run build
-
-
