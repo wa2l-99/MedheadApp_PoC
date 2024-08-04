@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.15.0] # Version de Node.js à utiliser
+        node-version: [20.x] # Version de Node.js à utiliser
 
     steps:
       # 1. Checkout the source code
@@ -41,7 +41,7 @@ jobs:
       - name: Run tests frontend
         run: |
           cd poc-medhead-frontend
-          npm run test:ci
+          npm run test
 
       # 5. Build frontend
       - name: Build frontend
