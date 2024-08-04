@@ -1,0 +1,51 @@
+name: Medhead Frontend Pipeline
+
+# Déclenchement du workflow sur push ou pull request
+on:
+  push:
+    branches:
+      - '*'
+    paths:
+      - poc-medhead-frontend/**
+      - 'docker-compose.yml' # Lorsque 'docker-compose.yml' change
+      - .github/workflows/*-frontend.yml
+jobs:
+  angular:
+    name: Angular Build and Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 20.15.0 ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      # {2}
+      - name: Checkout the source code
+        uses: actions/checkout@v3
+
+      # {3}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: $
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      # {4}
+      - name: Install dependencies
+        run: |
+          cd poc-medhead-frontend
+          npm ci
+
+      # {5}
+      - name: Run tests frontend
+        run: |
+          cd poc-medhead-frontend
+          npm run test:ci
+
+      # {6}
+      - name: Build frontend
+        run: |
+          cd poc-medhead-frontend
+          npm run build
+
+
