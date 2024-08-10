@@ -57,7 +57,12 @@ jobs:
         env:
           CI: true
 
-      # 7. Run Cypress tests
+      # 7. Wait for the server to be ready
+      - name: Wait for the server to be ready
+        run: |
+          npx wait-on http://localhost:4200
+
+      # 8. Run Cypress tests
       - name: Run Cypress E2E tests
         run: |
           cd poc-medhead-frontend
