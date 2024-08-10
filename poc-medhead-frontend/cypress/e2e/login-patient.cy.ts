@@ -82,7 +82,7 @@ describe('Login-Patient', () => {
             cy.contains('a.nav-link', 'Hôpital').should('be.visible');
             cy.contains('a.nav-link', 'Home').should('be.visible');
           });
-          cy.contains('button', ' Rechercher un hôpital').should('be.visible');
+          cy.contains('button', 'Rechercher un hôpital').should('be.visible');
         });
     });
   });

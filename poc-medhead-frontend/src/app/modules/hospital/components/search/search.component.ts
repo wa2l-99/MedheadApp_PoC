@@ -127,6 +127,5 @@ export class SearchComponent implements OnInit {
   openReservationModal(reservation: ReservationResponse) {
     const modalRef = this.modalService.open(ReservationModalComponent);
     modalRef.componentInstance.reservation = reservation; // Passez la réponse de réservation au composant modal
-    console.log(reservation);
   }
 }
