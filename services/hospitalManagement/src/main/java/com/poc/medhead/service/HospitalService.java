@@ -106,7 +106,7 @@ public class HospitalService {
         List<HospitalResponse> hospitalResponses = hospitals.stream()
                 .map(hospital -> {
                     double distance = calculateDistance(latitude, longitude, hospital.getLatitude(), hospital.getLongitude());
-                    if (distance <= 500) {
+                    if (distance <= 100) {
                         HospitalResponse response = mapper.toHospitalResponse(hospital);
                         response.setDistance(distance);
                         return response;
@@ -114,7 +114,7 @@ public class HospitalService {
                         return null;
                     }
                 })
-                .filter(Objects::nonNull) // Supprimer les hôpitaux hors du périmètre de 500 km
+                .filter(Objects::nonNull) // Supprimer les hôpitaux hors du périmètre de 100 km
                 .sorted(Comparator.comparingDouble(HospitalResponse::getDistance)) // Trier par distance
                 .collect(Collectors.toList());
 
