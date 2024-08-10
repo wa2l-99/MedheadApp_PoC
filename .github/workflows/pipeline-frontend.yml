@@ -48,3 +48,17 @@ jobs:
         run: |
           cd poc-medhead-frontend
           npm run build
+
+      # 6. Start the application for Cypress tests
+      - name: Start the application
+        run: |
+          cd poc-medhead-frontend
+          npm start &
+        env:
+          CI: true
+
+      # 7. Run Cypress tests
+      - name: Run Cypress E2E tests
+        run: |
+          cd poc-medhead-frontend
+          npm run cypress:run
