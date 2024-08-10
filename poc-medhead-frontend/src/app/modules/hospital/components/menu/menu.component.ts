@@ -39,20 +39,35 @@ export class MenuComponent implements OnInit {
   updateActiveLink() {
     const linkColor = document.querySelectorAll('.nav-link');
     const pathname = window.location.pathname;
+
+    // Déclarez explicitement le type de activeLink
+    let activeLink: HTMLElement | null = null;
+
+    // Trouver le lien actif en fonction de l'URL
     linkColor.forEach((link) => {
       const href = link.getAttribute('href') || '';
-      link.classList.remove('active');
-
       if (
         pathname.endsWith(href) ||
         (href.includes(this.activeLink) && pathname.includes(href))
       ) {
-        link.classList.add('active');
+        activeLink = link as HTMLElement;
       }
-      link.addEventListener('click', () => {
-        linkColor.forEach((l) => l.classList.remove('active'));
-        link.classList.add('active');
+    });
+
+    // Si un lien actif est trouvé, mettre à jour les classes
+    if (activeLink) {
+      linkColor.forEach((link) => {
+        link.classList.toggle('active', link === activeLink);
       });
+    }
+
+    // Gestion de l'activation par clic
+    document.querySelector('.navbar')?.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target.classList.contains('nav-link')) {
+        linkColor.forEach((link) => link.classList.remove('active'));
+        target.classList.add('active');
+      }
     });
   }
 
