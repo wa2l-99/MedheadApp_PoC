@@ -41,7 +41,7 @@ jobs:
       - name: Run tests frontend
         run: |
           cd poc-medhead-frontend
-          npm run test
+          npm run test -- --watch=false --browsers=ChromeHeadless
 
       # 5. Build frontend
       - name: Build frontend
@@ -54,16 +54,36 @@ jobs:
         run: |
           cd poc-medhead-frontend
           npm start &
-        env:
-          CI: true
 
       # 7. Wait for the server to be ready
       - name: Wait for the server to be ready
         run: |
-          npx wait-on http://localhost:4200
+          npx wait-on http://localhost:4200 --timeout 60000
 
-      # 8. Run Cypress tests
+      - name: Check application status
+        run: |
+          curl -I http://localhost:4200
+          ps aux | grep node
+
       - name: Run Cypress E2E tests
         run: |
           cd poc-medhead-frontend
-          npm run cypress:run
+          npm run cypress:run -- --headless --config-file cypress.config.ts
+        env:
+          CYPRESS_BASE_URL: http://localhost:4200
+
+      - name: Upload Cypress artifacts
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-artifacts
+          path: |
+            poc-medhead-frontend/cypress/screenshots
+            poc-medhead-frontend/cypress/videos
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-results
+          path: poc-medhead-frontend/cypress/results
