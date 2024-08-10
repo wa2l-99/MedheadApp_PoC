@@ -7,17 +7,11 @@ describe('Login-Admin', () => {
       cy.get('[name=email]').type(loginData.email);
       cy.get('[name=password]').type(loginData.password);
 
-      // Intercept the authentication request
-      cy.intercept('POST', 'http://localhost:8222/api/auth/authenticate').as(
-        'loginRequest'
-      );
+      cy.intercept('POST', '**/api/auth/authenticate').as('loginRequest');
 
-      // Click on the login button
       cy.contains('button', 'Connexion').click();
 
-      // Wait for the login request to complete
-      cy.wait('@loginRequest').then((interception) => {
-        // Check if the response exists before accessing its properties
+      cy.wait('@loginRequest', { timeout: 20000 }).then((interception) => {
         if (interception.response) {
           expect(interception.response.statusCode).to.equal(200);
         } else {
@@ -25,10 +19,8 @@ describe('Login-Admin', () => {
         }
       });
 
-      // Verify that the user is redirected to the hospital page
-      cy.location('pathname', { timeout: 20000 }).should('equal', '/hospital');
+      cy.location('pathname').should('equal', '/hospital');
 
-      // Verify the content on the page
       cy.contains('MedHead Urgences')
         .should('be.visible')
         .then(() => {
@@ -50,17 +42,11 @@ describe('Login-Admin', () => {
       cy.get('[name=email]').type(loginData.email);
       cy.get('[name=password]').type(loginData.password);
 
-      // Intercept the authentication request
-      cy.intercept('POST', 'http://localhost:8222/api/auth/authenticate').as(
-        'loginRequest'
-      );
+      cy.intercept('POST', '**/api/auth/authenticate').as('loginRequest');
 
-      // Click on the login button
       cy.contains('button', 'Connexion').click();
 
-      // Wait for the login request to complete
-      cy.wait('@loginRequest').then((interception) => {
-        // Check if the response exists before accessing its properties
+      cy.wait('@loginRequest', { timeout: 20000 }).then((interception) => {
         if (interception.response) {
           expect(interception.response.statusCode).to.equal(200);
         } else {
@@ -68,10 +54,8 @@ describe('Login-Admin', () => {
         }
       });
 
-      // Verify that the user is redirected to the hospital page
-      cy.location('pathname', { timeout: 20000 }).should('equal', '/hospital');
+      cy.location('pathname').should('equal', '/hospital');
 
-      // Verify the content on the page
       cy.contains('MedHead Urgences')
         .should('be.visible')
         .then(() => {
@@ -87,14 +71,11 @@ describe('Login-Admin', () => {
 
             expect(token).to.be.a('string');
 
-            // Verify navigation links for admin
             cy.get('nav.navbar').within(() => {
               cy.contains('a.nav-link', 'Reservations').should('be.visible');
               cy.contains('a.nav-link', 'Hôpitaux').should('be.visible');
               cy.contains('a.nav-link', 'Home').should('be.visible');
             });
-
-            // Verify the "gérer les hôpitaux" button
             cy.get('button.btn-manage-hospitals').should('be.visible');
           });
         });
