@@ -1,6 +1,6 @@
 describe('Protected Resource Access', () => {
   beforeEach(() => {
-    cy.mockLoginAdmin();
+    cy.mockLoginPatient();
   });
 
   it('fails to access protected resource and redirects to forbidden page', () => {

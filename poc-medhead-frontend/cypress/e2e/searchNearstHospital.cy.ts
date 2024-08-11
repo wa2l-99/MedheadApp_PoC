@@ -2,6 +2,13 @@ describe('Search nearest hospital by speciality', () => {
   beforeEach(() => {
     cy.mockLoginPatient();
 
+    // Interception de la requête API pour les spécialités
+    cy.fixture('mockSpecialities').then((mockData) => {
+      cy.intercept('GET', '**/api/hospital/specialities', {
+        statusCode: 200,
+        body: mockData,
+      }).as('getSpecialities');
+    });
     // Intercepter la requête API pour utiliser les données mockées
     cy.fixture('mockHospitalSearchResults').then((mockData) => {
       cy.intercept('GET', '**/api/hospital/nearest*', {
@@ -28,12 +35,36 @@ describe('Search nearest hospital by speciality', () => {
     // Laisser le champ d'adresse vide
     cy.get('input[name="address"]').clear();
 
-    // Sélectionner une spécialité dans le champ de sélection
-    cy.get('ng-select[name="speciality"]')
+    // Attendre que les spécialités soient chargées
+    cy.wait('@getSpecialities').then((interception) => {
+      cy.log(
+        'Données de spécialités interceptées:',
+        interception.response?.body
+      );
+      expect(interception.response?.statusCode).to.eq(200);
+    });
+
+    // Ouvrir le dropdown des spécialités
+    cy.get('ng-select[name="speciality"]').click({ force: true });
+
+    // Forcer la recherche de la spécialité en saisissant du texte
+    cy.get('ng-select[name="speciality"] input[type="text"]', {
+      timeout: 10000,
+    })
       .should('be.visible')
-      .wait(500)
-      .click()
-      .type('Cardiologie{enter}');
+      .type('Cardiologie', { force: true });
+
+    // Vérifiez que le dropdown contient l'option "Cardiologie"
+    cy.get('.ng-dropdown-panel-items')
+      .should('be.visible')
+      .then(($dropdown) => {
+        const dropdownText = $dropdown.text();
+        cy.log('Contenu du dropdown:', dropdownText);
+        expect(dropdownText).to.include('Cardiologie');
+      });
+
+    // Sélectionner "Cardiologie" dans le dropdown
+    cy.get('.ng-dropdown-panel-items').contains('Cardiologie').click();
 
     // Vérifier que le bouton "Valider" est désactivé
     cy.contains('button', 'Valider').should('be.disabled');
@@ -47,14 +78,36 @@ describe('Search nearest hospital by speciality', () => {
     // Remplir le champ d'adresse
     cy.get('input[name="address"]').type('75004 Paris');
 
-    cy.get('ng-select[name="speciality"]')
+    // Attendre que les spécialités soient chargées
+    cy.wait('@getSpecialities').then((interception) => {
+      cy.log(
+        'Données de spécialités interceptées:',
+        interception.response?.body
+      );
+      expect(interception.response?.statusCode).to.eq(200);
+    });
+
+    // Ouvrir le dropdown des spécialités
+    cy.get('ng-select[name="speciality"]').click({ force: true });
+
+    // Forcer la recherche de la spécialité en saisissant du texte
+    cy.get('ng-select[name="speciality"] input[type="text"]', {
+      timeout: 10000,
+    })
       .should('be.visible')
-      .click()
-      .type('Cardiologie');
+      .type('Cardiologie', { force: true });
 
-    cy.get('.ng-dropdown-panel-items').should('be.visible');
+    // Vérifiez que le dropdown contient l'option "Cardiologie"
+    cy.get('.ng-dropdown-panel-items')
+      .should('be.visible')
+      .then(($dropdown) => {
+        const dropdownText = $dropdown.text();
+        cy.log('Contenu du dropdown:', dropdownText);
+        expect(dropdownText).to.include('Cardiologie');
+      });
+
+    // Sélectionner "Cardiologie" dans le dropdown
     cy.get('.ng-dropdown-panel-items').contains('Cardiologie').click();
-
     // Vérifier que le bouton "Valider" est activé
     cy.contains('button', 'Valider').should('not.be.disabled');
 

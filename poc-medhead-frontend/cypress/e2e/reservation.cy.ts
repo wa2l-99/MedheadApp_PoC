@@ -2,6 +2,13 @@ describe('Hospital Reservation - Scenarios', () => {
   beforeEach(() => {
     cy.mockLoginPatient();
 
+    // Interception de la requête API pour les spécialités
+    cy.fixture('mockSpecialities').then((mockData) => {
+      cy.intercept('GET', '**/api/hospital/specialities', {
+        statusCode: 200,
+        body: mockData,
+      }).as('getSpecialities');
+    });
     // Interception de la requête de recherche d'hôpitaux
     cy.fixture('mockHospitalSearchResults').then((mockData) => {
       cy.intercept('GET', '**/api/hospital/nearest*', {
@@ -24,12 +31,35 @@ describe('Hospital Reservation - Scenarios', () => {
     // Effectuer une recherche valide
     cy.get('input[name="address"]').type('75004 Paris');
 
-    cy.get('ng-select[name="speciality"]')
-      .should('be.visible')
-      .click()
-      .type('Cardiologie');
+    // Attendre que les spécialités soient chargées
+    cy.wait('@getSpecialities').then((interception) => {
+      cy.log(
+        'Données de spécialités interceptées:',
+        interception.response?.body
+      );
+      expect(interception.response?.statusCode).to.eq(200);
+    });
 
-    cy.get('.ng-dropdown-panel-items').should('be.visible');
+    // Ouvrir le dropdown des spécialités
+    cy.get('ng-select[name="speciality"]').click({ force: true });
+
+    // Forcer la recherche de la spécialité en saisissant du texte
+    cy.get('ng-select[name="speciality"] input[type="text"]', {
+      timeout: 10000,
+    })
+      .should('be.visible')
+      .type('Cardiologie', { force: true });
+
+    // Vérifiez que le dropdown contient l'option "Cardiologie"
+    cy.get('.ng-dropdown-panel-items')
+      .should('be.visible')
+      .then(($dropdown) => {
+        const dropdownText = $dropdown.text();
+        cy.log('Contenu du dropdown:', dropdownText);
+        expect(dropdownText).to.include('Cardiologie');
+      });
+
+    // Sélectionner "Cardiologie" dans le dropdown
     cy.get('.ng-dropdown-panel-items').contains('Cardiologie').click();
 
     cy.contains('button', 'Valider').click();
