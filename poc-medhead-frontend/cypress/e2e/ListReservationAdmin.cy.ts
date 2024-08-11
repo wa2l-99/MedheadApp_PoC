@@ -1,7 +1,19 @@
 describe('Admin view: Access Reservations Page', () => {
   beforeEach(() => {
-    // Se connecter en tant qu'admin
+    // Simuler la connexion en tant qu'administrateur
     cy.mockLoginAdmin();
+
+    // Configurer l'interception avant de visiter la page
+    cy.fixture('mockReservations').then((mockData) => {
+      cy.intercept('GET', '**/api/reservations*', {
+        statusCode: 200,
+        body: mockData,
+      }).as('getReservations');
+    });
+
+    // Ensuite, visiter la page des réservations
+    cy.visit('/reservations');
+    cy.wait('@getReservations'); // Attendre que les données soient chargées
   });
 
   it('Should navigate to the Reservations page through the navbar', () => {

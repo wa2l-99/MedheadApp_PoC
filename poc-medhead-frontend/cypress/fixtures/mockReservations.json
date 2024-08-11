@@ -1,0 +1,47 @@
+{
+  "content": [
+    {
+      "id": 72,
+      "reference": "699ebf36-9e80-4b0e-ab1a-bd01c99efb9e",
+      "patient": {
+        "id": 3,
+        "nom": "vives",
+        "prenom": "Emili",
+        "dateNaissance": "1989-01-22",
+        "email": "Emili@gmail.com",
+        "sexe": "Homme",
+        "adresse": "Espagne Barcelone",
+        "numero": "3369856321"
+      },
+      "hospital": {
+        "id": 3,
+        "nomOrganisation": "Hôpital Pitié-Salpêtrière",
+        "adresse": "47-83 Boulevard de l'Hôpital",
+        "codePostal": "75013",
+        "litsDisponible": 977,
+        "longitude": 2.3644,
+        "latitude": 48.8399,
+        "specialitesMedicales": [
+          {
+            "id": 1,
+            "nom": "Cardiologie"
+          },
+          {
+            "id": 10,
+            "nom": "Psychiatrie"
+          },
+          {
+            "id": 2,
+            "nom": "Neurologie"
+          }
+        ]
+      }
+    }
+  ],
+  "number": 0,
+  "size": 10,
+  "totalElements": 1,
+  "totalPages": 1,
+  "first": true,
+  "last": true
+}
