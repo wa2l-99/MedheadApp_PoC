@@ -1,13 +1,6 @@
 describe('Search nearest hospital by speciality', () => {
   beforeEach(() => {
-    // Se connecter en tant que patient
-    cy.visit('/login');
-    cy.fixture('userPatientLogin').then((loginData) => {
-      cy.get('[name=email]').type(loginData.email);
-      cy.get('[name=password]').type(loginData.password);
-      cy.contains('button', 'Connexion').click();
-      cy.location('pathname').should('equal', '/hospital');
-    });
+    cy.mockLoginPatient();
   });
 
   it('Visits the search hospital page', () => {

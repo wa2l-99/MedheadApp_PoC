@@ -1,43 +1,55 @@
-// ***********************************************
-// This example namespace declaration will help
-// with Intellisense and code completion in your
-// IDE or Text Editor.
-// ***********************************************
-// declare namespace Cypress {
-//   interface Chainable<Subject = any> {
-//     customCommand(param: any): typeof customCommand;
-//   }
-// }
-//
-// function customCommand(param: any): void {
-//   console.warn(param);
-// }
-//
-// NOTE: You can use it like so:
-// Cypress.Commands.add('customCommand', customCommand);
-//
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.add('mockLoginPatient', () => {
+  cy.fixture('mockPatientData').then((mockData) => {
+    // Interception des requêtes de login et mock des réponses avec les données du fichier JSON
+    cy.intercept('POST', '/api/auth/authenticate', {
+      statusCode: 200,
+      body: {
+        token: mockData.token,
+        user: mockData.user,
+      },
+    }).as('loginRequest');
+
+    // Visiter la page de login et remplir les informations
+    cy.visit('/login');
+    cy.fixture('userPatientLogin').then((loginData) => {
+      cy.get('[name=email]').type(loginData.email);
+      cy.get('[name=password]').type(loginData.password);
+      cy.contains('button', 'Connexion').click();
+
+      // Attendre que les requêtes soient traitées
+      cy.wait('@loginRequest');
+
+      // Vérifier que l'utilisateur est redirigé vers la page "hospital"
+      cy.location('pathname').should('equal', '/hospital');
+      cy.contains('MedHead Urgences', { timeout: 10000 }).should('be.visible');
+
+    });
+  });
+});
+Cypress.Commands.add('mockLoginAdmin', () => {
+  cy.fixture('mockAdminData').then((mockData) => {
+    // Interception des requêtes de login et mock des réponses avec les données du fichier JSON
+    cy.intercept('POST', '/api/auth/authenticate', {
+      statusCode: 200,
+      body: {
+        token: mockData.token,
+        user: mockData.user,
+      },
+    }).as('loginRequest');
+
+    // Visiter la page de login et remplir les informations
+    cy.visit('/login');
+    cy.fixture('userAdminLogin').then((loginData) => {
+      cy.get('[name=email]').type(loginData.email);
+      cy.get('[name=password]').type(loginData.password);
+      cy.contains('button', 'Connexion').click();
+
+      // Attendre que les requêtes soient traitées
+      cy.wait('@loginRequest');
+
+      // Vérifier que l'utilisateur est redirigé vers la page "hospital"
+      cy.location('pathname').should('equal', '/hospital');
+      cy.get('.btn-manage-hospitals').should('be.visible');
+    });
+  });
+});

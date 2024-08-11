@@ -1,14 +1,7 @@
 describe('Admin view: List of All hospitals', () => {
   beforeEach(() => {
     // Se connecter en tant qu'admin
-    cy.visit('/login');
-    cy.fixture('userAdminLogin').then((loginData) => {
-      cy.get('[name=email]').type(loginData.email);
-      cy.get('[name=password]').type(loginData.password);
-      cy.contains('button', 'Connexion').click();
-      cy.location('pathname').should('equal', '/hospital');
-      cy.get('.btn-manage-hospitals').should('be.visible');
-    });
+    cy.mockLoginAdmin();
   });
 
   it('Visits the All hospitals page and checks hospital list', () => {

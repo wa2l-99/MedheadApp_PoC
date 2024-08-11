@@ -1,12 +1,6 @@
 describe('Protected Resource Access', () => {
   beforeEach(() => {
-    cy.visit('/login');
-    cy.fixture('userPatientLogin').then((loginData) => {
-      cy.get('[name=email]').type(loginData.email);
-      cy.get('[name=password]').type(loginData.password);
-      cy.contains('button', 'Connexion').click();
-      cy.location('pathname').should('equal', '/hospital');
-    });
+    cy.mockLoginAdmin();
   });
 
   it('fails to access protected resource and redirects to forbidden page', () => {

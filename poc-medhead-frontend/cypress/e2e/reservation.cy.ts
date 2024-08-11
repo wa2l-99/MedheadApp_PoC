@@ -1,14 +1,7 @@
 describe('Hospital Reservation - Scenarios', () => {
   beforeEach(() => {
-    // Se connecter en tant que patient
-    cy.visit('/login');
-    cy.fixture('userPatientLogin').then((loginData) => {
-      cy.get('[name=email]').type(loginData.email);
-      cy.get('[name=password]').type(loginData.password);
-      cy.contains('button', 'Connexion').click();
-      cy.contains('MedHead Urgences', { timeout: 10000 }).should('be.visible');
-      cy.location('pathname').should('equal', '/hospital');
-    });
+    cy.mockLoginPatient();
+
 
     cy.contains('button', 'Rechercher un hôpital').click();
     cy.location('pathname').should('equal', '/searchHospital');
