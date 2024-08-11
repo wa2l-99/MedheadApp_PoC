@@ -1,6 +1,14 @@
 describe('Search nearest hospital by speciality', () => {
   beforeEach(() => {
     cy.mockLoginPatient();
+
+    // Intercepter la requête API pour utiliser les données mockées
+    cy.fixture('mockHospitalSearchResults').then((mockData) => {
+      cy.intercept('GET', '**/api/hospital/nearest*', {
+        statusCode: 200,
+        body: mockData,
+      }).as('getNearestHospitals');
+    });
   });
 
   it('Visits the search hospital page', () => {
@@ -21,7 +29,11 @@ describe('Search nearest hospital by speciality', () => {
     cy.get('input[name="address"]').clear();
 
     // Sélectionner une spécialité dans le champ de sélection
-    cy.get('ng-select[name="speciality"]').click().type('Cardiologie{enter}');
+    cy.get('ng-select[name="speciality"]')
+      .should('be.visible')
+      .wait(500)
+      .click()
+      .type('Cardiologie{enter}');
 
     // Vérifier que le bouton "Valider" est désactivé
     cy.contains('button', 'Valider').should('be.disabled');
@@ -35,22 +47,48 @@ describe('Search nearest hospital by speciality', () => {
     // Remplir le champ d'adresse
     cy.get('input[name="address"]').type('75004 Paris');
 
-    // Sélectionner une spécialité dans le champ de sélection
-    cy.get('ng-select[name="speciality"]').click().type('Cardiologie{enter}');
+    cy.get('ng-select[name="speciality"]')
+      .should('be.visible')
+      .wait(500)
+      .click()
+      .type('Cardiologie{enter}');
 
     // Vérifier que le bouton "Valider" est activé
     cy.contains('button', 'Valider').should('not.be.disabled');
 
-    // Cliquer sur le bouton "Valider" pour effectuer la recherche
     cy.contains('button', 'Valider').click();
 
-    // Vérifier que les résultats de recherche sont affichés
+    // Attendre que la requête soit interceptée et traitée
+    cy.wait('@getNearestHospitals');
+
+    // Vérifier que les résultats de recherche sont affichés à partir des données mockées
     cy.get('.hospital-card').should('be.visible');
-    cy.get('.hospital-card').should('have.length.greaterThan', 0);
+    cy.get('.hospital-card').should('have.length', 2);
 
     // Vérifier que chaque résultat contient les informations nécessaires
-    cy.get('.hospital-card').each(($card) => {
-      cy.wrap($card).find('h5').should('contain.text', 'Hôpital');
+    cy.get('.hospital-card').each(($card, index) => {
+      const hospitals = [
+        {
+          nomOrganisation: 'Hôpital Pitié-Salpêtrière',
+          adresse: "47-83 Boulevard de l'Hôpital",
+          codePostal: '75013',
+          specialitesMedicales: ['Cardiologie', 'Neurologie'],
+          litsDisponible: 977,
+          distance: '0.421 km',
+        },
+        {
+          nomOrganisation: 'Hôpital Necker',
+          adresse: '149 Rue de Sèvres',
+          codePostal: '75015',
+          specialitesMedicales: ['Ophtalmologie', 'Cardiologie'],
+          litsDisponible: 483,
+          distance: '3.962 km',
+        },
+      ];
+
+      cy.wrap($card)
+        .find('h5')
+        .should('contain.text', hospitals[index].nomOrganisation);
       cy.wrap($card).find('.fa-location-dot').should('be.visible');
       cy.wrap($card).find('.fa-bed').should('be.visible');
       cy.wrap($card).find('.fa-road').should('be.visible');
