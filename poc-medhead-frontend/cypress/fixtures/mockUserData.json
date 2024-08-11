@@ -1,0 +1,19 @@
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJmdWxsTmFtZSI6InphbnRvdXIgd2FlbCIsInN1YiI6IndhZWxAZ21haWwuY29tIiwiaWF0IjoxNzIzMzg3OTUwLCJleHAiOjE3MjM5OTI3NTAsImF1dGhvcml0aWVzIjpbIkFkbWluIl19.fz_Dbue-M8i7AW-RrWRtvlY5bq5udEu1CU5HVGIhwe0",
+    "user": {
+      "id": 1,
+      "nom": "wael",
+      "prenom": "zantour",
+      "dateNaissance": "1990-04-01",
+      "email": "wael@gmail.com",
+      "sexe": "Homme",
+      "adresse": "69 Rue, 33000 Bordeaux, France",
+      "numero": "+33123456789",
+      "roles": [
+        "Admin"
+      ],
+      "accountLocked": false,
+      "enabled": true
+    }
+  }
+  

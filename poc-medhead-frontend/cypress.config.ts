@@ -5,8 +5,6 @@ export default defineConfig({
     baseUrl: 'http://localhost:4200',
     defaultCommandTimeout: 30000, // Augmenté à 30 secondes
     pageLoadTimeout: 120000, // Augmenté à 2 minutes
-    requestTimeout: 30000, // Ajouté, 30 secondes pour les requêtes
-    responseTimeout: 60000, // Ajouté, 1 minute pour les réponses
   },
 
   component: {
