@@ -1,0 +1,11 @@
+{
+  "hospitals": [
+    {
+      "nomOrganisation": "Test Hospital",
+      "adresse": "Test Address",
+      "distance": "1km",
+      "litsDisponible": 10,
+      "specialitesMedicales": ["Test Specialty"]
+    }
+  ]
+}

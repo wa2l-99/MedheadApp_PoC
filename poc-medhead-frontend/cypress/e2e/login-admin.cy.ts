@@ -1,6 +1,6 @@
 describe('Login-Admin', () => {
   beforeEach(() => {
-    cy.fixture('mockUserData').then((mockData) => {
+    cy.fixture('mockAdminData').then((mockData) => {
       // Interception des requêtes de login et mock des réponses avec les données du fichier JSON
       cy.intercept('POST', '/api/auth/authenticate', {
         statusCode: 200,

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 3,
+    "nomOrganisation": "Hôpital Pitié-Salpêtrière",
+    "adresse": "47-83 Boulevard de l'Hôpital",
+    "codePostal": "75013",
+    "specialitesMedicales": [
+      {
+        "id": 1,
+        "nom": "Cardiologie"
+      },
+      {
+        "id": 2,
+        "nom": "Neurologie"
+      }
+    ],
+    "litsDisponible": 977,
+    "distance": 0.421
+  },
+  {
+    "id": 2,
+    "nomOrganisation": "Hôpital Necker",
+    "adresse": "149 Rue de Sèvres",
+    "codePostal": "75015",
+    "specialitesMedicales": [
+      {
+        "id": 9,
+        "nom": "Ophtalmologie"
+      },
+      {
+        "id": 1,
+        "nom": "Cardiologie"
+      }
+    ],
+    "litsDisponible": 483,
+    "distance": 3.962
+  }
+]

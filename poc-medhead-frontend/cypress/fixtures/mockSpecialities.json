@@ -1,0 +1,20 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "nom": "Cardiologie"
+    },
+    {
+      "id": 2,
+      "nom": "Neurologie"
+    },
+    {
+      "id": 3,
+      "nom": "Pédiatrie"
+    },
+    {
+      "id": 4,
+      "nom": "Oncologie"
+    }
+  ]
+}
