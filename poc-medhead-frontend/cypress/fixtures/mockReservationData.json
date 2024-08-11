@@ -1,0 +1,25 @@
+{
+  "id": 73,
+  "reference": "8dc4127e-b5c1-42d0-ad7e-44b6970aa633",
+  "patient": {
+    "id": 1,
+    "nom": "wael",
+    "prenom": "zantour",
+    "dateNaissance": "1990-04-01",
+    "email": "wael@gmail.com",
+    "sexe": "Homme",
+    "adresse": "69 Rue, 33000 Bordeaux, France",
+    "numero": "+33123456789"
+  },
+  "hospital": {
+    "id": 5,
+    "nomOrganisation": "Hôpital Bichat",
+    "adresse": "46 Rue Henri Huchard",
+    "codePostal": "75018",
+    "litsDisponible": 469,
+    "specialitesMedicales": [
+      { "id": 1, "nom": "Cardiologie" },
+      { "id": 5, "nom": "Chirurgie générale" }
+    ]
+  }
+}

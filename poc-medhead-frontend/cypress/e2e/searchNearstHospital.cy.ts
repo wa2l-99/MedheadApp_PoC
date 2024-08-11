@@ -49,9 +49,11 @@ describe('Search nearest hospital by speciality', () => {
 
     cy.get('ng-select[name="speciality"]')
       .should('be.visible')
-      .wait(500)
       .click()
-      .type('Cardiologie{enter}');
+      .type('Cardiologie');
+
+    cy.get('.ng-dropdown-panel-items').should('be.visible');
+    cy.get('.ng-dropdown-panel-items').contains('Cardiologie').click();
 
     // Vérifier que le bouton "Valider" est activé
     cy.contains('button', 'Valider').should('not.be.disabled');

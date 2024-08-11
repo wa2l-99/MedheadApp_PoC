@@ -2,14 +2,40 @@ describe('Hospital Reservation - Scenarios', () => {
   beforeEach(() => {
     cy.mockLoginPatient();
 
+    // Interception de la requête de recherche d'hôpitaux
+    cy.fixture('mockHospitalSearchResults').then((mockData) => {
+      cy.intercept('GET', '**/api/hospital/nearest*', {
+        statusCode: 200,
+        body: mockData,
+      }).as('searchHospitals');
+    });
+
+    // Interception de la requête de réservation
+    cy.fixture('mockReservationData').then((mockReservation) => {
+      cy.intercept('POST', '**/api/reservations/addReservation', {
+        statusCode: 200,
+        body: mockReservation,
+      }).as('addReservation');
+    });
 
     cy.contains('button', 'Rechercher un hôpital').click();
     cy.location('pathname').should('equal', '/searchHospital');
 
     // Effectuer une recherche valide
     cy.get('input[name="address"]').type('75004 Paris');
-    cy.get('ng-select[name="speciality"]').click().type('Cardiologie{enter}');
+
+    cy.get('ng-select[name="speciality"]')
+      .should('be.visible')
+      .click()
+      .type('Cardiologie');
+
+    cy.get('.ng-dropdown-panel-items').should('be.visible');
+    cy.get('.ng-dropdown-panel-items').contains('Cardiologie').click();
+
     cy.contains('button', 'Valider').click();
+
+    // Attendre que les résultats de recherche soient interceptés et traités
+    cy.wait('@searchHospitals');
 
     // Vérifier que les résultats de recherche sont affichés
     cy.get('.hospital-card').should('be.visible');
@@ -19,23 +45,60 @@ describe('Hospital Reservation - Scenarios', () => {
     // Cliquer sur le bouton "Réserver immédiatement" du premier résultat
     cy.get('.hospital-card').first().contains('Réserver immédiatement').click();
 
-    cy.get('body').then(($body) => {
-      if ($body.find('.modal-contens').length > 0) {
-        // Vérifier que le modal de réservation s'affiche avec les détails corrects
+    cy.wait('@addReservation').then((interception) => {
+      if (interception.response) {
+        const response = interception.response;
         cy.get('.modal-content').should('be.visible');
 
+        // Vérifier les détails dans le modal
         cy.get('.modal-title').should('contain', 'Détails de la réservation');
         cy.get('.modal-body').within(() => {
           cy.contains('Référence de la réservation:').should('be.visible');
+          cy.get('.result-res').should('contain', response.body.reference);
           cy.contains("Nom de l'organisation:").should('be.visible');
+          cy.get('.result-res').should(
+            'contain',
+            response.body.hospital.nomOrganisation
+          );
+
           cy.contains("Adresse de l'organisation:").should('be.visible');
+          cy.get('.result-res').should(($div) => {
+            const text = $div
+              .text()
+              .replace(/\u00A0/g, ' ')
+              .trim(); //
+            const adresseComplete = `${response.body.hospital.adresse} ${response.body.hospital.codePostal}`;
+
+            expect(text).to.contain(adresseComplete);
+          });
+
           cy.contains('Spécialitéd médicales:').should('be.visible');
+          cy.get('.result-res').should(
+            'contain',
+            response.body.hospital.specialitesMedicales[0].nom
+          );
+
           cy.contains('Nom et Prénom patient:').should('be.visible');
+
+          cy.get('.result-res').should(($div) => {
+            const text = $div
+              .text()
+              .replace(/\u00A0/g, ' ')
+              .trim();
+            const nomPrenom = `${response.body.patient.nom} ${response.body.patient.prenom}`;
+            expect(text).to.contain(nomPrenom);
+          });
+
           cy.contains('Numéro téléphone patient:').should('be.visible');
+          cy.get('.result-res').should('contain', response.body.patient.numero);
+
           cy.contains('Email patient:').should('be.visible');
+          cy.get('.result-res').should('contain', response.body.patient.email);
         });
-      } else if ($body.find('.toast-error').length > 0) {
-        // Sinon, vérifier si un toast d'erreur est affiché
+        cy.get('.toast-success')
+          .should('be.visible')
+          .and('contain', 'Réservation effectuée avec succès');
+      } else {
         cy.get('.toast-error')
           .should('be.visible')
           .and(
