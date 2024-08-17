@@ -26,10 +26,11 @@ Ce projet est le frontend de la plateforme MedHead, développé avec [Angular CL
 
 
 ## Lancer le Projet
-
 Pour lancer l'application en mode développement :
-  
-  `npm start`
+
+  ```bash
+  npm start
+  ```
 
 L'application sera accessible à l'adresse suivante :
 
@@ -65,12 +66,18 @@ Comme nous sommes en environnement de développement, nous utilisons MailDev pou
 Des tests end-to-end (E2E) sont implémentés avec Cypress.
 
 Pour exécuter les tests E2E : 
-  `npm run cypress:open`
+
+  ```bash
+  npm run cypress:open
+  ```
 
 Cela ouvrira l'interface de Cypress, où vous pourrez sélectionner et exécuter les tests.
 
 Pour exécuter les tests en mode headless (sans interface graphique) :
-  `npm run cypress:run`
+
+  ```bash
+  npm run cypress:run
+  ```
 
 
 ---
