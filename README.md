@@ -36,9 +36,9 @@ Pour configurer et lancer le frontend, référez-vous au fichier README.md situ�
 
 Pour lancer les tests de performance avec JMeter, référez-vous au fichier README.md situé dans le dossier jmeter/. Vous y trouverez les instructions pour importer et exécuter les tests.
 
-##Configuration des Pipelines CI/CD
+## Configuration des Pipelines CI/CD
 
-###Pipelines GitHub Actions
+### Pipelines GitHub Actions
 
   1- Backend Pipeline :
   
@@ -48,6 +48,6 @@ Pour lancer les tests de performance avec JMeter, référez-vous au fichier READ
   
   Le pipeline pour le frontend est configuré dans le fichier .github/workflows/frontend-pipeline.yml. Il installe les dépendances, exécute les tests end-to-end (E2E) avec Cypress, et génère le build de l'application Angular.
 
-###Exécution des Pipelines
+### Exécution des Pipelines
 
 Les pipelines CI/CD sont déclenchés automatiquement à chaque push request sur les branches du dépôt. Vous pouvez également les déclencher manuellement via l'interface GitHub si nécessaire.
