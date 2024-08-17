@@ -51,7 +51,7 @@ Ce script lancera les services suivants :
 
 **Note** : En production, il est recommandé de séparer les bases de données pour chaque microservice pour des raisons de performance, de sécurité, et de maintenance.
 
-### 3. **Configurer la base de données et les services auxiliaires :**
+### 3. **Lancer les microservices :**
 
 Il est important de démarrer les microservices dans l'ordre suivant :
 
