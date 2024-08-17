@@ -14,19 +14,19 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés et c
 
 ## Installation
 
-1. **Cloner le repository :**
+### 1. **Cloner le repository :**
 
    ```bash
    git clone git@github.com:wa2l-99/MedheadApp_PoC.git
    cd services
    ```
 
-2. **Configurer la base de données et les services auxiliaires :**
+### 2. **Configurer la base de données et les services auxiliaires :**
 
 Le backend utilise PostgreSQL pour la base de données relationnelle et MongoDB pour certaines données spécifiques.
 Un fichier docker-compose.yml est fourni pour lancer les services nécessaires, y compris PostgreSQL, MongoDB, Kafka, Zookeeper, et MailDev.
 
-### Étapes pour configurer la base de données :
+#### Étapes pour configurer la base de données :
 
   - Dans cet environnement de développement, nous utilisons une seule source de données PostgreSQL pour héberger les bases de données des différents microservices. Cette approche simplifie la gestion et réduit l'impact sur les ressources du système, tout en offrant une configuration pratique pour le développement local.
   - Le fichier init.sql est utilisé pour initialiser la base de données lors de la création du conteneur PostgreSQL. Il s'assure que la base de données est correctement configurée pour les microservices.
@@ -44,14 +44,14 @@ Ce script lancera les services suivants :
   - **Zookeeper et Kafka** : Utilisés pour la gestion des messages asynchrones entre microservices.
   - **MailDev** : Simule un serveur de messagerie pour le développement, permettant de vérifier les emails envoyés par l'applicattion.
 
-### Accéder à la Base de Données :
+#### Accéder à la Base de Données :
 
   - pgAdmin est disponible à l'adresse http://localhost:5050. Connectez-vous avec les identifiants définis dans le fichier docker-compose.yml.
   - Une fois connecté à pgAdmin, créez une nouvelle connexion à la base de données PostgreSQL en utilisant les identifiants définis (wael/wael). Vous verrez que les microservices créent automatiquement leurs bases de données spécifiques lors de leur démarrage.
 
 **Note** : En production, il est recommandé de séparer les bases de données pour chaque microservice pour des raisons de performance, de sécurité, et de maintenance.
 
-3. **Configurer la base de données et les services auxiliaires :**
+### 3. **Configurer la base de données et les services auxiliaires :**
 
 Il est important de démarrer les microservices dans l'ordre suivant :
 
