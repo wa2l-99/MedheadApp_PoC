@@ -1,14 +1,14 @@
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9.eyJmdWxsTmFtZSI6IkVtaWxpIHZpdmVzIiwic3ViIjoiRW1pbGlAZ21haWwuY29tIiwiaWF0IjoxNzIzMzkwNjA5LCJleHAiOjE3MjM5OTU0MDksImF1dGhvcml0aWVzIjpbIlBhdGllbnQiXX0.1-0vp5Q0PjYVUngsFC_plE-3o_-huXbvoVpEFIiwUzQ",
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJmdWxsTmFtZSI6IlVzZXIgUGF0aWVudCIsInN1YiI6InBhdGllbnRAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjM4NDc4NjMsImV4cCI6MTcyNDQ1MjY2MywiYXV0aG9yaXRpZXMiOlsiUGF0aWVudCJdfQ._9AfQwG9tqT1jop5WNmb6hG5qijQ1yDI4JHJ0EMDdmM",
   "user": {
-    "id": 3,
-    "nom": "vives",
-    "prenom": "Emili",
-    "dateNaissance": "1989-01-22",
-    "email": "Emili@gmail.com",
-    "sexe": "Homme",
-    "adresse": "Espagne Barcelone",
-    "numero": "3369856321",
+    "id": 21,
+    "nom": "Patient",
+    "prenom": "User",
+    "dateNaissance": "1995-01-01",
+    "email": "patient@example.com",
+    "sexe": "Female",
+    "adresse": "Patient Address",
+    "numero": "0987654321",
     "roles": ["Patient"],
     "accountLocked": false,
     "enabled": true

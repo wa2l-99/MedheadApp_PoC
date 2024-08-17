@@ -1,19 +1,16 @@
 {
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJmdWxsTmFtZSI6InphbnRvdXIgd2FlbCIsInN1YiI6IndhZWxAZ21haWwuY29tIiwiaWF0IjoxNzIzMzg3OTUwLCJleHAiOjE3MjM5OTI3NTAsImF1dGhvcml0aWVzIjpbIkFkbWluIl19.fz_Dbue-M8i7AW-RrWRtvlY5bq5udEu1CU5HVGIhwe0",
-    "user": {
-      "id": 1,
-      "nom": "wael",
-      "prenom": "zantour",
-      "dateNaissance": "1990-04-01",
-      "email": "wael@gmail.com",
-      "sexe": "Homme",
-      "adresse": "69 Rue, 33000 Bordeaux, France",
-      "numero": "+33123456789",
-      "roles": [
-        "Admin"
-      ],
-      "accountLocked": false,
-      "enabled": true
-    }
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJmdWxsTmFtZSI6IlVzZXIgQWRtaW4iLCJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTcyMzg0Nzg5OCwiZXhwIjoxNzI0NDUyNjk4LCJhdXRob3JpdGllcyI6WyJBZG1pbiJdfQ.G9NBG_04GVq2sa37ClfHiVgZyI_Po_1Z5aeucYtrXtg",
+  "user": {
+    "id": 20,
+    "nom": "Admin",
+    "prenom": "User",
+    "dateNaissance": "1990-01-01",
+    "email": "admin@example.com",
+    "sexe": "Male",
+    "adresse": "Admin Address",
+    "numero": "1234567890",
+    "roles": ["Admin"],
+    "accountLocked": false,
+    "enabled": true
   }
-  
+}
