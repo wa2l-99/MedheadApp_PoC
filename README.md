@@ -40,11 +40,11 @@ Pour lancer les tests de performance avec JMeter, référez-vous au fichier READ
 
 ### Pipelines GitHub Actions
 
-  1- Backend Pipeline :
+  **1- Backend Pipeline :**
   
   Le pipeline pour le backend est configuré dans le fichier .github/workflows/backend-pipeline.yml. Il compile les microservices, exécute les tests unitaires et d'intégration, et prépare les artefacts pour un éventuel déploiement.
   
-  2- Frontend Pipeline :
+  **2- Frontend Pipeline :**
   
   Le pipeline pour le frontend est configuré dans le fichier .github/workflows/frontend-pipeline.yml. Il installe les dépendances, exécute les tests end-to-end (E2E) avec Cypress, et génère le build de l'application Angular.
 
