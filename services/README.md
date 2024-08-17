@@ -108,9 +108,9 @@ Il est important de démarrer les microservices dans l'ordre suivant :
 
 Les tests unitaires et d'intégration sont principalement implémentés dans le microservice userAuthentication. Pour exécuter les tests :
 
-    ```bash
+   ```bash
     ./mvnw test
-    ``` 
+   ``` 
 Pour les autres microservices, les tests sont similaires et seront développés de la même manière.
 
 
@@ -122,9 +122,9 @@ Les migrations sont automatiquement appliquées au démarrage des microservices 
 ## Swagger/OpenAPI
 Une documentation Swagger est disponible pour chaque microservice. Après le démarrage du projet, vous pouvez accéder à la documentation via l'URL suivante : 
 
-    ```bash
+   ```bash
     http://localhost:8222/webjars/swagger-ui/index.html
-    ``` 
+   ``` 
 
 ---
 
