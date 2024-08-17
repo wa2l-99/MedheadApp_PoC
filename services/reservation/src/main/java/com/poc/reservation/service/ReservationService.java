@@ -40,7 +40,7 @@ public class ReservationService {
         var reservation = mapper.toReservation(reservationRequest);
 
         //check the patient --> OpenFiegn
-        var patient = this.patientClient.findPatientById(reservationRequest.patientId()).orElseThrow(() -> new BusinessException("Impossible de créer une réservation: : Aucune réservation n'existe avec l'identifiant fourni"));
+        var patient = this.patientClient.findPatientById(reservationRequest.patientId()).orElseThrow(() -> new BusinessException("Impossible de créer une réservation: : Aucun patient n'existe avec l'identifiant fourni"));
 
         //check the hospital
         var hospital = this.hospitalClient.findHospitalById(reservationRequest.hospitalId()).orElseThrow(() -> new BusinessException("Impossible de créer une réservation: : Aucun hôpital n'existe avec l'identifiant fourni "));
