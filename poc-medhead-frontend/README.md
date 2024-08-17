@@ -59,7 +59,7 @@ Comme nous sommes en environnement de développement, nous utilisons MailDev pou
 2. Récupération du Code d'Activation : Une fois inscrit, accédez à l'interface de MailDev via cette URL :
   `http://localhost:1080/#/`
   Recherchez l'email d'activation, et récupérez le code d'activation.
-3. Activation du Compte : Accédez à la page d'activation du compte sur le frontend, et entrez le code d'activation pour activer votre compte
+4. Activation du Compte : Accédez à la page d'activation du compte sur le frontend, et entrez le code d'activation pour activer votre compte
 
 ## Exécution des Tests
 
