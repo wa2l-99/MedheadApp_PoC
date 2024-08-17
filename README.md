@@ -34,7 +34,7 @@ Pour configurer et lancer le frontend, référez-vous au fichier README.md situ�
 
 ## Tests de Performance avec JMeter
 
-Pour lancer les tests de performance avec JMeter, référez-vous au fichier README.md situé dans le dossier jmeter/. Vous y trouverez les instructions pour importer et exécuter les tests.
+Pour lancer les tests de performance avec JMeter, référez-vous au fichier README.md situé dans le dossier `jmeter/`. Vous y trouverez les instructions pour importer et exécuter les tests.
 
 ## Configuration des Pipelines CI/CD
 
