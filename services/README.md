@@ -18,7 +18,6 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés et c
 
    ```bash
    git clone git@github.com:wa2l-99/MedheadApp_PoC.git
-   cd services
    ```
 
 ### 2. **Configurer la base de données et les services auxiliaires :**
@@ -52,6 +51,12 @@ Ce script lancera les services suivants :
 **Note** : En production, il est recommandé de séparer les bases de données pour chaque microservice pour des raisons de performance, de sécurité, et de maintenance.
 
 ### 3. **Lancer les microservices :**
+
+Accéder au répertoire où se trouvent tous les microservices.
+
+   ```bash
+    cd services
+   ```
 
 Il est important de démarrer les microservices dans l'ordre suivant :
 
